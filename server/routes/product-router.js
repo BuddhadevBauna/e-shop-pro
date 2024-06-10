@@ -4,6 +4,7 @@ import addCategory from "../controllers/products/category-add-controller.js";
 import * as getProduct from "../controllers/products/product-get-controller.js";
 import searchProducts from "../controllers/products/product-search-controller.js";
 import * as sortProducts from "../controllers/products/product-sort-controlller.js";
+import * as filterProducts from "../controllers/products/product-filter-controller.js";
 
 const router = express.Router();
 
@@ -19,6 +20,9 @@ router.route('/search').get(searchProducts);
 //sort product
 router.route('/category/:particularCategory/sort').get(sortProducts.sortCategryOfProduct);
 router.route('/search/sort').get(sortProducts.sortSearchProducts);
+//filter product
+router.route('/category/:particularCategory/filter').get(filterProducts.filterCategoryOfProduct);
+router.route('/search/filter').get(filterProducts.filterSearchProducts);
 //get product
 router.route('/:particularId').get(getProduct.getSingleProduct);
 

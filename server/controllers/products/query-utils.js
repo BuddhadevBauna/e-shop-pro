@@ -29,3 +29,19 @@ export const buildSortOrder = (query) => {
 
     return sortOrder;
 }
+
+export const buildFilterQueryObject = (query, filterQueryObject) => {
+    const { filterBrand, minPrice, maxPrice, minRating, maxRating } = query;
+    console.log(`brand: ${filterBrand}, minPrice: ${minPrice}, maxPrice: ${maxPrice}, minRating: ${minRating}, maxRating: ${maxRating}`);
+    
+    if(filterBrand) filterQueryObject.brand = {$regex: filterBrand, $options: 'i'};
+    else if(minPrice && maxPrice) filterQueryObject.price = { $gte: parseFloat(minPrice), $lte: parseFloat(maxPrice) };
+    else if(minPrice) filterQueryObject.price = { $gte: parseFloat(minPrice) };
+    else if(maxPrice) filterQueryObject.price = { $lte: parseFloat(maxPrice) };
+    else if(minRating && maxRating) filterQueryObject.rating = { $gte: minRating, $lte: maxRating };
+    else if(minRating) filterQueryObject.rating = { $gte: minRating };
+    else if(maxRating) filterQueryObject.rating = { $lte: maxRating };
+    console.log(filterQueryObject);
+
+    return filterQueryObject;
+}

@@ -14,3 +14,18 @@ export const buildSearchQueryObject = (query) => {
 
     return searchQueryObject;
 }
+
+export const buildSortOrder = (query) => {
+    const { sortBy } = query;
+    console.log(`sortBy: ${sortBy}`);
+
+    let sortOrder = {};
+    if (sortBy === 'price_desc') {
+        sortOrder = { price: 'desc' };
+    } else if(sortBy === 'price_asc') {
+        sortOrder = { price: 'asc' };
+    }
+    console.log(sortOrder);
+
+    return sortOrder;
+}

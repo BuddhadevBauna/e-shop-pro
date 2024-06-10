@@ -1,0 +1,5 @@
+#depandencies
+/node_modules
+
+#secrect
+.env

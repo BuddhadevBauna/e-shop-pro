@@ -1,0 +1,203 @@
+.navbar {
+    position: relative;
+    height: 4rem;
+}
+.navabar-container {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 4rem;
+    background-color: blue;
+}
+.sidebar-container {
+    margin-left: 2rem;
+}
+.logo {
+    color: white;
+    cursor: pointer;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 50%;
+}
+.search-box-and-submit-btn {
+    display: flex;
+    width: 100%;
+}
+.search-container input{
+    padding: 0.7rem;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    border: none;
+    border-right: solid;
+}
+.search-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    border: none;
+    cursor: pointer;
+}
+.search-container button i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+.list-item-container {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    margin-right: 2rem;
+}
+.nav-link {
+    display: flex;
+    gap: 0.2rem;
+    cursor: pointer;
+    color: white;
+    text-decoration-line: none;
+}
+.nav-link i {
+    display: flex;
+    font-size: 1.3rem;
+}
+.nav-link p {
+    font-size: 1.1rem;
+}
+
+.sidebar-icon-sm{
+    display: none;
+}
+.search-and-account-sm {
+    display: none;
+}
+.collapse-icon-sm {
+    display: none;
+}
+
+@media (max-width : 767px) {
+    .navabar-container {
+        display: block;
+        height: 3rem;
+    }
+    .navbar-container-sm {
+        height: 6rem;
+    }
+    .main-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 3rem;
+        margin: 0 auto;
+        width: 80%;
+    }
+    .sidebar-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: 0;
+    }
+    .sidebar-icon-sm {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 0.3rem;
+        cursor: pointer;
+    }
+    
+    .search-and-account-sm {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .search-and-account-sm .list-item {
+        font-size: 1.3rem;
+        color: white;
+        padding-left: 0;
+    }
+    .search-and-account-sm .search-btn {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        padding: 1.2rem;
+        cursor: pointer;
+        background-color: initial;
+        border: none;
+        color: white;
+    }
+    .search-btn i {
+        display: flex;
+        align-items: center;
+    }
+    .list-item-container {
+        flex-direction: column;
+        position: absolute;
+        background-color: black;
+        top: 3rem;
+        left: 0;
+        height: calc(100vh - 3rem);
+        width: 16rem;
+        max-width: 16rem;
+        margin-right: 0;
+        display: none;
+    }
+    .list-item-container-sm {
+        top: 6rem;
+        height: calc(100vh - 6rem);
+    }
+    .list-active {
+        display: flex;
+    }
+    .list-item-container .list-item:first-child {
+        background-color: blueviolet;
+        padding: 0.4rem 1rem;
+        margin: 0.3rem;
+        margin-bottom: 0;
+        border-radius: 0.4rem;
+    }
+    .list-item {
+        padding-left: 1rem;
+    }
+    .search-container {
+        display: none;
+    }
+    .search-active {
+        display: flex;
+        margin: 0 auto;
+        width: 80%;
+    }
+    .collapse-icon-sm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.3rem;
+        height: 2.1rem;
+        border-radius: 100%;
+        color: white;
+        font-size: 1.3rem;
+        cursor: pointer;
+    }
+    .collapse-icon-sm:hover{
+        background-color: white;
+        color: black;
+        font-size: 1.4rem;
+    }
+    
+}

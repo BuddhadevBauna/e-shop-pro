@@ -1,0 +1,6 @@
+.category-of-product {
+    display:  flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    padding: 1rem 3%;
+}

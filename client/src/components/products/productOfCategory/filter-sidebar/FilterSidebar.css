@@ -1,0 +1,43 @@
+.filter-sidebar-container {
+    & .filter-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        background-color: #fff;
+        white-space: nowrap;
+        padding: 0.5rem 0;
+        border-radius: 0.4rem;
+        width: 10rem;
+        position: sticky;
+        top: 7rem;
+        z-index: 7;
+        & .filters {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            white-space: nowrap;
+            padding: 0 1rem 0 0.5rem;
+            & p.second {
+                font-size: 0.9rem;
+                color: blueviolet;
+                cursor: pointer;
+            }
+        }
+        & h1 {
+            font-size: 1rem;
+            padding: 0 1rem 0 0.5rem;
+        }
+        & div {
+            & li {
+                font-size: 0.9rem;
+                color: gray;
+                padding: 0 1rem 0 0.5rem;
+                cursor: pointer;
+                & input {
+                    margin-right: 0.2rem;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

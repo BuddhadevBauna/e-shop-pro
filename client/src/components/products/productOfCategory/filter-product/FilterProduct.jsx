@@ -4,7 +4,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { setCategoryOfProduct } from "../../../../store/redux/reducers/productOfCategorySlice";
+import { removeFilterProducts, setFilterProducts } from "../../../../store/redux/reducers/filterProductSlice";
 
 const constructQueryString = (brandFilters, priceFilters, ratingFilters) => {
     const query = [];
@@ -35,33 +35,44 @@ const constructQueryString = (brandFilters, priceFilters, ratingFilters) => {
     }
     return query.length > 0 ? `?${query.join("&")}` : "";
 };
+
 const FilterProduct = (props) => {
     const { brandFilters, priceFilters, ratingFilters } = props;
     console.log(brandFilters, priceFilters, ratingFilters);
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
+    const filterProducts = useSelector(state => state.filterProducts);
+    // console.log(filterProducts);
+    const finalProducts = filterProducts.length > 0 ? filterProducts : products;
+    // console.log(finalProducts);
     const params = useParams();
     const particularCategory = params.particularCategory;
     const dispatch = useDispatch();
 
-    const getFilterProducts = async () => {
-        try {
-            const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters);
-            console.log(queryString);
-            const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
-            if (response.status === 200) {
-                dispatch(setCategoryOfProduct(response.data));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    
     useEffect(() => {
-        getFilterProducts();
-    }, [brandFilters, priceFilters, ratingFilters])
+        const getFilterProducts = async () => {
+            try {
+                dispatch(removeFilterProducts());
+                const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters);
+                // console.log(queryString);
+                const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
+                if (response.status === 200) {
+                    dispatch(setFilterProducts(response.data));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0) {
+            getFilterProducts();
+        } else {
+            dispatch(removeFilterProducts());
+        }
+    }, [brandFilters, priceFilters, ratingFilters]);
 
-    if (!products) return <h1>Loading...</h1>;
-    const renderList = products.map((product, index) => {
+    if (!finalProducts) return <h1>Loading...</h1>;
+    const renderList = finalProducts.map((product, index) => {
         let { title, thumbnail, rating, description, price, discountPercentage, stock } = product;
         let MRP = price / (1 - discountPercentage / 100);
         let MRPInt = Math.round(MRP);

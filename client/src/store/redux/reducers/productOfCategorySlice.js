@@ -7,7 +7,7 @@ const categoryOfProductSlice = createSlice(
         reducers : {
             setCategoryOfProduct(state, action) {
                 // console.log(action.payload);
-                return [...state, ...action.payload]
+                return [...action.payload]
             },
             removeCategoryOfProduct() {
                 return [];

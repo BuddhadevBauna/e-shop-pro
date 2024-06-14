@@ -1,6 +1,6 @@
 export const buildSearchQueryObject = (query) => {
     const { searchCategory, searchBrand, searchTitle } = query;
-    console.log(`title: ${searchTitle}, category: ${searchCategory}, brand: ${searchBrand}`);
+    // console.log(`title: ${searchTitle}, category: ${searchCategory}, brand: ${searchBrand}`);
 
     const searchQueryObject = {};
     if(searchCategory) {
@@ -10,14 +10,14 @@ export const buildSearchQueryObject = (query) => {
     } else if(searchTitle) {
         searchQueryObject.title = {$regex: searchTitle, $options: 'i'};
     }
-    console.log(searchQueryObject);
+    // console.log(searchQueryObject);
 
     return searchQueryObject;
 }
 
 export const buildSortOrder = (query) => {
     const { sortBy } = query;
-    console.log(`sortBy: ${sortBy}`);
+    // console.log(`sortBy: ${sortBy}`);
 
     let sortOrder = {};
     if (sortBy === 'price_desc') {
@@ -25,14 +25,14 @@ export const buildSortOrder = (query) => {
     } else if(sortBy === 'price_asc') {
         sortOrder = { price: 'asc' };
     }
-    console.log(sortOrder);
+    // console.log(sortOrder);
 
     return sortOrder;
 }
 
 export const buildFilterQueryObject = (query, filterQueryObject) => {
     const { filterBrand, minPrice, maxPrice, minRating, maxRating } = query;
-    console.log(`brand: ${filterBrand}, minPrice: ${minPrice}, maxPrice: ${maxPrice}, minRating: ${minRating}, maxRating: ${maxRating}`);
+    // console.log(`brand: ${filterBrand}, minPrice: ${minPrice}, maxPrice: ${maxPrice}, minRating: ${minRating}, maxRating: ${maxRating}`);
     
     if(filterBrand) {
         const brands = filterBrand.split(',');
@@ -46,7 +46,7 @@ export const buildFilterQueryObject = (query, filterQueryObject) => {
     if(minRating && maxRating) filterQueryObject.rating = { $gte: minRating, $lte: maxRating };
     else if(minRating) filterQueryObject.rating = { $gte: minRating };
     else if(maxRating) filterQueryObject.rating = { $lte: maxRating };
-    console.log(filterQueryObject);
+    // console.log(filterQueryObject);
 
     return filterQueryObject;
 }

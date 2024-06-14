@@ -1,10 +1,64 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./FilterProduct.css";
 import { FaRegHeart } from "react-icons/fa";
+import { useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { setCategoryOfProduct } from "../../../../store/redux/reducers/productOfCategorySlice";
 
-const FilterProduct = () => {
-    const products = useSelector((state) => state.categoryOfProducts.products);
+const constructQueryString = (brandFilters, priceFilters, ratingFilters) => {
+    const query = [];
+    // Add brand filters to the query
+    if (brandFilters.length > 0) {
+        query.push(`filterBrand=${brandFilters.join(",")}`);
+    }
+    // Add price filters to the query
+    if (priceFilters.length > 0) {
+        const priceQueries = [];
+        priceFilters.forEach(price => {
+            if (price === "500 & bellow") priceQueries.push("maxPrice=500");
+            if (price === "1000 & bellow") priceQueries.push("maxPrice=1000");
+            if (price === "1500 & bellow") priceQueries.push("maxPrice=1500");
+            if (price === "2000 & above") priceQueries.push("minPrice=2000");
+        });
+        query.push(priceQueries.join("&"));
+    }
+    // Add rating filters to the query
+    if (ratingFilters.length > 0) {
+        const ratingQueries = [];
+        ratingFilters.forEach(rating => {
+            if (rating === "2★ & above") ratingQueries.push("minRating=2");
+            if (rating === "3★ & above") ratingQueries.push("minRating=3");
+            if (rating === "4★ & above") ratingQueries.push("minRating=4");
+        });
+        query.push(ratingQueries.join("&"));
+    }
+    return query.length > 0 ? `?${query.join("&")}` : "";
+};
+const FilterProduct = (props) => {
+    const { brandFilters, priceFilters, ratingFilters } = props;
+    console.log(brandFilters, priceFilters, ratingFilters);
+    const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
+    const params = useParams();
+    const particularCategory = params.particularCategory;
+    const dispatch = useDispatch();
+
+    const getFilterProducts = async () => {
+        try {
+            const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters);
+            console.log(queryString);
+            const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
+            if (response.status === 200) {
+                dispatch(setCategoryOfProduct(response.data));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        getFilterProducts();
+    }, [brandFilters, priceFilters, ratingFilters])
 
     if (!products) return <h1>Loading...</h1>;
     const renderList = products.map((product, index) => {

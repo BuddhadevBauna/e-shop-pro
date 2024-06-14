@@ -1,7 +1,7 @@
 import "./ProductOfCategory.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { removeCategoryOfProduct, setCategoryOfProduct } from "../../../store/redux/reducers/productOfCategorySlice";
 import FilterSidebar from "./filter-sidebar/FilterSidebar";
@@ -12,6 +12,11 @@ const ProductOfCategory = () => {
     const params = useParams();
     // console.log(params.particularCategory);
     const particularCategory = params.particularCategory;
+
+    //for filter products
+    const [brandFilters, setBrandFilters] = useState([]);
+    const [priceFilters, setPriceFilters] = useState([]);
+    const [ratingFilters, setRatingFilters] = useState([]);
 
     useEffect(() => {
         const fetchProductsCategory = async () => {
@@ -32,8 +37,19 @@ const ProductOfCategory = () => {
     return (
         <>
             <section className="category-of-product">
-                <FilterSidebar />
-                <FilterProduct />
+                <FilterSidebar 
+                    brandFilters={brandFilters}
+                    setBrandFilters={setBrandFilters}
+                    priceFilters={priceFilters}
+                    setPriceFilters={setPriceFilters}
+                    ratingFilters={ratingFilters}
+                    setRatingFilters={setRatingFilters}
+                />
+                <FilterProduct 
+                    brandFilters={brandFilters}
+                    priceFilters={priceFilters}
+                    ratingFilters={ratingFilters}
+                />
             </section>
         </>
     );

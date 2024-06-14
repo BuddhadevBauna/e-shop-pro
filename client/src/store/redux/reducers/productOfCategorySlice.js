@@ -3,20 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const categoryOfProductSlice = createSlice(
     {
         name : "products of category",
-        initialState : {
-            products: [],
-        },
+        initialState: [],
         reducers : {
             setCategoryOfProduct(state, action) {
                 // console.log(action.payload);
-                return {
-                    ...state, 
-                    products: [...action.payload]
-                };
+                return [...state, ...action.payload]
             },
             removeCategoryOfProduct() {
-                return {};
-            },
+                return [];
+            }
         }
     }
 )

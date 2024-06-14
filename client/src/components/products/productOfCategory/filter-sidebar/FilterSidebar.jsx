@@ -3,13 +3,11 @@ import "./FilterSidebar.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
-const FilterSidebar = () => {
-    const products = useSelector((state) => state.categoryOfProducts.products);
+const FilterSidebar = (props) => {
+    const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters} = props;
+    const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
     const params = useParams();
-    const [brandFilters, setBrandFilters] = useState([]);
-    const [priceFilters, setPriceFilters] = useState([]);
-    const [ratingFilters, setRatingFilters] = useState([]);
 
     const handleBrandChange = (brand) => {
         setBrandFilters(prev =>
@@ -33,8 +31,13 @@ const FilterSidebar = () => {
         setRatingFilters([]);
     }
 
-
     if (!products) return <h1>Loading...</h1>;
+    let uniqeBrands = [];
+    products.forEach((product) => {
+        if(!uniqeBrands.includes(product.brand)) {
+            uniqeBrands.push(product.brand);
+        }
+    })
     const renderList = () => {
         return (
             <>
@@ -54,15 +57,15 @@ const FilterSidebar = () => {
                             <h1 className="brand-header">Brand</h1>
                             <div>
                                 <ul>
-                                    {products.map((product, index) => {
+                                    {uniqeBrands.map((brand, index) => {
                                         return (
                                             <li key={index}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={brandFilters.includes(product.brand)}
-                                                    onChange={() => handleBrandChange(product.brand)}
+                                                    checked={brandFilters.includes(brand)}
+                                                    onChange={() => handleBrandChange(brand)}
                                                 />
-                                                {product.brand}
+                                                {brand}
                                             </li>
                                         )
                                     })}

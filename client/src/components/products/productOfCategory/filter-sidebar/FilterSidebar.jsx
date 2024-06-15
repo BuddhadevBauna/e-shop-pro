@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 const FilterSidebar = (props) => {
-    const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters} = props;
+    const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters } = props;
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
     const params = useParams();
@@ -34,10 +34,11 @@ const FilterSidebar = (props) => {
     if (!products) return <h1>Loading...</h1>;
     let uniqeBrands = [];
     products.forEach((product) => {
-        if(!uniqeBrands.includes(product.brand)) {
+        if (product.brand && !uniqeBrands.includes(product.brand)) {
             uniqeBrands.push(product.brand);
         }
     })
+    // console.log(uniqeBrands, uniqeBrands.length);
     const renderList = () => {
         return (
             <>
@@ -53,25 +54,27 @@ const FilterSidebar = (props) => {
                                 <li>{params.particularCategory}</li>
                             </div>
                         </div>
-                        <div className="filter-brand">
-                            <h1 className="brand-header">Brand</h1>
-                            <div>
-                                <ul>
-                                    {uniqeBrands.map((brand, index) => {
-                                        return (
-                                            <li key={index}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={brandFilters.includes(brand)}
-                                                    onChange={() => handleBrandChange(brand)}
-                                                />
-                                                {brand}
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                        {uniqeBrands.length > 0 &&
+                            <div className="filter-brand">
+                                <h1 className="brand-header">Brand</h1>
+                                <div>
+                                    <ul>
+                                        {uniqeBrands.map((brand, index) => {
+                                            return (
+                                                <li key={index}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={brandFilters.includes(brand)}
+                                                        onChange={() => handleBrandChange(brand)}
+                                                    />
+                                                    {brand}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div className="filter-price">
                             <h1 className="price-header">Price</h1>
                             <div>

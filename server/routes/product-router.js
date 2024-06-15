@@ -5,11 +5,14 @@ import * as getProduct from "../controllers/products/product-get-controller.js";
 import searchProducts from "../controllers/products/product-search-controller.js";
 import * as sortProducts from "../controllers/products/product-sort-controlller.js";
 import * as filterProducts from "../controllers/products/product-filter-controller.js";
+import updateProduct from "../controllers/products/product-update-controller.js";
 
 const router = express.Router();
 
 //add product
 router.route('/add').post(addProduct);
+//update Product
+router.route('/update/:particularId').patch(updateProduct);
 //add category
 router.route('/categories/add').post(addCategory);
 //get product

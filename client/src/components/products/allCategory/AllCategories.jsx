@@ -33,12 +33,12 @@ const AllCategories = () => {
   }
 
   const renderCategories = categories.map((category, index) => {
-    const { name, url, subCategory } = category;
+    const { name, categoryType, url, subCategory } = category;
     return (
       <div className="category-container" key={index}>
         {url ? (
           <div>
-            <Link to={`/products/category/${name}`}>
+            <Link to={`/products/category/${categoryType}`}>
               <menu>{name}</menu>
             </Link>
           </div>
@@ -54,7 +54,7 @@ const AllCategories = () => {
             <ul style={{ display: activeCategory === name ? "block" : "none" }}>
               {subCategory.map((subCat, subIndex) => (
                 <li key={subIndex}>
-                  <Link to={`/products/category/${subCat.name}`}>{subCat.name}</Link>
+                  <Link to={`/products/category/${subCat.categoryType}`}>{subCat.name}</Link>
                 </li>
               ))}
             </ul>

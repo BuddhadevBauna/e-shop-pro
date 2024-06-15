@@ -3,6 +3,7 @@ import Category from "../../models/category-model.js";
 const addCategory = async (req, res) => {
     try {
         const categoryDetails = req.body;
+        console.log(categoryDetails);
         await Category.create(categoryDetails);
         return res.status(201).json({message: "Category add sucessful in database"});
     } catch (error) {

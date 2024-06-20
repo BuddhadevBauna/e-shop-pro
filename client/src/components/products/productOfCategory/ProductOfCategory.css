@@ -3,4 +3,7 @@
     flex-direction: row;
     gap: 0.3rem;
     padding: 1rem 3%;
+    & .sort-and-filter {
+        width: calc(100% - 10rem);
+    }
 }

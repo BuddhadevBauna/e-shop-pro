@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
-import "./FilterSidebar.css";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import "./FilterAndSortSidebar.css";
+import { useParams, useNavigate } from "react-router-dom";
 
-const FilterSidebar = (props) => {
+const FilterAndSortSidebar = (props) => {
     const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters } = props;
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
@@ -157,4 +156,4 @@ const FilterSidebar = (props) => {
     );
 }
 
-export default FilterSidebar;
+export default FilterAndSortSidebar;

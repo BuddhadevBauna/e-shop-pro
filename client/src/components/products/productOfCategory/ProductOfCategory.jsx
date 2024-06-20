@@ -4,8 +4,11 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { removeCategoryOfProduct, setCategoryOfProduct } from "../../../store/redux/reducers/productOfCategorySlice";
-import FilterSidebar from "./filter-sidebar/FilterSidebar";
-import FilterProduct from "./filter-product/FilterProduct";
+import FilterAndSortSidebar from "./filter-sidebar/FilterAndSortSidebar";
+import FilterAndSortProduct from "./filter-sort-product/FilterAndSortProduct";
+import SortProduct from "./sort-product/SortProduct";
+
+
 
 const ProductOfCategory = () => {
     const dispatch = useDispatch();
@@ -37,7 +40,7 @@ const ProductOfCategory = () => {
     return (
         <>
             <section className="category-of-product">
-                <FilterSidebar 
+                <FilterAndSortSidebar
                     brandFilters={brandFilters}
                     setBrandFilters={setBrandFilters}
                     priceFilters={priceFilters}
@@ -45,11 +48,15 @@ const ProductOfCategory = () => {
                     ratingFilters={ratingFilters}
                     setRatingFilters={setRatingFilters}
                 />
-                <FilterProduct 
-                    brandFilters={brandFilters}
-                    priceFilters={priceFilters}
-                    ratingFilters={ratingFilters}
-                />
+                <div className="sort-and-filter">
+                    <SortProduct />
+                    <FilterAndSortProduct
+                        brandFilters={brandFilters}
+                        priceFilters={priceFilters}
+                        ratingFilters={ratingFilters}
+                    />
+                </div>
+
             </section>
         </>
     );

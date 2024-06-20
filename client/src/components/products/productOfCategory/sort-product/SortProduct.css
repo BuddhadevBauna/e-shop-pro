@@ -1,0 +1,39 @@
+.sort-product-container {
+    & div{
+        box-sizing: border-box;
+        border-radius: 0.4rem 0.4rem 0 0;
+        width: 100%;
+        background-color: #fff;
+        padding: 1rem;
+        border-bottom: solid 0.1rem gray;
+        display: flex;
+        flex-direction: row;
+        & h1 {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 500;
+            color: blueviolet;
+            & i {
+                display: flex;
+                align-items: center;
+            }
+        }
+        & ul {
+            display: flex;
+            flex-direction: row;
+            & li {
+                font-size: 0.9rem;
+                color: gray;
+                padding: 0 1rem 0 0.5rem;
+                cursor: pointer;
+            }
+            & li:hover {
+                color: blue;
+            }
+            & li:active {
+                color: red;
+            }
+        }
+    }
+}

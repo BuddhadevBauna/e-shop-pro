@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./FilterProduct.css";
+import "./FilterAndSortProduct.css";
 import { FaRegHeart } from "react-icons/fa";
 import { useEffect } from "react";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { removeFilterProducts, setFilterProducts } from "../../../../store/redux/reducers/filterProductSlice";
 import constructQueryString from "./generate-query-string/constructQueryString";
 
-const FilterProduct = (props) => {
+const FilterAndSortProduct = (props) => {
     const { brandFilters, priceFilters, ratingFilters } = props;
     // console.log(brandFilters, priceFilters, ratingFilters);
 
@@ -15,7 +15,17 @@ const FilterProduct = (props) => {
     // console.log(products);
     const filterProducts = useSelector(state => state.filterProducts);
     // console.log(filterProducts);
-    const finalProducts = filterProducts.length > 0 ? filterProducts : products;
+    const sortProducts = useSelector(state => state.sortProducts);
+    // console.log(sortProducts);
+
+    let finalProducts = [];
+    if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0) {
+        finalProducts = filterProducts;
+    } else if(sortProducts.length > 0) {
+        finalProducts = sortProducts;
+    } else {
+        finalProducts = products;
+    }
     // console.log(finalProducts);
 
     const params = useParams();
@@ -28,6 +38,7 @@ const FilterProduct = (props) => {
                 dispatch(removeFilterProducts());
                 const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters);
                 // console.log(queryString);
+                console.log(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
                 const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
                 if (response.status === 200) {
                     dispatch(setFilterProducts(response.data));
@@ -93,4 +104,4 @@ const FilterProduct = (props) => {
     );
 }
 
-export default FilterProduct;
+export default FilterAndSortProduct;

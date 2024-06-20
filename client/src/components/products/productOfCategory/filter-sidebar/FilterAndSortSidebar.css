@@ -17,6 +17,7 @@
             justify-content: space-between;
             white-space: nowrap;
             padding: 0 1rem 0 0.5rem;
+            font-weight: 500;
             color: blueviolet;
             & p.second {
                 font-size: 0.9rem;

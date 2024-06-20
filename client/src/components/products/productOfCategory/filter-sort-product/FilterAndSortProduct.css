@@ -1,22 +1,22 @@
 .filter-product-container {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
-    width: calc(100% - 10rem);
+    border-radius: 0.4rem;
     & .container-filter {
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
         background-color: #fff;
         width: 100%;
-        border-radius: 0.4rem;
         padding: 1rem;
+        border-bottom: solid 0.1rem gray;
         & .product-img {
             width: 25%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            border-radius: inherit;
             & img{
                 height: 8rem;
                 width: auto;
@@ -83,5 +83,9 @@
                 }
             }
         }
+    }
+    & .container-filter:last-child {
+        border-bottom: none;
+        border-radius: 0 0 0.4rem 0.4rem;
     }
 }

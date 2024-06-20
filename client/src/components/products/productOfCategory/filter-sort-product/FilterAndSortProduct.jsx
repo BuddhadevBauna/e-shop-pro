@@ -8,8 +8,8 @@ import { removeFilterProducts, setFilterProducts } from "../../../../store/redux
 import constructQueryString from "./generate-query-string/constructQueryString";
 
 const FilterAndSortProduct = (props) => {
-    const { brandFilters, priceFilters, ratingFilters } = props;
-    // console.log(brandFilters, priceFilters, ratingFilters);
+    const { brandFilters, priceFilters, ratingFilters, sortCriteria } = props;
+    console.log(brandFilters, priceFilters, ratingFilters, sortCriteria);
 
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
@@ -31,6 +31,14 @@ const FilterAndSortProduct = (props) => {
     const params = useParams();
     const particularCategory = params.particularCategory;
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        const getsortAndFilterProduct = () => {};
+        if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 && sortCriteria) {
+            getsortAndFilterProduct();
+        }
+    }, [brandFilters, priceFilters, ratingFilters, sortCriteria]);
     
     useEffect(() => {
         const getFilterProducts = async () => {

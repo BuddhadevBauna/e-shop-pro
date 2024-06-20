@@ -7,6 +7,8 @@ import { removeCategoryOfProduct, setCategoryOfProduct } from "../../../store/re
 import FilterAndSortSidebar from "./filter-sidebar/FilterAndSortSidebar";
 import FilterAndSortProduct from "./filter-sort-product/FilterAndSortProduct";
 import SortProduct from "./sort-product/SortProduct";
+import { removeFilterProducts } from "../../../store/redux/reducers/filterProductSlice";
+import { removeSortProducts } from "../../../store/redux/reducers/sortProductSlice";
 
 
 
@@ -20,10 +22,14 @@ const ProductOfCategory = () => {
     const [brandFilters, setBrandFilters] = useState([]);
     const [priceFilters, setPriceFilters] = useState([]);
     const [ratingFilters, setRatingFilters] = useState([]);
+    //for sort product
+    const [sortCriteria, setSortCriteria] = useState("");
 
     useEffect(() => {
         const fetchProductsCategory = async () => {
             dispatch(removeCategoryOfProduct());
+            dispatch(removeFilterProducts());
+            dispatch(removeSortProducts());
             try {
                 const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}`);
                 if (response.status === 200) {
@@ -49,11 +55,14 @@ const ProductOfCategory = () => {
                     setRatingFilters={setRatingFilters}
                 />
                 <div className="sort-and-filter">
-                    <SortProduct />
+                    <SortProduct 
+                        setSortCriteria={setSortCriteria}
+                    />
                     <FilterAndSortProduct
                         brandFilters={brandFilters}
                         priceFilters={priceFilters}
                         ratingFilters={ratingFilters}
+                        sortCriteria={sortCriteria}
                     />
                 </div>
 

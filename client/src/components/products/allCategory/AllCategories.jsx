@@ -47,7 +47,7 @@ const AllCategories = () => {
             onMouseOver={() => handleCategoryover(name)}
             onMouseLeave={() => handlemouseLeave()}
           >
-            <Link to={'/'} className="category-menu">
+            <Link to={`/products/category/${subCategory[0].categoryType}`} className="category-menu">
               {name}
               { activeCategory === name ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i> }
             </Link>

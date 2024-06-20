@@ -1,4 +1,4 @@
-const constructQueryString = (brandFilters, priceFilters, ratingFilters) => {
+const constructQueryString = (brandFilters, priceFilters, ratingFilters, sortCriteria) => {
     const query = [];
     // Add brand filters to the query
     if (brandFilters.length > 0) {
@@ -24,6 +24,10 @@ const constructQueryString = (brandFilters, priceFilters, ratingFilters) => {
             if (rating === "4★ & above") ratingQueries.push("minRating=4");
         });
         query.push(ratingQueries.join("&"));
+    }
+    //add sort functionality
+    if(sortCriteria) {
+        query.push(`sortBy=${sortCriteria}`);
     }
     return query.length > 0 ? `?${query.join("&")}` : "";
 };

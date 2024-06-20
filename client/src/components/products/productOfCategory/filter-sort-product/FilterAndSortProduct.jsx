@@ -4,63 +4,56 @@ import { FaRegHeart } from "react-icons/fa";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { removeFilterProducts, setFilterProducts } from "../../../../store/redux/reducers/filterProductSlice";
 import constructQueryString from "./generate-query-string/constructQueryString";
+import { removeFilterAndSortProducts, setFilterAndSortProducts } from "../../../../store/redux/reducers/filterAndSortProductSlice";
 
 const FilterAndSortProduct = (props) => {
     const { brandFilters, priceFilters, ratingFilters, sortCriteria } = props;
-    console.log(brandFilters, priceFilters, ratingFilters, sortCriteria);
+    // console.log(brandFilters, priceFilters, ratingFilters, sortCriteria);
 
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
-    const filterProducts = useSelector(state => state.filterProducts);
-    // console.log(filterProducts);
-    const sortProducts = useSelector(state => state.sortProducts);
-    // console.log(sortProducts);
-
-    let finalProducts = [];
-    if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0) {
-        finalProducts = filterProducts;
-    } else if(sortProducts.length > 0) {
-        finalProducts = sortProducts;
-    } else {
-        finalProducts = products;
-    }
-    // console.log(finalProducts);
+    const filterAndSortProducts = useSelector(state => state.filterAndSortProducts);
+    // console.log(filterAndSortProducts);
 
     const params = useParams();
     const particularCategory = params.particularCategory;
     const dispatch = useDispatch();
 
+    let finalProducts = [];
+    if (brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 || sortCriteria) {
+        finalProducts = filterAndSortProducts;
+    } else {
+        finalProducts = products;
+    }
+    // console.log(finalProducts);
+
 
     useEffect(() => {
-        const getsortAndFilterProduct = () => {};
-        if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 && sortCriteria) {
-            getsortAndFilterProduct();
-        }
-    }, [brandFilters, priceFilters, ratingFilters, sortCriteria]);
-    
-    useEffect(() => {
-        const getFilterProducts = async () => {
+        const getsortAndFilterProduct = async () => {
             try {
-                dispatch(removeFilterProducts());
-                const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters);
-                // console.log(queryString);
-                console.log(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
-                const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/filter${queryString}`);
+                dispatch(removeFilterAndSortProducts());
+
+                const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters, sortCriteria);
+                console.log(queryString);
+
+                const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/q${queryString}`);
+                // console.log(response);
+
                 if (response.status === 200) {
-                    dispatch(setFilterProducts(response.data));
+                    dispatch(setFilterAndSortProducts(response.data));
                 }
             } catch (error) {
                 console.log(error);
             }
-        }
-        if(brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0) {
-            getFilterProducts();
+        };
+        if (brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 || sortCriteria) {
+            getsortAndFilterProduct();
         } else {
-            dispatch(removeFilterProducts());
+            dispatch(removeFilterAndSortProducts());
         }
-    }, [brandFilters, priceFilters, ratingFilters]);
+    }, [brandFilters, priceFilters, ratingFilters, sortCriteria]);
+
 
     if (!finalProducts) return <h1>Loading...</h1>;
     const renderList = finalProducts.map((product, index) => {

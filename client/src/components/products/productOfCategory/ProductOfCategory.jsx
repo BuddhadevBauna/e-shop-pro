@@ -7,8 +7,7 @@ import { removeCategoryOfProduct, setCategoryOfProduct } from "../../../store/re
 import FilterAndSortSidebar from "./filter-sidebar/FilterAndSortSidebar";
 import FilterAndSortProduct from "./filter-sort-product/FilterAndSortProduct";
 import SortProduct from "./sort-product/SortProduct";
-import { removeFilterProducts } from "../../../store/redux/reducers/filterProductSlice";
-import { removeSortProducts } from "../../../store/redux/reducers/sortProductSlice";
+import { removeFilterAndSortProducts } from "../../../store/redux/reducers/filterAndSortProductSlice";
 
 
 
@@ -28,8 +27,7 @@ const ProductOfCategory = () => {
     useEffect(() => {
         const fetchProductsCategory = async () => {
             dispatch(removeCategoryOfProduct());
-            dispatch(removeFilterProducts());
-            dispatch(removeSortProducts());
+            dispatch(removeFilterAndSortProducts());
             try {
                 const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}`);
                 if (response.status === 200) {

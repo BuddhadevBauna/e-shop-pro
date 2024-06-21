@@ -13,6 +13,8 @@ const FilterAndSortProduct = (props) => {
 
     const products = useSelector((state) => state.categoryOfProducts);
     // console.log(products);
+    const searchProducts = useSelector(state => state.searchProducts);
+    // console.log(searchProducts);
     const filterAndSortProducts = useSelector(state => state.filterAndSortProducts);
     // console.log(filterAndSortProducts);
 
@@ -23,6 +25,8 @@ const FilterAndSortProduct = (props) => {
     let finalProducts = [];
     if (brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 || sortCriteria) {
         finalProducts = filterAndSortProducts;
+    } else if(searchProducts) {
+        finalProducts = searchProducts;
     } else {
         finalProducts = products;
     }

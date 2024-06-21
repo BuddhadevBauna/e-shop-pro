@@ -2,7 +2,7 @@ import express from "express";
 import addProduct from "../controllers/products/product-add-controller.js";
 import updateProduct from "../controllers/products/product-update-controller.js";
 import * as getProduct from "../controllers/products/product-get-controller.js";
-import searchProducts from "../controllers/products/product-search-controller.js";
+import searchProductsAndCategory from "../controllers/products/product-search-controller.js";
 import * as sortAndFilterProduct from "../controllers/products/product-sort-filter-controller.js"
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.route('/update/:particularId').patch(updateProduct);
 router.route('/').get(getProduct.getAllProduct);
 router.route('/category/:particularCategory').get(getProduct.getCategoryOfProduct);
 //search product
-router.route('/search').get(searchProducts);
+router.route('/search/q').get(searchProductsAndCategory);
 //sort & filter product
 router.route('/category/:particularCategory/q').get(sortAndFilterProduct.sortAndFilterCategryOfProduct);
 router.route('/search/q').get(sortAndFilterProduct.sortAndFilterSearchProducts);

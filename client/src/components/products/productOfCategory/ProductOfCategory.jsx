@@ -14,6 +14,7 @@ import { removeSearchCategories, setSearchCategories } from "../../../store/redu
 
 const ProductOfCategory = () => {
     const searchCategories = useSelector((state) => state.searchCategories);
+    const searchProducts = useSelector(state => state.searchProducts);
     const dispatch = useDispatch();
     const params = useParams();
     const particularCategory = params.particularCategory;
@@ -33,6 +34,13 @@ const ProductOfCategory = () => {
         }
     }, [searchCategories])
     // console.log(searchCategory);
+    const [searchProductsCategory, setSearchProductsCategory] = useState("");
+    useEffect(() => {
+        if(searchProducts.length > 0) {
+            setSearchProductsCategory(searchProducts[0].category);
+        }
+    }, [searchProducts])
+    // console.log(searchProductsCategory);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -99,6 +107,8 @@ const ProductOfCategory = () => {
                     ratingFilters={ratingFilters}
                     setRatingFilters={setRatingFilters}
                     setSearchCategory={setSearchCategory}
+                    searchProductsCategory={searchProductsCategory}
+                    setSearchProductsCategory={setSearchProductsCategory}
                 />
                 <div className="sort-and-filter">
                     <SortProduct
@@ -110,6 +120,7 @@ const ProductOfCategory = () => {
                         ratingFilters={ratingFilters}
                         sortCriteria={sortCriteria}
                         searchCategory={searchCategory}
+                        searchProductsCategory={searchProductsCategory}
                     />
                 </div>
 

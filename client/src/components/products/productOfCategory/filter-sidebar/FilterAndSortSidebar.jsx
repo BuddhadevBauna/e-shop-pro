@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
 import "./FilterAndSortSidebar.css";
-import { useParams, useNavigate } from "react-router-dom";
-import { IoIosArrowUp } from "react-icons/io";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import RenderCategories from "./RenderCategories";
+import RenderBrands from "./RenderBrands";
 
 const FilterAndSortSidebar = (props) => {
     const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters,
-        setSearchCategory
+        setSearchCategory, searchProductsCategory, setSearchProductsCategory
     } = props;
     const products = useSelector((state) => state.categoryOfProducts);
     const searchCategories = useSelector((state) => state.searchCategories);
@@ -14,13 +15,9 @@ const FilterAndSortSidebar = (props) => {
     // console.log(products, searchCategories, searchProducts);
     const params = useParams();
     const particularCategory = params.particularCategory;
+    // console.log(particularCategory);
     const [finalProducts, setFinalProducts] = useState([]);
 
-    const handleBrandChange = (brand) => {
-        setBrandFilters((prev) =>
-            prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
-        );
-    };
     const handlePriceChange = (price) => {
         setPriceFilters((prev) =>
             prev.includes(price) ? prev.filter((p) => p !== price) : [...prev, price]
@@ -31,9 +28,6 @@ const FilterAndSortSidebar = (props) => {
             prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]
         );
     };
-    const handleCategoryClick = (category) => {
-        setSearchCategory(category);
-    }
     const isFilterActive = brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0;
     const clearFilters = () => {
         setBrandFilters([]);
@@ -70,52 +64,22 @@ const FilterAndSortSidebar = (props) => {
                         <div className="filter-category">
                             <h1 className="category-header">Category</h1>
                             <div>
-                                {particularCategory ? (
-                                    <li>{particularCategory}</li>
-                                ) : (
-                                    searchCategories &&
-                                    searchCategories.map((category, index) => {
-                                        const { name, url, subCategory } = category;
-                                        return url ? (
-                                            <li key={index}>{name}</li>
-                                        ) : (
-                                            <div key={index}>
-                                                <menu>{name}<i><IoIosArrowUp /></i></menu>
-                                                <ul>
-                                                    {subCategory.map((subCat, index) => {
-                                                        return <li onClick={() => handleCategoryClick(subCat.categoryType)}
-                                                            key={index}>
-                                                            {subCat.name}
-                                                        </li>;
-                                                    })}
-                                                </ul>
-                                            </div>
-                                        );
-                                    })
-                                )}
+                                <RenderCategories
+                                    particularCategory={particularCategory}
+                                    searchCategories={searchCategories}
+                                    searchProducts={searchProducts}
+                                    setSearchCategory={setSearchCategory}
+                                    setSearchProductsCategory={setSearchProductsCategory}
+                                />
                             </div>
                         </div>
-                        {uniqeBrands.length > 0 && (
-                            <div className="filter-brand">
-                                <h1 className="brand-header">Brand</h1>
-                                <div>
-                                    <ul>
-                                        {uniqeBrands.map((brand, index) => {
-                                            return (
-                                                <li key={index}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={brandFilters.includes(brand)}
-                                                        onChange={() => handleBrandChange(brand)}
-                                                    />
-                                                    {brand}
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
-                        )}
+                        <>
+                            <RenderBrands
+                                searchProductsCategory={searchProductsCategory}
+                                brandFilters={brandFilters}
+                                setBrandFilters={setBrandFilters}
+                            />
+                        </>
                         <div className="filter-price">
                             <h1 className="price-header">Price</h1>
                             <div>

@@ -12,7 +12,7 @@ const searchProductsAndCategory = async (req, res) => {
         }
 
         // If no categories found, search products by title
-        const products = await Product.find({ title: { $regex: q, $options: 'i' } });
+        const products = await Product.find({ title: { $regex: q, $options: 'i' }});
         if (products.length > 0) {
             return res.status(200).json({ searchData: "products", products });
         } else {

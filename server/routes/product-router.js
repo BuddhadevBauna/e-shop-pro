@@ -15,7 +15,7 @@ router.route('/update/:particularId').patch(updateProduct);
 router.route('/').get(getProduct.getAllProduct);
 router.route('/category/:particularCategory').get(getProduct.getCategoryOfProduct);
 //search product
-router.route('/search/q').get(searchProductsAndCategory);
+router.route('/search').get(searchProductsAndCategory);
 //sort & filter product
 router.route('/category/:particularCategory/q').get(sortAndFilterProduct.sortAndFilterCategryOfProduct);
 router.route('/search/q').get(sortAndFilterProduct.sortAndFilterSearchProducts);

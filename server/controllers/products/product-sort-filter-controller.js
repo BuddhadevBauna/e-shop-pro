@@ -1,5 +1,5 @@
 import Product from "../../models/product-model.js";
-import { buildFilterQueryObject, buildSearchQueryObject, buildSortOrder } from "./query-utils.js";
+import { buildFilterQueryObject, buildSortOrder } from "./query-utils.js";
 
 //sort and filter category of product
 export const sortAndFilterCategryOfProduct = async (req, res) => {
@@ -23,23 +23,15 @@ export const sortAndFilterCategryOfProduct = async (req, res) => {
 //sort and filter search product
 export const sortAndFilterSearchProducts = async (req, res) => {
     try {
-        const searchQueryObject = buildSearchQueryObject(req.query);
-        if (Object.keys(searchQueryObject).length === 0) {
-            return res.status(400).json({ message: "Search query is required" });
-        }
+        const { searchInput } = req.query;
+        // console.log(`search Input: ${searchInput}`);
 
-        let filterQueryObject = {};
-        if(req.query.filterCategory) {
-            filterQueryObject.category = {category: {$regex: filterCategory, $options: 'i'}};
-        }
+        let filterQueryObject = {category: searchInput};
         buildFilterQueryObject(req.query, filterQueryObject);
-
-        const finalQueryObject = { ...searchQueryObject, ...filterQueryObject };
-        // console.log(finalQueryObject); 
 
         const sortOrder = buildSortOrder(req.query);
 
-        const products = await Product.find(finalQueryObject).sort(sortOrder);
+        const products = await Product.find(filterQueryObject).sort(sortOrder);
         return res.status(200).json(products);
     } catch (error) {
         console.error(error);

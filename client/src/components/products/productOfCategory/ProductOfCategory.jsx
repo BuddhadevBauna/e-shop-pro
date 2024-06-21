@@ -9,7 +9,7 @@ import FilterAndSortProduct from "./filter-sort-product/FilterAndSortProduct";
 import SortProduct from "./sort-product/SortProduct";
 import { removeFilterAndSortProducts } from "../../../store/redux/reducers/filterAndSortProductSlice";
 import { removeSearchProduct, setSearchProduct } from "../../../store/redux/reducers/searchProductSlice";
-import { removeSearchCategories } from "../../../store/redux/reducers/searchCategorySlice";
+import { removeSearchCategories, setSearchCategories } from "../../../store/redux/reducers/searchCategorySlice";
 
 
 const ProductOfCategory = () => {
@@ -35,6 +35,28 @@ const ProductOfCategory = () => {
     // console.log(searchCategory);
 
     useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const searchInput = params.get("q");
+        if (searchInput) {
+            fetchProductsBySearchTerm(searchInput);
+        }
+    }, [location.search]);
+    const fetchProductsBySearchTerm = async (searchTerm) => {
+        try {
+            dispatch(removeSearchCategories());
+            dispatch(removeSearchProduct());
+            const response = await axios.get(`http://localhost:3030/products/search/?q=${searchTerm}`);
+            if (response.data.searchData === "categories") {
+                dispatch(setSearchCategories(response.data.categories));
+            } else if (response.data.searchData === "products") {
+                dispatch(setSearchProduct(response.data.products));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
         const fetchProductsCategory = async () => {
             dispatch(removeCategoryOfProduct());
             dispatch(removeSearchProduct());
@@ -55,7 +77,6 @@ const ProductOfCategory = () => {
                             dispatch(removeSearchCategories());
                             dispatch(setCategoryOfProduct(response.data));
                         } else if (searchCategory) {
-                            
                             dispatch(setSearchProduct(response.data));
                         }
                     }
@@ -88,6 +109,7 @@ const ProductOfCategory = () => {
                         priceFilters={priceFilters}
                         ratingFilters={ratingFilters}
                         sortCriteria={sortCriteria}
+                        searchCategory={searchCategory}
                     />
                 </div>
 

@@ -34,13 +34,13 @@ const SearchContainer = () => {
         try {
             dispatch(removeSearchCategories());
             dispatch(removeSearchProduct());
-            const response = await axios.get(`http://localhost:3030/products/search/q?searchInput=${searchTerm}`);
+            const response = await axios.get(`http://localhost:3030/products/search/?q=${searchTerm}`);
             if (response.data.searchData === "categories") {
                 dispatch(setSearchCategories(response.data.categories))
             } else if (response.data.searchData === "products") {
                 dispatch(setSearchProduct(response.data.products));
             }
-            navigate(`/products/search/q?searchInput=${searchTerm}`);
+            navigate(`/products/search/?q=${searchTerm}`);
         } catch (error) {
             console.log(error);
         }

@@ -8,7 +8,7 @@ import constructQueryString from "./generate-query-string/constructQueryString";
 import { removeFilterAndSortProducts, setFilterAndSortProducts } from "../../../../store/redux/reducers/filterAndSortProductSlice";
 
 const FilterAndSortProduct = (props) => {
-    const { brandFilters, priceFilters, ratingFilters, sortCriteria } = props;
+    const { brandFilters, priceFilters, ratingFilters, sortCriteria, searchCategory } = props;
     // console.log(brandFilters, priceFilters, ratingFilters, sortCriteria);
 
     const products = useSelector((state) => state.categoryOfProducts);
@@ -25,12 +25,12 @@ const FilterAndSortProduct = (props) => {
     let finalProducts = [];
     if (brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0 || sortCriteria) {
         finalProducts = filterAndSortProducts;
-    } else if(searchProducts) {
+    } else if(searchProducts.length > 0) {
         finalProducts = searchProducts;
     } else {
         finalProducts = products;
     }
-    // console.log(finalProducts);
+    console.log(finalProducts);
 
 
     useEffect(() => {
@@ -41,9 +41,14 @@ const FilterAndSortProduct = (props) => {
                 const queryString = constructQueryString(brandFilters, priceFilters, ratingFilters, sortCriteria);
                 console.log(queryString);
 
-                const response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/q${queryString}`);
+                let response;
+                if(particularCategory) {
+                    response = await axios.get(`http://localhost:3030/products/category/${particularCategory}/q${queryString}`);
+                } else if(searchCategory) {
+                    response = await axios.get(`http://localhost:3030/products/search/q${queryString}&searchInput=${searchCategory}`)
+                }
                 // console.log(response);
-
+                
                 if (response.status === 200) {
                     dispatch(setFilterAndSortProducts(response.data));
                 }

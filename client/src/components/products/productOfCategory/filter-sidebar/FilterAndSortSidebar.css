@@ -37,5 +37,21 @@
                 }
             }
         }
+        & .filter-category {
+            & .subcategory-heading {
+                display: flex;
+                align-items: center;
+                color: black;
+                font-weight: 600;
+                cursor: pointer;
+                & i {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+            & .subCategory-ul {
+                padding-left: 1.1rem;
+            }
+        }
     }
 }

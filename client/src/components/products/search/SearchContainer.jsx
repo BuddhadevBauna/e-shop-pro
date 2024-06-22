@@ -62,7 +62,7 @@ const SearchContainer = () => {
         <>
             <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search products by name category..."
                 value={input}
                 onChange={(e) => handleChange(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e)}

@@ -2,7 +2,7 @@ import Product from "../../models/product-model.js";
 import Category from "../../models/category-model.js";
 
 //search producs
-const searchProductsAndCategory = async (req, res) => {
+const searchProductsOrCategory = async (req, res) => {
     try {
         const { q } = req.query;
         // console.log(searchInput);
@@ -25,4 +25,4 @@ const searchProductsAndCategory = async (req, res) => {
     }
 }
 
-export default searchProductsAndCategory;
+export default searchProductsOrCategory;

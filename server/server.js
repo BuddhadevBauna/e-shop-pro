@@ -4,6 +4,7 @@ import connectDB from './utils/db.js';
 import productRoute from './routes/product-router.js';
 import categoryRoute from './routes/category-router.js';
 import cors from "cors";
+import authRoute from './routes/auth-router.js';
 
 //create express server
 const app = express();
@@ -21,7 +22,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 //routes
+//auth
+app.use('/auth', authRoute);
+//categories
 app.use('/categories/', categoryRoute);
+//products
 app.use('/products/', productRoute);
 
 //server run

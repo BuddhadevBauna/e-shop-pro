@@ -5,6 +5,7 @@ import productRoute from './routes/product-router.js';
 import categoryRoute from './routes/category-router.js';
 import cors from "cors";
 import authRoute from './routes/auth-router.js';
+import errorMiddleware from './middlewares/error-middleware.js';
 
 //create express server
 const app = express();
@@ -28,6 +29,9 @@ app.use('/auth', authRoute);
 app.use('/categories/', categoryRoute);
 //products
 app.use('/products/', productRoute);
+
+//middleware
+app.use(errorMiddleware);
 
 //server run
 const startServer = async () => {

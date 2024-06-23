@@ -26,8 +26,6 @@ const Navbar = () => {
     }
 
     
-
-
     return (
         <div className="navbar">
             <div className={`navabar-container ${isSearchContainerVisible ? "navbar-container-sm" : ""}`}>

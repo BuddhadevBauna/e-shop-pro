@@ -5,16 +5,16 @@ const searchProductSlice = createSlice(
         name : "search products",
         initialState: [],
         reducers : {
-            setSearchProduct(state, action) {
+            setSearchProducts(state, action) {
                 // console.log(action.payload);
                 return [...action.payload]
             },
-            removeSearchProduct() {
+            removeSearchProducts() {
                 return [];
             }
         }
     }
 )
 
-export const { setSearchProduct, removeSearchProduct} = searchProductSlice.actions
+export const { setSearchProducts, removeSearchProducts} = searchProductSlice.actions
 export default searchProductSlice.reducer

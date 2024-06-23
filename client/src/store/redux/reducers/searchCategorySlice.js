@@ -16,5 +16,5 @@ const searchCategorySlice = createSlice(
     }
 )
 
-export const { setSearchCategories, removeSearchCategories} = searchCategorySlice.actions
+export const { setSearchCategories, removeSearchCategories } = searchCategorySlice.actions
 export default searchCategorySlice.reducer

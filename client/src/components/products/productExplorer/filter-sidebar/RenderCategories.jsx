@@ -1,16 +1,26 @@
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const RenderCategories = (props) => {
-    const { particularCategory, searchCategories, searchProducts, setSearchCategory,
-        setSearchProductsCategory
-    } = props;
+    const { setFilterCategory, setFilterProductsCategory} = props;
 
-    const handleSearchCategory = (category) => {
-        setSearchCategory(category);
+    const searchCategories = useSelector((state) => state.searchCategories);
+    const searchProducts = useSelector(state => state.searchProducts);
+    // console.log(searchCategories, searchProducts);
+
+    const params = useParams();
+    const particularCategory = params.particularCategory;
+    // console.log(particularCategory);
+
+    const handleFilterCategory = (category) => {
+        setFilterCategory(category);
+        setFilterProductsCategory("");
     };
-    const handleSearchProducts = (category) => {
-        setSearchProductsCategory(category);
+    const handleFilterProductsCategory = (category) => {
+        setFilterProductsCategory(category);
+        setFilterCategory("");
     };
 
     const [visibleSubCategories, setVisibleSubCategories] = useState({0: true});
@@ -25,7 +35,7 @@ const RenderCategories = (props) => {
     if (particularCategory) {
         return <li>{particularCategory}</li>;
     }
-    if (searchCategories.length > 0) {
+    else if (searchCategories.length > 0) {
         return (
             searchCategories.map((category, index) => {
                 const { name, url, subCategory } = category;
@@ -44,7 +54,7 @@ const RenderCategories = (props) => {
                             <ul className="subCategory-ul">
                                 {subCategory.map((subCat, subInd) => {
                                     return (
-                                        <li onClick={() => handleSearchCategory(subCat.categoryType)}
+                                        <li onClick={() => handleFilterCategory(subCat.categoryType)}
                                             key={subInd}>
                                             {subCat.name}
                                         </li>
@@ -57,14 +67,14 @@ const RenderCategories = (props) => {
             })
         )
     }
-    if (searchProducts) {
+    else if (searchProducts) {
         const uniqueCategories = [...new Set(searchProducts.map((product) => product.category))];
         return (
             <ul>
                 {
                     uniqueCategories.map((category, index) => {
                         return (
-                            <li onClick={() => handleSearchProducts(category)}
+                            <li onClick={() => handleFilterProductsCategory(category)}
                                 key={index}>
                                 {category}
                             </li>

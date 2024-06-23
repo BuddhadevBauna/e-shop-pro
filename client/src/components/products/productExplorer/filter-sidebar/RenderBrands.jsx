@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 
 const RenderBrands = (props) => {
-    const {searchProductsCategory, brandFilters, setBrandFilters} = props;
+    const {filterProductsCategory, brandFilters, setBrandFilters} = props;
+    
     const products = useSelector((state) => state.categoryOfProducts);
     const searchCategories = useSelector((state) => state.searchCategories);
     const searchProducts = useSelector(state => state.searchProducts);
@@ -29,7 +30,7 @@ const RenderBrands = (props) => {
             });
         } else {
             searchProducts.forEach((product) => {
-                if (product.brand && product.category === searchProductsCategory && !uniqeBrands.includes(product.brand)) {
+                if (product.brand && product.category === filterProductsCategory && !uniqeBrands.includes(product.brand)) {
                     uniqeBrands.push(product.brand);
                 }
             });

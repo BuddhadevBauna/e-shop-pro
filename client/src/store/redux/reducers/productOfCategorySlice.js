@@ -5,16 +5,16 @@ const categoryOfProductSlice = createSlice(
         name : "products of category",
         initialState: [],
         reducers : {
-            setCategoryOfProduct(state, action) {
+            setCategoryOfProducts(state, action) {
                 // console.log(action.payload);
                 return [...action.payload]
             },
-            removeCategoryOfProduct() {
+            removeCategoryOfProducts() {
                 return [];
             }
         }
     }
 )
 
-export const { setCategoryOfProduct, removeCategoryOfProduct} = categoryOfProductSlice.actions
+export const { setCategoryOfProducts, removeCategoryOfProducts} = categoryOfProductSlice.actions
 export default categoryOfProductSlice.reducer

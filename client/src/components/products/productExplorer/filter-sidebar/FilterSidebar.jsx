@@ -1,22 +1,17 @@
 import { useSelector } from "react-redux";
-import "./FilterAndSortSidebar.css";
-import { useParams } from "react-router-dom";
+import "./FilterSidebar.css";
 import { useEffect, useState } from "react";
 import RenderCategories from "./RenderCategories";
 import RenderBrands from "./RenderBrands";
 
-const FilterAndSortSidebar = (props) => {
+const FilterSidebar = (props) => {
     const { brandFilters, setBrandFilters, priceFilters, setPriceFilters, ratingFilters, setRatingFilters,
-        setSearchCategory, searchProductsCategory, setSearchProductsCategory
+        setFilterCategory, filterProductsCategory, setFilterProductsCategory
     } = props;
-    const products = useSelector((state) => state.categoryOfProducts);
-    const searchCategories = useSelector((state) => state.searchCategories);
+
+    const categoyProducts = useSelector((state) => state.categoryOfProducts);
     const searchProducts = useSelector(state => state.searchProducts);
-    // console.log(products, searchCategories, searchProducts);
-    const params = useParams();
-    const particularCategory = params.particularCategory;
-    // console.log(particularCategory);
-    const [finalProducts, setFinalProducts] = useState([]);
+    // console.log(categoyProducts, searchProducts);
 
     const handlePriceChange = (price) => {
         setPriceFilters((prev) =>
@@ -28,26 +23,22 @@ const FilterAndSortSidebar = (props) => {
             prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]
         );
     };
+
     const isFilterActive = brandFilters.length > 0 || priceFilters.length > 0 || ratingFilters.length > 0;
+
     const clearFilters = () => {
         setBrandFilters([]);
         setPriceFilters([]);
         setRatingFilters([]);
     };
 
+    const [finalProducts, setFinalProducts] = useState([]);
     useEffect(() => {
-        setFinalProducts(products.length > 0 ? products : searchProducts);
-    }, [products, searchProducts]);
+        setFinalProducts(categoyProducts.length > 0 ? categoyProducts : searchProducts);
+    }, [categoyProducts, searchProducts]);
     // console.log(finalProducts);
 
     if (!finalProducts) return <h1>Loading...</h1>;
-    let uniqeBrands = [];
-    finalProducts.forEach((product) => {
-        if (product.brand && !uniqeBrands.includes(product.brand)) {
-            uniqeBrands.push(product.brand);
-        }
-    });
-    // console.log(uniqeBrands, uniqeBrands.length);
     const renderList = () => {
         return (
             <>
@@ -65,17 +56,14 @@ const FilterAndSortSidebar = (props) => {
                             <h1 className="category-header">Category</h1>
                             <div>
                                 <RenderCategories
-                                    particularCategory={particularCategory}
-                                    searchCategories={searchCategories}
-                                    searchProducts={searchProducts}
-                                    setSearchCategory={setSearchCategory}
-                                    setSearchProductsCategory={setSearchProductsCategory}
+                                    setFilterCategory={setFilterCategory}
+                                    setFilterProductsCategory={setFilterProductsCategory}
                                 />
                             </div>
                         </div>
                         <>
                             <RenderBrands
-                                searchProductsCategory={searchProductsCategory}
+                                filterProductsCategory={filterProductsCategory}
                                 brandFilters={brandFilters}
                                 setBrandFilters={setBrandFilters}
                             />
@@ -159,4 +147,4 @@ const FilterAndSortSidebar = (props) => {
     return <>{renderList()}</>;
 };
 
-export default FilterAndSortSidebar;
+export default FilterSidebar;

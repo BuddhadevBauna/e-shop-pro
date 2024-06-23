@@ -7,7 +7,7 @@ import {
 //---pages
 import Root from './pages/Root';
 import ProductRoot from './pages/ProductRoot';
-import ProductOfCategory from './components/products/productOfCategory/ProductOfCategory';
+import ProductExplorer from './components/products/productExplorer/ProductExplorer';
 
 
 const router = createBrowserRouter([
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
       { 
         path: "", element: <ProductRoot />,
         children: [
-          { path: "products/category/:particularCategory", element: <ProductOfCategory /> },
-          { path: "products/search", element: <ProductOfCategory /> }
+          { path: "products/category/:particularCategory", element: <ProductExplorer /> },
+          { path: "products/search", element: <ProductExplorer /> }
         ]
       },
     ],

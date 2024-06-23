@@ -25,19 +25,17 @@ export const sortAndFilterSearchProducts = async (req, res) => {
     try {
         const { searchInput, filterCategory } = req.query;
         // console.log(`search Input: ${searchInput}`);
+        // console.log(`filterCategory: ${filterCategory}`);
 
         let filterQueryObject = {};
         if(!filterCategory) {
             filterQueryObject = {category: searchInput};
         } else {
-            filterQueryObject = {
-                $and: [
-                    { title: { $regex: searchInput, $options: 'i' } },
-                    { category: filterCategory }
-                ]
-            };
+            filterQueryObject.title = { $regex: searchInput, $options: 'i' }
+            filterQueryObject.category = filterCategory
         }
         buildFilterQueryObject(req.query, filterQueryObject);
+        // console.log(filterQueryObject);
 
         const sortOrder = buildSortOrder(req.query);
 

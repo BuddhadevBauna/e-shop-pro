@@ -1,6 +1,5 @@
 import "./ProductRoot.css";
 import AllCategories from "../components/products/allCategory/AllCategories";
-import ProductOfCategory from "../components/products/productOfCategory/ProductOfCategory";
 import { Outlet } from "react-router-dom";
 
 const ProductRoot = () => {

@@ -2,6 +2,7 @@ import "./Auth.css";
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/context/auth";
 
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
         password: ""
     })
     const navigate = useNavigate();
+    const {storeTokenInLS} = useAuth();
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -32,6 +34,7 @@ const Login = () => {
             if(response.statusText === 'OK') {
                 const res_data = await response.data;
                 // console.log(res_data);
+                storeTokenInLS(res_data.token);
                 setUser({
                     email: "",
                     password: ""

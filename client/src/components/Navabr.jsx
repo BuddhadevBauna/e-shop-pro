@@ -6,23 +6,32 @@ import { FaArrowUp, FaBars, FaCartArrowDown, FaRegHeart, FaRegUserCircle, FaSear
 import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import SearchContainer from "./products/search/SearchContainer";
+import { useAuth } from "../store/context/auth";
 
 
 const Navbar = () => {
     const [isSearchContainerVisible, setSearchContainerVisible] = useState(false);
+    const [isListContainerVisible, setListContainerVisible] = useState(false);
+    const [isUserSectionActive, setUserSectionActive] = useState(false);
+    const { isLoggedIn } = useAuth();
+    console.log(isLoggedIn);
+
     const toggleSearchContainer = () => {
         setSearchContainerVisible(!isSearchContainerVisible);
     }
     const collapseNavbar = () => {
         setSearchContainerVisible(!isSearchContainerVisible);
     }
-    const [isListContainerVisible, setListContainerVisible] = useState(false);
     const toggleListContainer = () => {
         setListContainerVisible(!isListContainerVisible);
     }
 
-    let login = false;
-    const handleLogin = () => { }
+    const handleMouseOver = () => {
+        setUserSectionActive(true);
+    }
+    const handleMouseLeave = () => {
+        setUserSectionActive(false);
+    }
 
     return (
         <div className="navbar">
@@ -61,28 +70,57 @@ const Navbar = () => {
                     ${isListContainerVisible ? "list-active" : ""}`}
                 >
                     <li className="list-item">
-                        <NavLink className="nav-link" to="/login" onMouseOver={handleLogin}>
+                        <NavLink
+                            className="nav-link"
+                            to="/login"
+                            onMouseOver={handleMouseOver}
+                            onMouseLeave={handleMouseLeave}
+                        >
                             <i><FaRegUserCircle /></i>
                             <p>
-                                {!login ? <span>Login</span> : <span>Account</span>}
-                                <i><IoIosArrowDown /></i></p>
+                                {!isLoggedIn ? <span>Login</span> : <span>Account</span>}
+                                {isUserSectionActive ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i>}
+                            </p>
                         </NavLink>
-                        <div className="user-section" style={{ width: login ? "10rem" : "auto" }}>
-                            {!login &&
-                                <Link to={'/register'}>
-                                    <div className="user-registration">
-                                        <p>New Customer?</p>
-                                        <p className="signup">Register</p>
-                                    </div>
-                                </Link>
-                            }
-                            {!login && <hr />}
-                            <div className="user">
-                                <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
-                                <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
-                                {login && <p className="logout"><i><IoIosLogOut /></i><span>Logout</span></p>}
+                        {isUserSectionActive &&
+                            <div
+                                className="user-section"
+                                style={{ width: isLoggedIn ? "10rem" : "auto" }}
+                                onMouseOver={handleMouseOver}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                {!isLoggedIn &&
+                                    <Link to={'/register'}>
+                                        <div className="user-registration">
+                                            <p>New Customer?</p>
+                                            <p className="signup">Register</p>
+                                        </div>
+                                    </Link>
+                                }
+                                {!isLoggedIn && <hr />}
+                                <div className="user">
+                                    {!isLoggedIn ?
+                                        <Link to={'/login'}>
+                                            <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
+                                        </Link>
+                                        :
+                                        <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
+                                    }
+                                    {!isLoggedIn ?
+                                        <Link to={'/login'}>
+                                            <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
+                                        </Link>
+                                        :
+                                        <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
+                                    }
+                                    {isLoggedIn &&
+                                        <Link to={'/logout'}>
+                                            <p className="logout"><i><IoIosLogOut /></i><span>Logout</span></p>
+                                        </Link>
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
                     </li>
                     <li className="list-item">
                         <NavLink className="nav-link" to="/cart">

@@ -10,6 +10,7 @@ import ProductRoot from './pages/ProductRoot';
 import ProductExplorer from './components/products/productExplorer/ProductExplorer';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Logout from './components/auth/Logout';
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       },
       {path: "register", element: <Register />},
       {path: "login", element: <Login />},
+      {path: "logout", element: <Logout />},
     ],
   },
 ]);

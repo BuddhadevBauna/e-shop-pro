@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Auth.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/context/auth";
 
 const Register = () => {
     const [user, setUser] = useState({
@@ -11,6 +12,8 @@ const Register = () => {
         password: "",
     });
     const navigate = useNavigate();
+    const {storeTokenInLS} = useAuth();
+    console.log(storeTokenInLS);
 
     const handleInput = (e) => {
         let { name, value } = e.target;
@@ -32,6 +35,7 @@ const Register = () => {
             if (response.statusText === "Created") {
                 const res_data = response.data;
                 // console.log(res_data);
+                storeTokenInLS(res_data.token);
                 setUser({
                     username: "",
                     email: "",

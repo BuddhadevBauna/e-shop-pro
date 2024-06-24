@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const ProductRoot = () => {
     return (
-        <div className="container">
+        <div className="product-root-container">
             <AllCategories />
             <Outlet />
         </div>

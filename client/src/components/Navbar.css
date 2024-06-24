@@ -59,6 +59,50 @@
     gap: 1rem;
     margin-right: 2rem;
 }
+.list-item {
+    position: relative;
+    & p {
+        display: flex;
+        align-items: center;
+        & i {
+            display: flex;
+            align-items: center;
+        }
+    }
+    & .user-section {
+        position: absolute;
+        white-space: nowrap;
+        background-color: #fff;
+        border-radius: 0.4rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        & p {
+            padding: 0.5rem;
+            border-radius: 0.4rem;
+        }
+        & .user-registration {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            & .signup {
+                font-weight: bold;
+                color: blue;
+            }
+        }
+        & .user {
+            display: flex;
+            flex-direction: column;
+            & p {
+                cursor: pointer;
+                display: flex;
+                gap: 0.5rem;
+            }
+            & p:hover {
+                background-color: whitesmoke;
+            }
+        }
+    }
+}
 .nav-link {
     display: flex;
     gap: 0.2rem;

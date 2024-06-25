@@ -6,6 +6,7 @@ import searchProductsOrCategory from "../controllers/products/search-product-con
 import * as sortAndFilterProduct from "../controllers/products/sort-filter-product-controller.js"
 import authMiddleware from "../middlewares/auth-middleware.js";
 import adminMiddleware from "../middlewares/admin-middleware.js";
+import deleteProduct from "../controllers/products/delete-product-controller.js";
 
 const router = express.Router();
 
@@ -14,6 +15,8 @@ const router = express.Router();
 router.route('/add').post(authMiddleware, adminMiddleware, addProduct);
 //update Product
 router.route('/update/:particularId').patch(authMiddleware, adminMiddleware, updateProduct);
+//delete Product
+router.route('/delete/:particularId').delete(authMiddleware, adminMiddleware, deleteProduct);
 
 //get product
 router.route('/').get(getProduct.getAllProduct);

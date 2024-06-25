@@ -33,10 +33,10 @@ const AllCategories = () => {
   }
 
   const renderCategories = categories.map((category, index) => {
-    const { name, categoryType, url, subCategory } = category;
+    const { name, categoryType, subCategory } = category;
     return (
       <div className="category-container" key={index}>
-        {url ? (
+        {subCategory.length === 0 ? (
           <div>
             <Link to={`/products/category/${categoryType}`}>
               <menu>{name}</menu>

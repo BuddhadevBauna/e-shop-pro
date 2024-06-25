@@ -11,7 +11,7 @@ const router = express.Router();
 //add category
 router.route('/add').post(authMiddleware,adminMiddleware, addCategory);
 //update category
-router.route('/update/:particularCategory').patch(authMiddleware, adminMiddleware, categoryUpdate);
+router.route('/update/:categoryName').patch(authMiddleware, adminMiddleware, categoryUpdate);
 
 //get Category
 router.route('/').get(getAllCategory);

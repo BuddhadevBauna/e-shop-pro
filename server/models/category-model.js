@@ -9,10 +9,6 @@ const subCategorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    url: {
-        type: String,
-        required: true,
-    }
 });
 
 const categorySchema = new mongoose.Schema({
@@ -20,11 +16,8 @@ const categorySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    categoyType: {
+    categoryType: {
         type: String
-    },
-    url: {
-        type: String,
     },
     subCategory: [subCategorySchema],
 });

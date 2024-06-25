@@ -4,13 +4,17 @@ import updateProduct from "../controllers/products/update-product-controller.js"
 import * as getProduct from "../controllers/products/get-product-controller.js";
 import searchProductsOrCategory from "../controllers/products/search-product-controller.js";
 import * as sortAndFilterProduct from "../controllers/products/sort-filter-product-controller.js"
+import authMiddleware from "../middlewares/auth-middleware.js";
+import adminMiddleware from "../middlewares/admin-middleware.js";
 
 const router = express.Router();
 
+//controlled by Admin
 //add product
-router.route('/add').post(addProduct);
+router.route('/add').post(authMiddleware, adminMiddleware, addProduct);
 //update Product
-router.route('/update/:particularId').patch(updateProduct);
+router.route('/update/:particularId').patch(authMiddleware, adminMiddleware, updateProduct);
+
 //get product
 router.route('/').get(getProduct.getAllProduct);
 router.route('/category/:particularCategory').get(getProduct.getCategoryOfProduct);

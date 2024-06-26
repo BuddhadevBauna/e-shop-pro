@@ -54,7 +54,7 @@ const Login = () => {
             <section>
                 <main>
                     <div className="section-login">
-                        <div className="container">
+                        <div className="auth-container">
                             <div className="login-form form-container">
                                 <h1 className="main-heading">Login</h1>
                                 <form onSubmit={handleSubmit}>

@@ -1,0 +1,34 @@
+.container {
+  margin: 0 8%;
+}
+
+.admin-dashboard-container {
+  margin-top: 2rem;
+
+  & nav {
+    & ul {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      & li:first-child {
+        order: 1;
+        margin-left: auto;
+      }
+
+      & li {
+        color: blue;
+
+        a {
+          display: flex;
+          gap: 0.5rem;
+
+          & i {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}

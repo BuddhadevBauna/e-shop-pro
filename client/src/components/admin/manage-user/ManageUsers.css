@@ -1,0 +1,7 @@
+.admin-users-section {
+    & .admin-users {
+        & table {
+            margin-top: 1.5rem;
+        }
+    }
+}

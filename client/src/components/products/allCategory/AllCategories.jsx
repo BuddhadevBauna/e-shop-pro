@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./AllCategories.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setCategories } from "../../../store/redux/reducers/categorySlice";
-import axios from "axios";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const AllCategories = () => {
   const categories = useSelector((state) => state.allCategory);
-  const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = useState(null);
-
-  useEffect(() => {
-    const fetchProductsCategory = async () => {
-      try {
-        const response = await axios.get('http://localhost:3030/categories');
-        if (response.status === 200) {
-          dispatch(setCategories(response.data));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchProductsCategory();
-  }, [dispatch]);
 
   const handleCategoryover = (name) => {
     setActiveCategory(name);

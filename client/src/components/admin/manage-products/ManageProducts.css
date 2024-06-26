@@ -1,0 +1,7 @@
+.admin-products-section {
+    & .admin-products {
+        & menu {
+            margin-top: 1.5rem;
+        }
+    }
+}

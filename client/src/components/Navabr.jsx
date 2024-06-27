@@ -14,7 +14,7 @@ const Navbar = () => {
     const [isListContainerVisible, setListContainerVisible] = useState(false);
     const [isUserSectionActive, setUserSectionActive] = useState(false);
     const { isLoggedIn } = useAuth();
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
 
     const toggleSearchContainer = () => {
         setSearchContainerVisible(!isSearchContainerVisible);

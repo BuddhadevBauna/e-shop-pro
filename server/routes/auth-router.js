@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.route('/register').post(validate(signupSchema), register);
 router.route('/login').post(validate(signinSchema), login);
+////for get currently login user data
 router.route('/user').get(authMiddleware, user);
 
 export default router;

@@ -1,3 +1,4 @@
+//for get currently login user data
 const user = async (req, res) => {
     try {
         const userData = req.userData;

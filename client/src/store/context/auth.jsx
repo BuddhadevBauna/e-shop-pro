@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
 //context api(create context, provider, consumer)
 //Context create
@@ -8,6 +9,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [isLoggedIn, setLoggedIn] = useState(!!token);
+    const AuthorizationToken = `Bearer ${token}`;
+    const [user, setUser] = useState("");
 
     //for store token in local storage
     const storeTokenInLS = (token) => {
@@ -22,6 +25,31 @@ export const AuthProvider = ({ children }) => {
         setLoggedIn(false);
         localStorage.removeItem('token');
     }
+
+    //for get currently login user data
+    const userAuthentication = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3030/auth/user`, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            })
+            // console.log(response);
+            if (response.statusText === "OK") {
+                const data = response.data;
+                setUser(data.userData);
+            }
+        } catch (error) {
+            console.log("Error fetching userdata", error);
+        }
+    }
+    useEffect(() => {
+        if(token) {
+            userAuthentication();
+        } else {
+            setUser("");
+        }
+    }, [token]);
 
     return (
         <AuthContext.Provider

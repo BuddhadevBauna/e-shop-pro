@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     const AuthorizationToken = `Bearer ${token}`;
     const [loginUserData, setLoginUserData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [isServerIssue, setServerIssue] = useState(null);
 
     //for store token in local storage
     const storeTokenInLS = (token) => {
@@ -27,6 +28,24 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("token");
     };
 
+    //for check server status
+    const checkServerStatus = async () => {
+        try {
+            const response = await axios.get('http://localhost:3030/status');
+            // console.log(response);
+            if (response.status !== 200) {
+                setServerIssue(true);
+            } else {
+                setServerIssue(false);
+            }
+        } catch (error) {
+            setServerIssue(true);
+        }
+    }
+    useEffect(() => {
+        checkServerStatus();
+    }, []);
+
     //for get currently login user data
     const userAuthentication = async () => {
         try {
@@ -39,7 +58,7 @@ export const AuthProvider = ({ children }) => {
             if (response.statusText === "OK") {
                 const data = response.data;
                 setLoginUserData(data.userData);
-                setIsLoading(false);
+                // setIsLoading(false);
             }
         } catch (error) {
             console.log("Error fetching userdata", error);
@@ -65,6 +84,7 @@ export const AuthProvider = ({ children }) => {
                 AuthorizationToken,
                 loginUserData,
                 isLoading,
+                isServerIssue
             }}
         >
             {children}

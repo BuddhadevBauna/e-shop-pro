@@ -3,7 +3,8 @@ import "./AdminDashboard.css";
 import { FaHome, FaProductHunt, FaUser } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import { useAuth } from "../../store/context/auth";
-import { ClientError } from "../error/ClientEroor";
+import ClientError from "../error/ClientError";
+
 
 const AdminDashboard = () => {
     const {loginUserData, isLoading} = useAuth();

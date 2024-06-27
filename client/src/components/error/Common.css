@@ -1,0 +1,62 @@
+.error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-page .content {
+    max-width: 70rem;
+    text-align: center;
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0 0;
+    }
+
+    25% {
+        background-position: 100% 0;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    75% {
+        background-position: 0% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.content h4 {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+.content .btns {
+    margin: 25px 0;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.content .btns a {
+    display: inline-block;
+    margin: 0 10px;
+    text-decoration: none;
+    border: 2px solid #646cff;
+    color: #646cff;
+    font-weight: 500;
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.content .btns a:hover {
+    background: #646cff;
+    color: #fff;
+}

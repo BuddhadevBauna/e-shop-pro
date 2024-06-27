@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import "./ClientError.css";
+import "./Common.css";
 
-export const ClientError = () => {
+const ClientError = () => {
     return (
         <>
             <div className="error-page">
                 <div className="content">
-                    <h2 className="header">404</h2>
+                    <h2 className="client-header">404</h2>
                     <h4>Sorry! Page not found</h4>
                     <p>
                         Oops! It seems like the page you're trying to access doesn't exist.
@@ -22,3 +23,5 @@ export const ClientError = () => {
         </>
     )
 }
+
+export default ClientError;

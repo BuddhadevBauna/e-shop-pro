@@ -11,7 +11,7 @@ import ProductExplorer from './components/products/productExplorer/ProductExplor
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
-import { ClientError } from './components/error/ClientEroor';
+import ClientError from './components/error/ClientError';
 import AdminLayout from './components/layout/AdminLayout';
 import ManageUsers from './components/admin/manage-user/ManageUsers';
 import ManageCategories from './components/admin/manage-categories/ManageCategories';
@@ -54,14 +54,15 @@ const router = createBrowserRouter([
 
 function App() {
   const categories = useSelector(state => state.allCategory);
-
   const dispatch = useDispatch();
+
+
   useEffect(() => {
     const fetchProductsCategory = async () => {
       try {
         const response = await axios.get('http://localhost:3030/categories');
         if (response.status === 200) {
-          dispatch(setCategories({categories: response.data}));
+          dispatch(setCategories({ categories: response.data }));
         }
       } catch (error) {
         console.log(error);
@@ -75,7 +76,7 @@ function App() {
       const response = await axios.get(`http://localhost:3030/products/category/${categoryType}`);
       // console.log(response.data);
       // console.log({categoryType, products: response.data});
-      dispatch(setAllCategoriesProducts({categoryType, products: response.data}));
+      dispatch(setAllCategoriesProducts({ categoryType, products: response.data }));
     } catch (error) {
       console.error(`Error fetching products for ${categoryType}:`, error);
     }

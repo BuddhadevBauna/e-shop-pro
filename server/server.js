@@ -6,6 +6,7 @@ import categoryRoute from './routes/category-router.js';
 import cors from "cors";
 import authRoute from './routes/auth-router.js';
 import errorMiddleware from './middlewares/error-middleware.js';
+import statusRoute from './routes/status-router.js';
 
 //create express server
 const app = express();
@@ -29,6 +30,8 @@ app.use('/auth', authRoute);
 app.use('/categories/', categoryRoute);
 //products
 app.use('/products/', productRoute);
+//status
+app.use('/status', statusRoute);
 
 //middleware
 app.use(errorMiddleware);

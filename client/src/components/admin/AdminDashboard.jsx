@@ -2,8 +2,18 @@ import { NavLink } from "react-router-dom";
 import "./AdminDashboard.css";
 import { FaHome, FaProductHunt, FaUser } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
+import { useAuth } from "../../store/context/auth";
+import { ClientError } from "../error/ClientEroor";
 
 const AdminDashboard = () => {
+    const {loginUserData, isLoading} = useAuth();
+    // console.log(loginUserData, isLoading);
+
+    if(isLoading) {
+        return <h1 className="container" style={{marginTop: "1rem"}}>Loading...</h1>;
+    } else if(!loginUserData.isAdmin) {
+        return <ClientError />;
+    }
     return (
         <>
             <header>

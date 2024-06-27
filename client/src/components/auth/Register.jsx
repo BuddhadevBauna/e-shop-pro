@@ -13,7 +13,7 @@ const Register = () => {
     });
     const navigate = useNavigate();
     const {storeTokenInLS} = useAuth();
-    console.log(storeTokenInLS);
+    // console.log(storeTokenInLS);
 
     const handleInput = (e) => {
         let { name, value } = e.target;

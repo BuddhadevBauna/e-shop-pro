@@ -7,47 +7,52 @@ export const AuthContext = createContext();
 
 //provider(for data passing)
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [token, setToken] = useState(localStorage.getItem("token"));
     const [isLoggedIn, setLoggedIn] = useState(!!token);
     const AuthorizationToken = `Bearer ${token}`;
-    const [user, setUser] = useState("");
+    const [loginUserData, setLoginUserData] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     //for store token in local storage
     const storeTokenInLS = (token) => {
         setToken(token);
         setLoggedIn(true);
-        localStorage.setItem('token', token);
-    }
+        localStorage.setItem("token", token);
+    };
 
     //for user logout
     const logoutUser = () => {
         setToken("");
         setLoggedIn(false);
-        localStorage.removeItem('token');
-    }
+        localStorage.removeItem("token");
+    };
 
     //for get currently login user data
     const userAuthentication = async () => {
         try {
             const response = await axios.get(`http://localhost:3030/auth/user`, {
                 headers: {
-                    Authorization: AuthorizationToken
-                }
-            })
+                    Authorization: AuthorizationToken,
+                },
+            });
             // console.log(response);
             if (response.statusText === "OK") {
                 const data = response.data;
-                setUser(data.userData);
+                setLoginUserData(data.userData);
+                setIsLoading(false);
             }
         } catch (error) {
             console.log("Error fetching userdata", error);
+        } finally {
+            setIsLoading(false);
         }
-    }
+    };
     useEffect(() => {
-        if(token) {
+        if (token) {
             userAuthentication();
         } else {
-            setUser("");
+            setLoginUserData("");
+            setIsLoading(false);
         }
     }, [token]);
 
@@ -56,13 +61,16 @@ export const AuthProvider = ({ children }) => {
             value={{
                 storeTokenInLS,
                 isLoggedIn,
-                logoutUser
-            }}>
+                logoutUser,
+                AuthorizationToken,
+                loginUserData,
+                isLoading,
+            }}
+        >
             {children}
         </AuthContext.Provider>
-    )
-}
-
+    );
+};
 
 //custom hook
 export const useAuth = () => {
@@ -72,4 +80,4 @@ export const useAuth = () => {
         console.log("useauth used outside of the provider.");
     }
     return authContextValue;
-}
+};

@@ -16,47 +16,52 @@ import AdminLayout from './components/layout/AdminLayout';
 import ManageUsers from './components/admin/manage-user/ManageUsers';
 import ManageCategories from './components/admin/manage-categories/ManageCategories';
 import ManageProducts from './components/admin/manage-products/ManageProducts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setCategories } from './store/redux/reducers/categorySlice';
+import { setAllCategoriesProducts } from './store/redux/reducers/allCategoryProductSlice';
 
 
 const router = createBrowserRouter([
   {
     path: "/", element: <Root />,
     children: [
-      { 
+      {
         path: "", element: <ProductRoot />,
         children: [
           { path: "products/category/:particularCategory", element: <ProductExplorer /> },
           { path: "products/search", element: <ProductExplorer /> },
         ]
       },
-      {path: "register", element: <Register />},
-      {path: "login", element: <Login />},
-      {path: "logout", element: <Logout />},
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
+      { path: "logout", element: <Logout /> },
     ],
   },
   { path: "/*", element: <ClientError /> },
   {
     path: "admin", element: <AdminLayout />,
     children: [
-      {path: "categories", element: <ManageCategories />},
-      {path: "products", element: <ManageProducts />},
-      {path: "user", element: <ManageUsers />}
+      //categories
+      { path: "categories", element: <ManageCategories /> },
+      //products
+      { path: "products", element: <ManageProducts /> },
+      //users
+      { path: "user", element: <ManageUsers /> }
     ]
   }
 ]);
 
 function App() {
-  const dispatch = useDispatch();
+  const categories = useSelector(state => state.allCategory);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchProductsCategory = async () => {
       try {
         const response = await axios.get('http://localhost:3030/categories');
         if (response.status === 200) {
-          dispatch(setCategories(response.data));
+          dispatch(setCategories({categories: response.data}));
         }
       } catch (error) {
         console.log(error);
@@ -64,7 +69,29 @@ function App() {
     }
     fetchProductsCategory();
   }, [dispatch]);
-  
+
+  const fetchProducts = async (categoryType) => {
+    try {
+      const response = await axios.get(`http://localhost:3030/products/category/${categoryType}`);
+      // console.log(response.data);
+      // console.log({categoryType, products: response.data});
+      dispatch(setAllCategoriesProducts({categoryType, products: response.data}));
+    } catch (error) {
+      console.error(`Error fetching products for ${categoryType}:`, error);
+    }
+  }
+  useEffect(() => {
+    categories.forEach(category => {
+      if (category.subCategory.length === 0) {
+        fetchProducts(category.categoryType);
+      } else {
+        category.subCategory.forEach(subCat => {
+          fetchProducts(subCat.categoryType);
+        })
+      }
+    })
+  }, [categories])
+
   return (
     <RouterProvider router={router} />
   );

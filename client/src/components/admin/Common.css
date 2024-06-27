@@ -1,6 +1,23 @@
 .admin {
     padding: 5rem 0;
 
+    & .header-div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        & i {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: #007bff;
+            cursor: pointer;
+        }
+        & i:hover {
+            color: #0056b3;
+        }
+    }
+
     & table {
         width: 100%;
         border-collapse: collapse;

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import "./ManageCategories.css";
 import "../Common.css";
 import React, { useState } from "react";
+import { IoMdAddCircle } from "react-icons/io";
 
 const ManageCategories = () => {
     const categories = useSelector(state => state.allCategory);
@@ -28,8 +29,9 @@ const ManageCategories = () => {
     return (
         <>
             <section className="container admin admin-categories-section">
-                <div>
-                    <h1>All categories Data</h1>
+                <div className="header-div">
+                    <h1>All categories</h1>
+                    <i><IoMdAddCircle /></i>
                 </div>
                 <div className="admin-container admin-categories">
                     <table>

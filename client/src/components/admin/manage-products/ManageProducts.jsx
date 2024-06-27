@@ -1,18 +1,22 @@
 import "./ManageProducts.css";
 import "../Common.css";
 import { useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { IoMdAddCircle } from "react-icons/io";
 
 const ManageProducts = () => {
     const categories = useSelector(state => state.allCategory);
-
-
+    // console.log(categories);
+    const products = useSelector(state => state.allCategoriesProducts);
+    // console.log(products);
 
     return (
         <>
             <section className="container admin admin-products-section">
-                <div>
+                <div className="header-div">
                     <h1>All products</h1>
+                    <i><IoMdAddCircle /></i>
                 </div>
                 <div className="admin-container admin-products">
                     {categories.map((category, index) => (
@@ -23,21 +27,23 @@ const ManageProducts = () => {
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Brand</th>
-                                                <th>Price</th>
-                                                <th>Update</th>
-                                                <th>Delete</th>
+                                                <th className="first-th">Name</th>
+                                                <th className="second-th">Brand</th>
+                                                <th className="third-th">Price</th>
+                                                <th className="fourth-th">Update</th>
+                                                <th className="fifth-th">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            {products[category.categoryType]?.map((product, productIndex) => (
+                                                <tr key={productIndex}>
+                                                    <td>{product.title}</td>
+                                                    <td>{product.brand || 'Null'}</td>
+                                                    <td className="price-td">{product.price}</td>
+                                                    <td><button>Update</button></td>
+                                                    <td><button>Delete</button></td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
@@ -49,21 +55,23 @@ const ManageProducts = () => {
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th>Name</th>
-                                                        <th>Brand</th>
-                                                        <th>Price</th>
-                                                        <th>Update</th>
-                                                        <th>Delete</th>
+                                                        <th className="first-th">Name</th>
+                                                        <th className="second-th">Brand</th>
+                                                        <th className="third-th">Price</th>
+                                                        <th className="fourth-th">Update</th>
+                                                        <th className="fifth-th">Delete</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                    {products[subCat.categoryType]?.map((product, productIndex) => (
+                                                        <tr key={productIndex}>
+                                                            <td>{product.title}</td>
+                                                            <td>{product.brand || 'Null'}</td>
+                                                            <td className="price-td">{product.price}</td>
+                                                            <td><button>Update</button></td>
+                                                            <td><button>Delete</button></td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>

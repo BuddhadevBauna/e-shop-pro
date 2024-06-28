@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setCategories } from './store/redux/reducers/categorySlice';
 import { setAllCategoriesProducts } from './store/redux/reducers/allCategoryProductSlice';
+import { useAuth } from './store/context/auth';
+import ServerError from './components/error/ServerError';
 
 
 const router = createBrowserRouter([
@@ -55,7 +57,7 @@ const router = createBrowserRouter([
 function App() {
   const categories = useSelector(state => state.allCategory);
   const dispatch = useDispatch();
-
+  const {isServerIssue} = useAuth();
 
   useEffect(() => {
     const fetchProductsCategory = async () => {
@@ -66,6 +68,7 @@ function App() {
         }
       } catch (error) {
         console.log(error);
+        // throw error; // This will trigger ErrorBoundary to handle the error
       }
     }
     fetchProductsCategory();
@@ -79,6 +82,7 @@ function App() {
       dispatch(setAllCategoriesProducts({ categoryType, products: response.data }));
     } catch (error) {
       console.error(`Error fetching products for ${categoryType}:`, error);
+      // throw error; // This will trigger ErrorBoundary to handle the error
     }
   }
   useEffect(() => {
@@ -93,6 +97,9 @@ function App() {
     })
   }, [categories])
 
+  if(isServerIssue) {
+    return <ServerError />;
+  }
   return (
     <RouterProvider router={router} />
   );

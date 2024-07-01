@@ -70,18 +70,33 @@ const Navbar = () => {
                     ${isListContainerVisible ? "list-active" : ""}`}
                 >
                     <li className="list-item">
-                        <NavLink
-                            className="nav-link"
-                            to="/login"
-                            onMouseOver={handleMouseOver}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            <i><FaRegUserCircle /></i>
-                            <p>
-                                {!isLoggedIn ? <span>Login</span> : <span>Account</span>}
-                                {isUserSectionActive ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i>}
-                            </p>
-                        </NavLink>
+                        {!isLoggedIn ? (
+                            <NavLink
+                                className="nav-link"
+                                to="/login"
+                                onMouseOver={handleMouseOver}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <i><FaRegUserCircle /></i>
+                                <p>
+                                    <span>Login</span>
+                                    {isUserSectionActive ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i>}
+                                </p>
+                            </NavLink>
+                        ) : (
+                            <NavLink
+                                className="nav-link"
+                                to="/account"
+                                onMouseOver={handleMouseOver}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <i><FaRegUserCircle /></i>
+                                <p>
+                                    <span>Account</span>
+                                    {isUserSectionActive ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i>}
+                                </p>
+                            </NavLink>
+                        )}
                         {isUserSectionActive &&
                             <div
                                 className="user-section"
@@ -90,14 +105,16 @@ const Navbar = () => {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 {!isLoggedIn &&
-                                    <Link to={'/register'}>
-                                        <div className="user-registration">
-                                            <p>New Customer?</p>
-                                            <p className="signup">Register</p>
-                                        </div>
-                                    </Link>
+                                    <>
+                                        <Link to={'/register'}>
+                                            <div className="user-registration">
+                                                <p>New Customer?</p>
+                                                <p className="signup">Register</p>
+                                            </div>
+                                        </Link>
+                                        <hr />
+                                    </>
                                 }
-                                {!isLoggedIn && <hr />}
                                 <div className="user">
                                     {!isLoggedIn ?
                                         <Link to={'/login'}>

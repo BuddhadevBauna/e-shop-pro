@@ -22,6 +22,8 @@ import { setCategories } from './store/redux/reducers/categorySlice';
 import { setAllCategoriesProducts } from './store/redux/reducers/allCategoryProductSlice';
 import { useAuth } from './store/context/auth';
 import ServerError from './components/error/ServerError';
+import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
+
 
 
 const router = createBrowserRouter([
@@ -46,6 +48,7 @@ const router = createBrowserRouter([
     children: [
       //categories
       { path: "categories", element: <ManageCategories /> },
+      { path: "categories/update/q", element: <UpdateCategoryOrSubCategory /> },
       //products
       { path: "products", element: <ManageProducts /> },
       //users
@@ -57,7 +60,7 @@ const router = createBrowserRouter([
 function App() {
   const categories = useSelector(state => state.allCategory);
   const dispatch = useDispatch();
-  const {isServerIssue} = useAuth();
+  const { isServerIssue } = useAuth();
 
   useEffect(() => {
     const fetchProductsCategory = async () => {
@@ -97,7 +100,7 @@ function App() {
     })
   }, [categories])
 
-  if(isServerIssue) {
+  if (isServerIssue) {
     return <ServerError />;
   }
   return (

@@ -3,6 +3,7 @@ import "./ManageCategories.css";
 import "../Common.css";
 import React, { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const ManageCategories = () => {
     const categories = useSelector(state => state.allCategory);
@@ -72,14 +73,20 @@ const ManageCategories = () => {
                                                     {subCat.categoryType}
                                                 </td>
                                                 <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
-                                                    <button>Update</button>
+                                                    <Link to={`update/q?categoryId=${category._id}&subCategoryId=${subCat._id}`}>
+                                                        <button>Update</button>
+                                                    </Link>
                                                 </td>
                                                 <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
                                                     <button>Delete</button>
                                                 </td>
                                                 {subIndex === 0 && (
                                                     <>
-                                                        <td rowSpan={category.subCategory.length}><button>Update</button></td>
+                                                        <td rowSpan={category.subCategory.length}>
+                                                            <Link to={`update/q?categoryId=${category._id}`}>
+                                                                <button>Update</button>
+                                                            </Link>
+                                                        </td>
                                                         <td rowSpan={category.subCategory.length}><button>Delete</button></td>
                                                     </>
                                                 )}
@@ -90,7 +97,11 @@ const ManageCategories = () => {
                                             <td className="centre-td">{category.name}</td>
                                             <td className="centre-td">{category.categoryType}</td>
                                             <td colSpan="4">No SubCategories</td>
-                                            <td><button>Update</button></td>
+                                            <td>
+                                                <Link to={`update/q?categoryId=${category._id}`}>
+                                                    <button>Update</button>
+                                                </Link>
+                                            </td>
                                             <td><button>Delete</button></td>
                                         </tr>
                                     )}

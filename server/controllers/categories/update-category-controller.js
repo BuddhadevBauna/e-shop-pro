@@ -15,8 +15,8 @@ const categoryUpdate = async (req, res) => {
         // console.log(category);
 
         // Update main category name if present in the request body
-        if (updatedData.name) {
-            category.name = updatedData.name;
+        if (updatedData.categoryName) {
+            category.name = updatedData.categoryName;
         }
         // Update main category type if present in the request body
         if (updatedData.categoryType) {

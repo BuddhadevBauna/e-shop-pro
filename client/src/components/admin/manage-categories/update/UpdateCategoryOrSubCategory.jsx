@@ -11,11 +11,16 @@ const UpdateCategoryOrSubCategory = () => {
 
     if (subCategoryId) {
         return (
-            <UpdateSubCategory />
+            <UpdateSubCategory 
+                categoryId={categoryId}
+                subCategoryId={subCategoryId}
+            />
         );
     } else {
         return (
-            <UpdateCategory />
+            <UpdateCategory 
+                categoryId={categoryId}
+            />
         );
     }
 }

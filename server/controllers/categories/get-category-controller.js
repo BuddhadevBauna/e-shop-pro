@@ -27,10 +27,10 @@ export const getParticularCategoryOrSubCategory = async (req, res) => {
                 { _id: categoryId, "subCategory._id": subCategoryId },
                 { "subCategory.$": 1 } // Return only the matched subCategory
             );
-            if (!subCategory) {
+            if (!subCategory.subCategory) {
                 return res.status(404).json({ message: "Sub Category not found" });
             }
-            return res.status(200).json(subCategory);
+            return res.status(200).json(subCategory.subCategory[0]);
         }
     } catch (error) {
         console.error(error);

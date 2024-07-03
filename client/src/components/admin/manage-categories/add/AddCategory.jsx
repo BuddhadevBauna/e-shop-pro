@@ -1,7 +1,15 @@
 import { useState } from "react";
 import "./AddCategory.css";
+import axios from "axios";
+import { useAuth } from "../../../../store/context/auth";
+import { useNavigate } from "react-router-dom";
+import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
+import { useDispatch } from "react-redux";
 
 const AddCategory = () => {
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [category, setCategory] = useState({
         name: "",
         categoryType: ""
@@ -14,8 +22,6 @@ const AddCategory = () => {
         },
     ]);
     // console.log(subCategories);
-    const [input, setInput] = useState({});
-    // console.log(input);
 
     const addSubCategory = () => {
         setSubCategories([
@@ -55,10 +61,28 @@ const AddCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setInput({
+        const input = {
             ...category,
             "subCategory": subCategories
-        })
+        }
+        const addCategory = async () => {
+            try {
+                const addCategoryURL = import.meta.env.VITE_ADD_CATEGORY;
+                const response = await axios.post(addCategoryURL, input, {
+                    headers: {
+                        Authorization: AuthorizationToken
+                    }
+                })
+                // console.log(response);
+                if(response.status === 201) {
+                    fetchProductsCategory(dispatch);
+                    navigate('/admin/categories');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        addCategory();
     };
 
     return (

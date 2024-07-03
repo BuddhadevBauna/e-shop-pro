@@ -1,13 +1,19 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./ManageCategories.css";
 import "../Common.css";
 import React, { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../../store/context/auth";
+import { fetchProductsCategory } from "../../../api/categories/categoryAPI";
 
 const ManageCategories = () => {
     const categories = useSelector(state => state.allCategory);
     // console.log(categories);
+
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
 
     const [hoveredRow, setHoveredRow] = useState({
         categoryIndex: null,
@@ -25,6 +31,41 @@ const ManageCategories = () => {
             categoryIndex: null,
             subCategoryIndex: null
         });
+    }
+
+    const deleteCategory = async (categoryId) => {
+        try {
+            const deleteCategoryURL = `${import.meta.env.VITE_DELETE_CATEGORY_SECTION_URL}?categoryId=${categoryId}`;
+            // console.log(deleteCategoryURL);
+            const response = await axios.delete(deleteCategoryURL, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            // console.log(response);
+            if(response.status === 200) {
+                fetchProductsCategory(dispatch);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const deleteSubCategory = async (categoryId, subCategoryId) => {
+        try {
+            const deleteSubCategoryURL = `${import.meta.env.VITE_DELETE_CATEGORY_SECTION_URL}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
+            // console.log(deleteCategoryURL);
+            const response = await axios.delete(deleteSubCategoryURL, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            // console.log(response);
+            if(response.status === 200) {
+                fetchProductsCategory(dispatch);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -78,7 +119,7 @@ const ManageCategories = () => {
                                                     </Link>
                                                 </td>
                                                 <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
-                                                    <button>Delete</button>
+                                                    <button onClick={() => deleteSubCategory(category._id, subCat._id)}>Delete</button>
                                                 </td>
                                                 {subIndex === 0 && (
                                                     <>
@@ -87,7 +128,9 @@ const ManageCategories = () => {
                                                                 <button>Update</button>
                                                             </Link>
                                                         </td>
-                                                        <td rowSpan={category.subCategory.length}><button>Delete</button></td>
+                                                        <td rowSpan={category.subCategory.length}>
+                                                            <button onClick={() => deleteCategory(category._id)}>Delete</button>
+                                                        </td>
                                                     </>
                                                 )}
                                             </tr>
@@ -102,7 +145,9 @@ const ManageCategories = () => {
                                                     <button>Update</button>
                                                 </Link>
                                             </td>
-                                            <td><button>Delete</button></td>
+                                            <td>
+                                                <button onClick={() => deleteCategory(category._id)}>Delete</button>
+                                            </td>
                                         </tr>
                                     )}
                                 </React.Fragment>

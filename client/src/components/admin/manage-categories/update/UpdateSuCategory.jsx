@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "../Categories.css";
 import axios from "axios";
+import { useAuth } from "../../../../store/context/auth";
+import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     const [input, setInput] = useState({
@@ -9,6 +13,9 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     })
     // console.log(input);
     const [loading, setLoading] = useState(true);
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCategory = async () => {
@@ -41,6 +48,22 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY_SECTION_URL}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
+            // console.log(updateSubCategoryURL);
+            const response = await axios.patch(updateSubCategoryURL, input, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            // console.log(response);
+            if(response.status === 200) {
+                fetchProductsCategory(dispatch);
+                navigate('/admin/categories');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -51,6 +74,9 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
                 </div>
             ) : (
                 <section className="section-container">
+                    <div className="section-header">
+                        <h1>Update Subcategory</h1>
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <div className="form-menu">
                             <label htmlFor="subCategoryName">SubCategory Name:</label>

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "../Categories.css";
 import axios from "axios";
+import { useAuth } from "../../../../store/context/auth";
+import { useNavigate } from "react-router-dom";
+import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
+import { useDispatch } from "react-redux";
 
 const UpdateCategory = ({ categoryId }) => {
     const [input, setInput] = useState({
@@ -9,6 +13,9 @@ const UpdateCategory = ({ categoryId }) => {
     })
     // console.log(input);
     const [loading, setLoading] = useState(true);
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCategory = async () => {
@@ -39,9 +46,24 @@ const UpdateCategory = ({ categoryId }) => {
         })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        try {
+            const updateCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY_SECTION_URL}?categoryId=${categoryId}`;
+            // console.log(updateCategoryURL);
+            const response = await axios.patch(updateCategoryURL, input, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            // console.log(response);
+            if(response.status === 200) {
+                fetchProductsCategory(dispatch)
+                navigate('/admin/categories');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -52,6 +74,9 @@ const UpdateCategory = ({ categoryId }) => {
                 </div>
             ) : (
                 <section className="section-container">
+                    <div className="section-header">
+                        <h1>Update Category</h1>
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <div className="form-menu">
                             <label htmlFor="categoryName">Category Name:</label>

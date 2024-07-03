@@ -17,13 +17,11 @@ import ManageUsers from './components/admin/manage-user/ManageUsers';
 import ManageCategories from './components/admin/manage-categories/ManageCategories';
 import ManageProducts from './components/admin/manage-products/ManageProducts';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { setCategories } from './store/redux/reducers/categorySlice';
-import { setAllCategoriesProducts } from './store/redux/reducers/allCategoryProductSlice';
+import { fetchProductsCategory } from './api/categories/categoryAPI';
+import { fetchProducts } from './api/products/productsAPI';
 import { useAuth } from './store/context/auth';
 import ServerError from './components/error/ServerError';
 import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
-
 
 
 const router = createBrowserRouter([
@@ -63,38 +61,16 @@ function App() {
   const { isServerIssue } = useAuth();
 
   useEffect(() => {
-    const fetchProductsCategory = async () => {
-      try {
-        const response = await axios.get('http://localhost:3030/categories');
-        if (response.status === 200) {
-          dispatch(setCategories({ categories: response.data }));
-        }
-      } catch (error) {
-        console.log(error);
-        // throw error; // This will trigger ErrorBoundary to handle the error
-      }
-    }
-    fetchProductsCategory();
+    fetchProductsCategory(dispatch);
   }, [dispatch]);
 
-  const fetchProducts = async (categoryType) => {
-    try {
-      const response = await axios.get(`http://localhost:3030/products/category/${categoryType}`);
-      // console.log(response.data);
-      // console.log({categoryType, products: response.data});
-      dispatch(setAllCategoriesProducts({ categoryType, products: response.data }));
-    } catch (error) {
-      console.error(`Error fetching products for ${categoryType}:`, error);
-      // throw error; // This will trigger ErrorBoundary to handle the error
-    }
-  }
   useEffect(() => {
     categories.forEach(category => {
       if (category.subCategory.length === 0) {
-        fetchProducts(category.categoryType);
+        fetchProducts(dispatch, category.categoryType);
       } else {
         category.subCategory.forEach(subCat => {
-          fetchProducts(subCat.categoryType);
+          fetchProducts(dispatch, subCat.categoryType);
         })
       }
     })

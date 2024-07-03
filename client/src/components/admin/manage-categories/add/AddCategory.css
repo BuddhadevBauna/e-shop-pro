@@ -11,35 +11,5 @@
         border: 0.1rem solid grey;
         padding: 0.5rem;
         border-radius: 0.4rem;
-
-        & .subcategory-delete-btn {
-            background-color: rgb(191, 148, 231);
-        }
-
-        & .subcategory-delete-btn:hover {
-            background-color: rgb(172, 106, 235);
-        }
-    }
-
-    & .subcategory-btn {
-        color: white;
-        font-size: 1rem;
-        border: none;
-        outline: none;
-        padding: 0.4rem;
-        border-radius: 0.4rem;
-        cursor: pointer;
-    }
-
-    & .subcategory-add-btn {
-        display: block;
-        margin: 0 auto 0.5rem;
-        padding: 0.5rem 0.8rem;
-        width: fit-content;
-        background-color: rgb(144, 144, 241);
-    }
-
-    & .subcategory-add-btn:hover {
-        background-color: rgb(98, 98, 238);
     }
 }

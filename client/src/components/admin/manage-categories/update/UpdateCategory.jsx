@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../Categories.css";
+import "../../Form.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";

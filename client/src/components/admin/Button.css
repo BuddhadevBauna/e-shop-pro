@@ -1,0 +1,29 @@
+.section-container {
+    .btn {
+        font-size: 1rem;
+        border: none;
+        outline: none;
+        color: white;
+        border-radius: 0.4rem;
+        cursor: pointer;
+    }
+    & .delete-btn {
+        padding: 0.4rem;
+        background-color: rgb(191, 148, 231);
+    }
+
+    & .delete-btn:hover {
+        background-color: rgb(172, 106, 235);
+    }
+
+    & .add-btn {
+        display: block;
+        margin: 0 auto 0.5rem;
+        padding: 0.5rem 0.8rem;
+        background-color: rgb(144, 144, 241);
+    }
+
+    & .add-btn:hover {
+        background-color: rgb(98, 98, 238);
+    }
+}

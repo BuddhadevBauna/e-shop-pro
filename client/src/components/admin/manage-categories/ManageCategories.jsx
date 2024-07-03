@@ -81,21 +81,21 @@ const ManageCategories = () => {
                                                 </td>
                                                 <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
                                                     <Link to={`update/q?categoryId=${category._id}&subCategoryId=${subCat._id}`}>
-                                                        <button>Update</button>
+                                                        <button className="btn">Update</button>
                                                     </Link>
                                                 </td>
                                                 <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
-                                                    <button onClick={() => deleteSubCategory(category._id, subCat._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                    <button className="btn" onClick={() => deleteSubCategory(category._id, subCat._id, dispatch, AuthorizationToken)}>Delete</button>
                                                 </td>
                                                 {subIndex === 0 && (
                                                     <>
                                                         <td rowSpan={category.subCategory.length}>
                                                             <Link to={`update/q?categoryId=${category._id}`}>
-                                                                <button>Update</button>
+                                                                <button className="btn">Update</button>
                                                             </Link>
                                                         </td>
                                                         <td rowSpan={category.subCategory.length}>
-                                                            <button onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                            <button className="btn" onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
                                                         </td>
                                                     </>
                                                 )}
@@ -108,11 +108,11 @@ const ManageCategories = () => {
                                             <td colSpan="4">No SubCategories</td>
                                             <td>
                                                 <Link to={`update/q?categoryId=${category._id}`}>
-                                                    <button>Update</button>
+                                                    <button className="btn">Update</button>
                                                 </Link>
                                             </td>
                                             <td>
-                                                <button onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                <button className="btn" onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
                                             </td>
                                         </tr>
                                     )}

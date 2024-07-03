@@ -1,9 +1,9 @@
 import "./ManageProducts.css";
 import "../Common.css";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const ManageProducts = () => {
     const categories = useSelector(state => state.allCategory);
@@ -16,7 +16,9 @@ const ManageProducts = () => {
             <section className="container admin admin-products-section">
                 <div className="header-div">
                     <h1>All products</h1>
-                    <i><IoMdAddCircle /></i>
+                    <Link to={'add'}>
+                        <i><IoMdAddCircle /></i>
+                    </Link>
                 </div>
                 <div className="admin-container admin-products">
                     {categories.map((category, index) => (
@@ -40,8 +42,12 @@ const ManageProducts = () => {
                                                     <td>{product.title}</td>
                                                     <td>{product.brand || 'Null'}</td>
                                                     <td className="price-td">{product.price}</td>
-                                                    <td><button>Update</button></td>
-                                                    <td><button>Delete</button></td>
+                                                    <td>
+                                                        <button className="btn">Update</button>
+                                                    </td>
+                                                    <td>
+                                                        <button className="btn">Delete</button>
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -68,8 +74,12 @@ const ManageProducts = () => {
                                                             <td>{product.title}</td>
                                                             <td>{product.brand || 'Null'}</td>
                                                             <td className="price-td">{product.price}</td>
-                                                            <td><button>Update</button></td>
-                                                            <td><button>Delete</button></td>
+                                                            <td>
+                                                                <button className="btn">Update</button>
+                                                            </td>
+                                                            <td>
+                                                                <button className="btn">Delete</button>
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>

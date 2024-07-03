@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./AddCategory.css";
+import "../../Button.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";
@@ -145,7 +146,7 @@ const AddCategory = () => {
                                     />
                                 </div>
                                 <button
-                                    className="subcategory-btn subcategory-delete-btn"
+                                    className="btn delete-btn"
                                     onClick={() => deleteSubCategory(index)}
                                 >
                                     <small>Delete subcategory</small>
@@ -153,7 +154,7 @@ const AddCategory = () => {
                             </div>
                         ))}
                         <button
-                            className="subcategory-btn subcategory-add-btn"
+                            className="btn add-btn"
                             onClick={addSubCategory}
                         >
                             {subCategories.length === 0 ? (

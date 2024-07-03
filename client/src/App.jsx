@@ -22,6 +22,7 @@ import { fetchProducts } from './api/products/productsAPI';
 import { useAuth } from './store/context/auth';
 import ServerError from './components/error/ServerError';
 import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
+import AddCategory from './components/admin/manage-categories/add/AddCategory';
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
     children: [
       //categories
       { path: "categories", element: <ManageCategories /> },
+      { path: "categories/add", element: <AddCategory /> },
       { path: "categories/update/q", element: <UpdateCategoryOrSubCategory /> },
       //products
       { path: "products", element: <ManageProducts /> },

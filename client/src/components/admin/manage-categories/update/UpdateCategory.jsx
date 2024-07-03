@@ -100,7 +100,7 @@ const UpdateCategory = ({ categoryId }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <button type="submit">Submit</button>
+                        <button className="submit-btn" type="submit">Submit</button>
                     </form>
                 </section>
             )}

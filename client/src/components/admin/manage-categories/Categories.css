@@ -26,7 +26,6 @@
             display: flex;
             flex-direction: column;
             gap: 0.3rem;
-            margin: 0.3rem;
 
             & label {
                 display: block;
@@ -40,18 +39,17 @@
             }
         }
 
-        & button {
+        & .submit-btn {
             padding: 0.5rem;
-            background-color: #4CAF50;
+            background-color: #84e087;
             color: white;
             border: none;
             border-radius: 0.2rem;
             cursor: pointer;
             font-size: 1rem;
-            margin: 0.3rem;
         }
 
-        & button:hover {
+        & .submit-btn:hover {
             background-color: #45a049;
         }
     }

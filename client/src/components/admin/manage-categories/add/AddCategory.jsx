@@ -2,19 +2,27 @@ import { useState } from "react";
 import "./AddCategory.css";
 
 const AddCategory = () => {
+    const [category, setCategory] = useState({
+        name: "",
+        categoryType: ""
+    })
+    // console.log(category);
     const [subCategories, setSubCategories] = useState([
         {
-            subCategoryName: "",
-            subCategoryType: "",
+            name: "",
+            categoryType: "",
         },
     ]);
+    // console.log(subCategories);
+    const [input, setInput] = useState({});
+    // console.log(input);
 
     const addSubCategory = () => {
         setSubCategories([
             ...subCategories,
             {
-                subCategoryName: "",
-                subCategoryType: "",
+                name: "",
+                categoryType: "",
             },
         ]);
     };
@@ -26,8 +34,31 @@ const AddCategory = () => {
         setSubCategories(newSubCategories);
     };
 
+    const handleCategoryChange = (e) => {
+        const {name, value} = e.target;
+        setCategory({
+            ...category,
+            [name]: value
+        })
+    }
+
+    const handleSubCategoryChange = (e, index) => {
+        const {name, value} = e.target;
+        // console.log(name, value);
+        const updatedSubCategories = [...subCategories];
+        updatedSubCategories[index] = {
+            ...updatedSubCategories[index],
+            [name]: value
+        }
+        setSubCategories(updatedSubCategories)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        setInput({
+            ...category,
+            "subCategory": subCategories
+        })
     };
 
     return (
@@ -42,8 +73,10 @@ const AddCategory = () => {
                         <input
                             type="text"
                             id="categoryName"
-                            name="categoryName"
                             autoComplete="off"
+                            required
+                            name="name"
+                            onChange={handleCategoryChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -51,8 +84,9 @@ const AddCategory = () => {
                         <input
                             type="text"
                             id="categoryType"
-                            name="categoryType"
                             autoComplete="off"
+                            name="categoryType"
+                            onChange={handleCategoryChange}
                         />
                     </div>
                     <div className="subCategory-container">
@@ -65,8 +99,11 @@ const AddCategory = () => {
                                     <input
                                         type="text"
                                         id={`subCategoryName-${index}`}
-                                        name="subCategoryName"
                                         autoComplete="off"
+                                        required
+                                        name="name"
+                                        value={subCategory.name}
+                                        onChange={(e) => handleSubCategoryChange(e, index)}
                                     />
                                 </div>
                                 <div className="form-menu">
@@ -76,8 +113,11 @@ const AddCategory = () => {
                                     <input
                                         type="text"
                                         id={`subCategoryType${index}`}
-                                        name="subCategoryType"
                                         autoComplete="off"
+                                        required
+                                        name="categoryType"
+                                        value={subCategory.categoryType}
+                                        onChange={(e) => handleSubCategoryChange(e, index)}
                                     />
                                 </div>
                                 <button

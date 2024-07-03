@@ -1,4 +1,8 @@
-.section-container {
+.subCategory-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
     .subCategory {
         display: flex;
         flex-direction: column;
@@ -29,9 +33,9 @@
 
     & .subcategory-add-btn {
         display: block;
-        margin: 0.5rem auto;
+        margin: 0 auto 0.5rem;
         padding: 0.5rem 0.8rem;
-        width: auto;
+        width: fit-content;
         background-color: rgb(144, 144, 241);
     }
 

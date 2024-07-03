@@ -2,28 +2,33 @@ import { useState } from "react";
 import "./AddCategory.css";
 
 const AddCategory = () => {
-    const [subCategories, setSubCategories] = useState([{
-        subCategoryName: "",
-        subCategoryType: ""
-    }])
+    const [subCategories, setSubCategories] = useState([
+        {
+            subCategoryName: "",
+            subCategoryType: "",
+        },
+    ]);
 
     const addSubCategory = () => {
         setSubCategories([
             ...subCategories,
             {
                 subCategoryName: "",
-                subCategoryType: ""
-            }
+                subCategoryType: "",
+            },
         ]);
-    }
+    };
 
-    const deleteSubCategory = (e) => {
-        e.preventDefault();
-    }
+    const deleteSubCategory = (index) => {
+        const newSubCategories = subCategories.filter(
+            (_, subIndex) => subIndex !== index
+        );
+        setSubCategories(newSubCategories);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    }
+    };
 
     return (
         <>
@@ -54,7 +59,9 @@ const AddCategory = () => {
                         {subCategories.map((subCategory, index) => (
                             <div className="subCategory" key={index}>
                                 <div className="form-menu">
-                                    <label htmlFor={`subCategoryName-${index}`}>SubCategory Name:</label>
+                                    <label htmlFor={`subCategoryName-${index}`}>
+                                        SubCategory Name:
+                                    </label>
                                     <input
                                         type="text"
                                         id={`subCategoryName-${index}`}
@@ -63,7 +70,9 @@ const AddCategory = () => {
                                     />
                                 </div>
                                 <div className="form-menu">
-                                    <label htmlFor={`subCategoryType${index}`}>Subategory Type:</label>
+                                    <label htmlFor={`subCategoryType${index}`}>
+                                        Subategory Type:
+                                    </label>
                                     <input
                                         type="text"
                                         id={`subCategoryType${index}`}
@@ -71,20 +80,32 @@ const AddCategory = () => {
                                         autoComplete="off"
                                     />
                                 </div>
-                                <button className="subcategory-btn subcategory-delete-btn" onClick={deleteSubCategory}>
+                                <button
+                                    className="subcategory-btn subcategory-delete-btn"
+                                    onClick={() => deleteSubCategory(index)}
+                                >
                                     <small>Delete subcategory</small>
                                 </button>
                             </div>
                         ))}
-                        <button className="subcategory-btn subcategory-add-btn" onClick={addSubCategory}>
-                            <small>Add more subcategory</small>
+                        <button
+                            className="subcategory-btn subcategory-add-btn"
+                            onClick={addSubCategory}
+                        >
+                            {subCategories.length === 0 ? (
+                                <small>Add subcategory</small>
+                            ) : (
+                                <small>Add more subcategory</small>
+                            )}
                         </button>
                     </div>
-                    <button className="submit-btn" type="submit">Submit</button>
+                    <button className="submit-btn" type="submit">
+                        Submit
+                    </button>
                 </form>
             </section>
         </>
     );
-}
+};
 
 export default AddCategory;

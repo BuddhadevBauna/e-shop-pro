@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFetchProduct } from "../../../../api/products/productsAPI";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useAuth } from "../../../../store/context/auth";
+import { removeSingleProduct } from "../../../../store/redux/reducers/singleProductSlice";
 
 const UpdateProduct = () => {
     const selectedProduct = useSelector(state => state.singleProduct);
@@ -26,6 +29,9 @@ const UpdateProduct = () => {
 
     const {productId} = useParams();
     // console.log(productId);
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     //call custom hook
     useFetchProduct(productId);
@@ -73,6 +79,24 @@ const UpdateProduct = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const updateProduct = async () => {
+            const updateProductURL = import.meta.env.VITE_UPDATE_PRODUCT+'/'+productId;
+            try {
+                const response = await axios.patch(updateProductURL, input, {
+                    headers: {
+                        Authorization: AuthorizationToken
+                    }
+                })
+                // console.log(response);
+                if (response.status === 200) {
+                    dispatch(removeSingleProduct());
+                    navigate('/admin/products');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        updateProduct();
     }
 
     return (
@@ -232,6 +256,7 @@ const UpdateProduct = () => {
                                     onChange={(e) => handleImageChange(index, e.target.value)}
                                 />
                                 <button
+                                    type="button"
                                     className="btn delete-btn"
                                     onClick={() => deleteImageField(index)}
                                 >
@@ -240,6 +265,7 @@ const UpdateProduct = () => {
                             </div>
                         ))}
                         <button
+                            type="button"
                             className="btn add-btn"
                             onClick={addImageField}
                         >

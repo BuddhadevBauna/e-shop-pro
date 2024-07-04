@@ -250,6 +250,7 @@ const AddProduct = () => {
                                     onChange={(e) => handleImageChange(index, e.target.value)}
                                 />
                                 <button
+                                    type="button"
                                     className="btn delete-btn"
                                     onClick={() => deleteImageField(index)}
                                 >
@@ -258,6 +259,7 @@ const AddProduct = () => {
                             </div>
                         ))}
                         <button
+                            type="button"
                             className="btn add-btn"
                             onClick={addImageField}
                         >

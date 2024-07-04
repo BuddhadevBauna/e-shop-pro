@@ -14,9 +14,9 @@ const router = express.Router();
 //add product
 router.route('/add').post(authMiddleware, adminMiddleware, addProduct);
 //update Product
-router.route('/update/:particularId').patch(authMiddleware, adminMiddleware, updateProduct);
+router.route('/update/:productId').patch(authMiddleware, adminMiddleware, updateProduct);
 //delete Product
-router.route('/delete/:particularId').delete(authMiddleware, adminMiddleware, deleteProduct);
+router.route('/delete/:productId').delete(authMiddleware, adminMiddleware, deleteProduct);
 
 //get product
 router.route('/').get(getProduct.getAllProduct);
@@ -27,6 +27,6 @@ router.route('/search').get(searchProductsOrCategory);
 router.route('/category/:particularCategory/q').get(sortAndFilterProduct.sortAndFilterCategryOfProduct);
 router.route('/search/q').get(sortAndFilterProduct.sortAndFilterSearchProducts);
 //get product
-router.route('/:particularId').get(getProduct.getSingleProduct);
+router.route('/:productId').get(getProduct.getSingleProduct);
 
 export default router;

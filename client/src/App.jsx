@@ -20,6 +20,7 @@ import ServerError from './components/error/ServerError';
 import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
 import AddCategory from './components/admin/manage-categories/add/AddCategory';
 import AddProduct from './components/admin/manage-products/add/AddProduct';
+import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       //products
       { path: "products", element: <ManageProducts /> },
       { path: "products/add", element: <AddProduct /> },
+      { path: "products/update/:productId", element: <UpdateProduct /> },
       //users
       { path: "user", element: <ManageUsers /> }
     ]

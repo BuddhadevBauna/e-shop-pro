@@ -1,15 +1,12 @@
-import { useState } from "react";
-import "../../Form.css";
-import "../../Button.css";
-import "./AddProduct.css";
-import axios from "axios";
-import { useAuth } from "../../../../store/context/auth";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useFetchProduct } from "../../../../api/products/productsAPI";
+import { useSelector } from "react-redux";
 
+const UpdateProduct = () => {
+    const selectedProduct = useSelector(state => state.singleProduct);
+    // console.log(selectedProduct);
 
-const AddProduct = () => {
-    const { AuthorizationToken } = useAuth();
-    const navigate = useNavigate();
     const [input, setInput] = useState({
         title: "",
         description: "",
@@ -27,58 +24,55 @@ const AddProduct = () => {
         thumbnail: "",
     });
 
-    const handaleChange = (e) => {
-        const { name, value } = e.target;
+    const {productId} = useParams();
+    // console.log(productId);
+
+    //call custom hook
+    useFetchProduct(productId);
+
+    useEffect(() => {
+        if(selectedProduct) {
+            setInput({
+                ...input, 
+                ...selectedProduct
+            });
+        }
+    }, [selectedProduct])
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        // console.log(name, value);
         setInput({
             ...input,
-            [name]: value,
-        });
-    };
+            [name]: value
+        })
+    }
 
     const handleImageChange = (index, value) => {
-        // console.log(value);
-        const newImages = input.images.map((image, i) =>
-            i === index ? value : image
-        );
+        const updatedImages = input.images.map((image, i) => i === index ? value : image);
         setInput({
             ...input,
-            images: newImages,
-        });
-    };
+            images: updatedImages
+        })
+    }
 
     const addImageField = () => {
         setInput({
             ...input,
-            images: [...input.images, ""],
-        });
-    };
+            images: [...input.images, ""]
+        })
+    }
 
     const deleteImageField = (index) => {
+        const newImages = input.images.filter((_, i) => i !== index);
         setInput({
             ...input,
-            images: input.images.filter((_, i) => i !== index),
-        });
-    };
+            images: newImages
+        })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const addProduct = async () => {
-            try {
-                const addProductURL = import.meta.env.VITE_ADD_PRODUCT;
-                const response = await axios.post(addProductURL, input, {
-                    headers: {
-                        Authorization: AuthorizationToken
-                    }
-                })
-                // console.log(response);
-                if (response.status === 201) {
-                    navigate('/admin/products');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        addProduct();
     }
 
     return (
@@ -94,10 +88,9 @@ const AddProduct = () => {
                             type="text"
                             id="title"
                             autoComplete="off"
-                            required
                             name="title"
                             value={input.title}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -106,10 +99,9 @@ const AddProduct = () => {
                             type="text"
                             id="description"
                             autoComplete="off"
-                            required
                             name="description"
                             value={input.description}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -118,10 +110,9 @@ const AddProduct = () => {
                             type="text"
                             id="category"
                             autoComplete="off"
-                            required
                             name="category"
                             value={input.category}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -131,10 +122,9 @@ const AddProduct = () => {
                             min={0}
                             id="price"
                             autoComplete="off"
-                            required
                             name="price"
                             value={input.price}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -144,10 +134,9 @@ const AddProduct = () => {
                             min={0}
                             id="discountPercentage"
                             autoComplete="off"
-                            required
                             name="discountPercentage"
                             value={input.discountPercentage}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -157,10 +146,9 @@ const AddProduct = () => {
                             min={0}
                             id="rating"
                             autoComplete="off"
-                            required
                             name="rating"
                             value={input.rating}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -170,10 +158,9 @@ const AddProduct = () => {
                             min={0}
                             id="stock"
                             autoComplete="off"
-                            required
                             name="stock"
                             value={input.stock}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -184,7 +171,7 @@ const AddProduct = () => {
                             autoComplete="off"
                             name="brand"
                             value={input.brand}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -193,10 +180,9 @@ const AddProduct = () => {
                             type="text"
                             id="warrantyInformation"
                             autoComplete="off"
-                            required
                             name="warrantyInformation"
                             value={input.warrantyInformation}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -205,10 +191,9 @@ const AddProduct = () => {
                             type="text"
                             id="shippingInformation"
                             autoComplete="off"
-                            required
                             name="shippingInformation"
                             value={input.shippingInformation}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -217,10 +202,9 @@ const AddProduct = () => {
                             type="text"
                             id="availabilityStatus"
                             autoComplete="off"
-                            required
                             name="availabilityStatus"
                             value={input.availabilityStatus}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -229,10 +213,9 @@ const AddProduct = () => {
                             type="text"
                             id="returnPolicy"
                             autoComplete="off"
-                            required
                             name="returnPolicy"
                             value={input.returnPolicy}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="form-menu">
@@ -244,7 +227,6 @@ const AddProduct = () => {
                                     type="text"
                                     id={`imageurl-${index}`}
                                     autoComplete="off"
-                                    required
                                     name="imageurl"
                                     value={image}
                                     onChange={(e) => handleImageChange(index, e.target.value)}
@@ -274,10 +256,9 @@ const AddProduct = () => {
                             type="text"
                             id="thumbnail"
                             autoComplete="off"
-                            required
                             name="thumbnail"
                             value={input.thumbnail}
-                            onChange={handaleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <button className="submit-btn" type="submit">
@@ -286,7 +267,7 @@ const AddProduct = () => {
                 </form>
             </section>
         </>
-    );
-};
+    )
+}
 
-export default AddProduct;
+export default UpdateProduct;

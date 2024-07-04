@@ -30,9 +30,9 @@ export const getCategoryOfProduct = async (req, res) => {
 //get single product
 export const getSingleProduct = async (req, res) => {
     try {
-        const { particularId } = req.params;
-        // console.log(particularId);
-        const product = await Product.findById(particularId);
+        const { productId } = req.params;
+        // console.log(productId);
+        const product = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }

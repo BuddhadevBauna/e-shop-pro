@@ -47,7 +47,9 @@ const ManageProducts = () => {
                                                     <td>{product.brand || 'Null'}</td>
                                                     <td className="price-td">{product.price}</td>
                                                     <td>
-                                                        <button className="btn">Update</button>
+                                                        <Link to={`update/${product._id}`}>
+                                                            <button className="btn">Update</button>
+                                                        </Link>
                                                     </td>
                                                     <td>
                                                         <button className="btn">Delete</button>
@@ -79,7 +81,9 @@ const ManageProducts = () => {
                                                             <td>{product.brand || 'Null'}</td>
                                                             <td className="price-td">{product.price}</td>
                                                             <td>
-                                                                <button className="btn">Update</button>
+                                                                <Link to={`update/${product._id}`}>
+                                                                    <button className="btn">Update</button>
+                                                                </Link>
                                                             </td>
                                                             <td>
                                                                 <button className="btn">Delete</button>

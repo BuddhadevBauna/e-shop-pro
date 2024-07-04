@@ -6,6 +6,7 @@ import searchCategoryReducer from "./reducers/searchCategorySlice";
 import searchProductReducer from "./reducers/searchProductSlice";
 import filterAndSearchProductReducer from "./reducers/filterAndSearchProductSlice";
 import allCategoryProductReducer from "./reducers/allCategoryProductSlice";
+import singleProductReducer from "./reducers/singleProductSlice";
 
 
 const store = configureStore({
@@ -16,7 +17,8 @@ const store = configureStore({
         filterAndSortProducts : filterAndSortProductReducer,
         searchCategories : searchCategoryReducer,
         searchProducts : searchProductReducer,
-        filterAndSearchProducts : filterAndSearchProductReducer
+        filterAndSearchProducts : filterAndSearchProductReducer,
+        singleProduct : singleProductReducer
     }
 })
 

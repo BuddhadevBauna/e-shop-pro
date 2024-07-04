@@ -2,12 +2,12 @@ import Product from "../../models/product-model.js";
 
 const updateProduct = async (req, res) => {
     try {
-        const {particularId} = req.params;
-        // console.log(particularId);
+        const {productId} = req.params;
+        // console.log(productId);
         const updatedProductData = req.body;
         // console.log(updatedProductData);
         
-        const updatedProduct = await Product.findByIdAndUpdate({_id: particularId}, updatedProductData);
+        const updatedProduct = await Product.findByIdAndUpdate({_id: productId}, updatedProductData);
         if(!updatedProduct) {
             return res.status(404).json({ message: "Product not found" });
         }

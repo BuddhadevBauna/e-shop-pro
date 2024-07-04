@@ -66,6 +66,7 @@ const ManageCategories = () => {
                                             <tr key={subIndex}
                                                 onMouseOver={() => handleMouseHover(index, subIndex)}
                                                 onMouseLeave={handelMouseLeave}
+                                                className={`${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-tr-hover' : ''}`}
                                             >
                                                 {subIndex === 0 && (
                                                     <>
@@ -73,18 +74,18 @@ const ManageCategories = () => {
                                                         <td rowSpan={category.subCategory.length} className="centre-td null-td">Null</td>
                                                     </>
                                                 )}
-                                                <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
+                                                <td className={`subcategory-td`}>
                                                     {subCat.name}
                                                 </td>
-                                                <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
+                                                <td className={`subcategory-td`}>
                                                     {subCat.categoryType}
                                                 </td>
-                                                <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
+                                                <td className={`subcategory-td`}>
                                                     <Link to={`update/q?categoryId=${category._id}&subCategoryId=${subCat._id}`}>
                                                         <button className="btn">Update</button>
                                                     </Link>
                                                 </td>
-                                                <td className={`subcategory-td ${(hoveredRow.categoryIndex === index && hoveredRow.subCategoryIndex === subIndex) ? 'subcategory-td-hover' : ''}`}>
+                                                <td className={`subcategory-td`}>
                                                     <button className="btn" onClick={() => deleteSubCategory(category._id, subCat._id, dispatch, AuthorizationToken)}>Delete</button>
                                                 </td>
                                                 {subIndex === 0 && (

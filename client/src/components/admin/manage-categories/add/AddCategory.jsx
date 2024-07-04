@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../../Form.css";
 import "./AddCategory.css";
 import "../../Button.css";
 import axios from "axios";

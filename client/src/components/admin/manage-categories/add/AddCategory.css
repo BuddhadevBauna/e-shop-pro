@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 0.5rem;
 
-    .subCategory {
+    & .subCategory {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -11,5 +11,9 @@
         border: 0.1rem solid grey;
         padding: 0.5rem;
         border-radius: 0.4rem;
+    }
+
+    & .add-btn {
+        margin-bottom: 0.5rem !important;
     }
 }

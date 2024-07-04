@@ -1,15 +1,19 @@
 import "./ManageProducts.css";
 import "../Common.css";
 import { useSelector } from "react-redux";
-import React, { useState } from "react";
+import React from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useFetchProductsOfAllCategories } from "../../../api/products/productsAPI";
 
 const ManageProducts = () => {
     const categories = useSelector(state => state.allCategory);
     // console.log(categories);
     const products = useSelector(state => state.allCategoriesProducts);
     // console.log(products);
+
+    //call cusom hook
+    useFetchProductsOfAllCategories();
 
     return (
         <>

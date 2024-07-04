@@ -1,16 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../Form.css";
 import "./AddCategory.css";
 import "../../Button.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";
-import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
-import { useDispatch } from "react-redux";
 
 const AddCategory = () => {
     const {AuthorizationToken} = useAuth();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [category, setCategory] = useState({
         name: "",
@@ -77,7 +74,6 @@ const AddCategory = () => {
                 })
                 // console.log(response);
                 if(response.status === 201) {
-                    fetchProductsCategory(dispatch);
                     navigate('/admin/categories');
                 }
             } catch (error) {

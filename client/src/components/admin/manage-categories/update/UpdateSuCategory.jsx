@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import "../../Form.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
-import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     const [input, setInput] = useState({
@@ -14,7 +12,6 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     // console.log(input);
     const [loading, setLoading] = useState(true);
     const {AuthorizationToken} = useAuth();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,7 +55,6 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
             });
             // console.log(response);
             if(response.status === 200) {
-                fetchProductsCategory(dispatch);
                 navigate('/admin/categories');
             }
         } catch (error) {

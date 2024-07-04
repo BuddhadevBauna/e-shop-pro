@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //---pages
 import Root from './pages/Root';
@@ -16,9 +13,8 @@ import AdminLayout from './components/layout/AdminLayout';
 import ManageUsers from './components/admin/manage-user/ManageUsers';
 import ManageCategories from './components/admin/manage-categories/ManageCategories';
 import ManageProducts from './components/admin/manage-products/ManageProducts';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductsCategory } from './api/categories/categoryAPI';
-import { fetchProducts } from './api/products/productsAPI';
+import { useFetchAllCategory } from './api/categories/categoryAPI';
+import { useFetchProductsOfAllCategories } from './api/products/productsAPI';
 import { useAuth } from './store/context/auth';
 import ServerError from './components/error/ServerError';
 import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
@@ -60,25 +56,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const categories = useSelector(state => state.allCategory);
-  const dispatch = useDispatch();
   const { isServerIssue } = useAuth();
 
-  useEffect(() => {
-    fetchProductsCategory(dispatch);
-  }, [dispatch]);
-
-  useEffect(() => {
-    categories.forEach(category => {
-      if (category.subCategory.length === 0) {
-        fetchProducts(dispatch, category.categoryType);
-      } else {
-        category.subCategory.forEach(subCat => {
-          fetchProducts(dispatch, subCat.categoryType);
-        })
-      }
-    })
-  }, [categories])
+  //call custom hook
+  useFetchAllCategory();
+  useFetchProductsOfAllCategories();
 
   if (isServerIssue) {
     return <ServerError />;

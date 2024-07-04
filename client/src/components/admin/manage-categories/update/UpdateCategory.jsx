@@ -3,8 +3,6 @@ import "../../Form.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";
-import { fetchProductsCategory } from "../../../../api/categories/categoryAPI";
-import { useDispatch } from "react-redux";
 
 const UpdateCategory = ({ categoryId }) => {
     const [input, setInput] = useState({
@@ -14,7 +12,6 @@ const UpdateCategory = ({ categoryId }) => {
     // console.log(input);
     const [loading, setLoading] = useState(true);
     const {AuthorizationToken} = useAuth();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,7 +55,6 @@ const UpdateCategory = ({ categoryId }) => {
             });
             // console.log(response);
             if(response.status === 200) {
-                fetchProductsCategory(dispatch)
                 navigate('/admin/categories');
             }
         } catch (error) {

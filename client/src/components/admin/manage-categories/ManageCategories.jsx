@@ -6,10 +6,14 @@ import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../store/context/auth";
 import { deleteCategory, deleteSubCategory } from "./delete/deleteCategory";
+import { useFetchAllCategory } from "../../../api/categories/categoryAPI";
 
 const ManageCategories = () => {
     const categories = useSelector(state => state.allCategory);
     // console.log(categories);
+
+    //call custom hook
+    useFetchAllCategory();
 
     const { AuthorizationToken } = useAuth();
     const dispatch = useDispatch();
@@ -71,7 +75,7 @@ const ManageCategories = () => {
                                                 {subIndex === 0 && (
                                                     <>
                                                         <td rowSpan={category.subCategory.length} className="centre-td">{category.name}</td>
-                                                        <td rowSpan={category.subCategory.length} className="centre-td null-td">Null</td>
+                                                        <td rowSpan={category.subCategory.length} className="centre-td null-td">{category.categoryType || 'Null'}</td>
                                                     </>
                                                 )}
                                                 <td className={`subcategory-td`}>
@@ -86,7 +90,7 @@ const ManageCategories = () => {
                                                     </Link>
                                                 </td>
                                                 <td className={`subcategory-td`}>
-                                                    <button className="btn" onClick={() => deleteSubCategory(category._id, subCat._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                    <button className="btn" onClick={() => deleteSubCategory(category._id, subCat._id, AuthorizationToken, dispatch)}>Delete</button>
                                                 </td>
                                                 {subIndex === 0 && (
                                                     <>
@@ -96,7 +100,7 @@ const ManageCategories = () => {
                                                             </Link>
                                                         </td>
                                                         <td rowSpan={category.subCategory.length}>
-                                                            <button className="btn" onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                            <button className="btn" onClick={() => deleteCategory(category._id, AuthorizationToken, dispatch)}>Delete</button>
                                                         </td>
                                                     </>
                                                 )}
@@ -113,7 +117,7 @@ const ManageCategories = () => {
                                                 </Link>
                                             </td>
                                             <td>
-                                                <button className="btn" onClick={() => deleteCategory(category._id, dispatch, AuthorizationToken)}>Delete</button>
+                                                <button className="btn" onClick={() => deleteCategory(category._id, AuthorizationToken, dispatch)}>Delete</button>
                                             </td>
                                         </tr>
                                     )}

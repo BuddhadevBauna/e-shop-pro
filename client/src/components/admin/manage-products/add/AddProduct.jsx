@@ -2,9 +2,14 @@ import { useState } from "react";
 import "../../Form.css";
 import "../../Button.css";
 import "./AddProduct.css";
+import axios from "axios";
+import { useAuth } from "../../../../store/context/auth";
+import { useNavigate } from "react-router-dom";
 
 
 const AddProduct = () => {
+    const { AuthorizationToken } = useAuth();
+    const navigate = useNavigate();
     const [input, setInput] = useState({
         title: "",
         description: "",
@@ -31,7 +36,7 @@ const AddProduct = () => {
     };
 
     const handleImageChange = (index, value) => {
-        console.log(value);
+        // console.log(value);
         const newImages = input.images.map((image, i) =>
             i === index ? value : image
         );
@@ -55,13 +60,34 @@ const AddProduct = () => {
         });
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const addProduct = async () => {
+            try {
+                const addProductURL = import.meta.env.VITE_ADD_PRODUCT;
+                const response = await axios.post(addProductURL, input, {
+                    headers: {
+                        Authorization: AuthorizationToken
+                    }
+                })
+                // console.log(response);
+                if (response.status === 201) {
+                    navigate('/admin/products');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        addProduct();
+    }
+
     return (
         <>
             <section className="section-container">
                 <div className="section-header">
                     <h1>Add Product</h1>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="form-menu">
                         <label htmlFor="title">Title :</label>
                         <input

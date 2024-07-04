@@ -17,7 +17,7 @@ const fetchProductsOfCategory = async (categoryType, dispatch) => {
 }
 
 //fetch products of all categories
-const fetchProductsOfAllCategories = (categories, dispatch) => {
+export const fetchProductsOfAllCategories = (categories, dispatch) => {
     categories.forEach(category => {
         if (category.subCategory.length === 0) {
             fetchProductsOfCategory(category.categoryType, dispatch);

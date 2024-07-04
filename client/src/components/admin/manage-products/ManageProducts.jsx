@@ -1,16 +1,21 @@
 import "./ManageProducts.css";
 import "../Common.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useFetchProductsOfAllCategories } from "../../../api/products/productsAPI";
+import { deleteProduct } from "./delete/deleteProduct";
+import { useAuth } from "../../../store/context/auth";
 
 const ManageProducts = () => {
     const categories = useSelector(state => state.allCategory);
     // console.log(categories);
     const products = useSelector(state => state.allCategoriesProducts);
     // console.log(products);
+
+    const {AuthorizationToken} = useAuth();
+    const dispatch = useDispatch();
 
     //call cusom hook
     useFetchProductsOfAllCategories();
@@ -52,7 +57,10 @@ const ManageProducts = () => {
                                                         </Link>
                                                     </td>
                                                     <td>
-                                                        <button className="btn">Delete</button>
+                                                        <button 
+                                                            className="btn"
+                                                            onClick={() => deleteProduct(product._id, AuthorizationToken, dispatch, categories)}
+                                                        >Delete</button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -86,7 +94,10 @@ const ManageProducts = () => {
                                                                 </Link>
                                                             </td>
                                                             <td>
-                                                                <button className="btn">Delete</button>
+                                                                <button 
+                                                                    className="btn"
+                                                                    onClick={() => deleteProduct(product._id, AuthorizationToken, dispatch, categories)}
+                                                                >Delete</button>
                                                             </td>
                                                         </tr>
                                                     ))}

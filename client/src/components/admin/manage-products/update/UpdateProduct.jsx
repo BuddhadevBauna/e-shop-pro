@@ -80,8 +80,8 @@ const UpdateProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const updateProduct = async () => {
-            const updateProductURL = import.meta.env.VITE_UPDATE_PRODUCT+'/'+productId;
             try {
+                const updateProductURL = import.meta.env.VITE_UPDATE_PRODUCT+'/'+productId;
                 const response = await axios.patch(updateProductURL, input, {
                     headers: {
                         Authorization: AuthorizationToken

@@ -12,17 +12,19 @@ import { removeCategoryOfProducts } from "../../../store/redux/reducers/productO
 
 const SearchContainer = () => {
     const [input, setInput] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const handleChange = (value) => {
         setInput(value);
     }
 
-    const location = useLocation();
     useEffect(() => {
         // Get the query parameter from the URL
-        // console.log(location.search);
         const params = new URLSearchParams(location.search);
         const searchInput = params.get("q");
-        // console.log(params, searchInput);
+        // console.log(location.search, params, searchInput);
 
         // If there's a search input in the URL, set it to the input state
         if (searchInput) {
@@ -31,8 +33,7 @@ const SearchContainer = () => {
         }
     }, [location.search]);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    
     const searchProductsOrCategory = async (searchTerm) => {
         try {
             dispatch(removeCategoryOfProducts());
@@ -54,13 +55,17 @@ const SearchContainer = () => {
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            searchProductsOrCategory(input);
+            if(input) {
+                searchProductsOrCategory(input);
+            }
             setInput("");
         }
     }
 
     const handleButtonClick = () => {
-        searchProductsOrCategory(input);
+        if(input) {
+            searchProductsOrCategory(input);
+        }
         setInput("");
     }
 

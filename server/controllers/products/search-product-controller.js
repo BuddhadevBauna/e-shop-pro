@@ -5,7 +5,11 @@ import Category from "../../models/category-model.js";
 const searchProductsOrCategory = async (req, res) => {
     try {
         const { q } = req.query;
-        // console.log(searchInput);
+        // console.log(q);
+        if (!q) {
+            return res.status(400).json({ message: "Query parameter 'q' is required" });
+        }
+        
         const categories = await Category.find({name: {$regex: q, $options: 'i'}});
         if(categories.length > 0) {
             return res.status(200).json({searchData : "categories", categories}); 
@@ -17,7 +21,7 @@ const searchProductsOrCategory = async (req, res) => {
             return res.status(200).json({ searchData: "products", products });
         } else {
             // If no products match the search criteria
-            return res.status(404).json({ message: "No categories or products found matching the search criteria" });
+            return res.status(200).json({ searchData: "products", products });
         }
     } catch (error) {
         console.error(error);

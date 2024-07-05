@@ -20,12 +20,14 @@ import UpdateCategoryOrSubCategory from './components/admin/manage-categories/up
 import AddCategory from './components/admin/manage-categories/add/AddCategory';
 import AddProduct from './components/admin/manage-products/add/AddProduct';
 import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
+import ProductListing from './components/products/allProducts/ProductListing';
 
 
 const router = createBrowserRouter([
   {
     path: "/", element: <Root />,
     children: [
+      { path: "", element: <ProductListing /> },
       { path: "products/category/:particularCategory", element: <ProductExplorer /> },
       { path: "products/search", element: <ProductExplorer /> },
       { path: "register", element: <Register /> },

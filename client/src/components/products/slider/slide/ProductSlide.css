@@ -1,0 +1,98 @@
+.product-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+    border: 0.5px solid gray;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    & .product-img {
+        padding-top: 1rem;
+        width: 60%;
+    }
+
+    & .product-body {
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        & i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        & .product-stock {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: gray;
+            font-weight: bold;
+        }
+
+        & .product-buy {
+            display: flex;
+            flex-direction: column;
+
+            & p {
+                color: black;
+                font-size: 1rem;
+                font-weight: bold;
+            }
+
+            & small {
+                color: gray;
+                font-weight: 700;
+
+                & span {
+                    text-decoration-line: line-through;
+                }
+            }
+
+            &  .rating {
+                background-color: green;
+                color: white;
+                width: 3rem;
+                padding: 0.2rem;
+                text-align: center;
+                border-radius: 0.4rem;
+            }
+        }
+
+        & .product-btn{
+            margin-top: 0.3rem;
+            display: flex;
+            gap: 0.5rem;
+
+            & a {
+                color: white;
+                width: 50%;
+            }
+
+            & .btn {
+                width: 100%;
+                padding: 0.3rem;
+                background: #B51B75;
+                color: white;
+                border: none;
+                outline: none;
+                border-radius: 0.2rem;
+                white-space: nowrap;
+                text-align: center;
+                cursor: pointer;
+                font-size: 0.8rem;
+            }
+
+            .view-btn {
+                background-color: #FF76CE !important;
+            }
+
+            i {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

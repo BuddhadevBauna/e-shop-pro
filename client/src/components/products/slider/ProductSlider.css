@@ -1,0 +1,33 @@
+.product-slider-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    & .prev-btn,
+    & .next-btn {
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none;
+        border-radius: 0.5rem;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        cursor: pointer;
+         
+        & i {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: blue;
+        }
+    }
+
+    & .disable-btn {
+        opacity: 0.5;
+    }
+}

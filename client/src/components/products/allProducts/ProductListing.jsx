@@ -17,25 +17,26 @@ const ProductListing = () => {
                     {categories.map((category, index) => (
                         <div key={index}>
                             {category.subCategory.length === 0 ? (
-                                <div className="category-product-container">
-                                    <h1>{category.name}</h1>
-                                    {products[category.categoryType] &&
+                                products[category.categoryType] && (
+                                    <div className="category-product-container">
+                                        <h1>{category.name}</h1>
+
                                         <ProductSlider
                                             products={products[category.categoryType]}
                                         />
-                                    }
-                                </div>
+                                    </div>
+                                )
                             ) : (
                                 <>
                                     {category.subCategory.map((subCat, subIndex) => (
-                                        <div className="category-product-container" key={subIndex}>
-                                            <h1>All {subCat.name} item</h1>
-                                            {products[subCat.categoryType] &&
+                                        products[subCat.categoryType] && (
+                                            <div className="category-product-container" key={subIndex}>
+                                                <h1>All {subCat.name} item</h1>
                                                 <ProductSlider
                                                     products={products[subCat.categoryType]}
                                                 />
-                                            }
-                                        </div>
+                                            </div>
+                                        )
                                     ))}
                                 </>
                             )}

@@ -5,9 +5,10 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const ProductSlider = ({ products }) => {
     const [startIndex, setStartIndex] = useState(0);
+    const productsPerSlide = 3;
 
     const nextSlide = () => {
-        if (startIndex + 3 < products.length) {
+        if (startIndex + productsPerSlide < products.length) {
             setStartIndex(prevIndex => prevIndex + 1);
         }
     };
@@ -18,7 +19,7 @@ const ProductSlider = ({ products }) => {
         }
     };
 
-    const canShowNext = startIndex + 3 < products.length;
+    const canShowNext = startIndex + productsPerSlide < products.length;
     const canShowPrev = startIndex > 0;
 
     return (
@@ -30,7 +31,7 @@ const ProductSlider = ({ products }) => {
             >
                 <i><GrFormPrevious /></i>
             </button>
-            {products.slice(startIndex, startIndex + 3).map((product, index) => {
+            {products?.slice(startIndex, startIndex + productsPerSlide).map((product, index) => {
                 return (
                     <ProductSlide
                         key={index}

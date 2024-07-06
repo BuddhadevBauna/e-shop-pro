@@ -1,44 +1,61 @@
+import { useState } from "react";
 import "./ProductSlide.css";
 import { FaRegHeart } from "react-icons/fa";
-import { GrFormView } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { IoEyeSharp } from "react-icons/io5";
 
-const ProductSlide = ({ product}) => {
-    let { id, title, thumbnail, category, price, discountPercentage, rating } = product;
+const ProductSlide = ({ product }) => {
+    let { _id, title, thumbnail, category, price, discountPercentage, rating } = product;
     let MRP = price / (1 - discountPercentage / 100);
     let MRPInt = Math.round(MRP);
 
+    const [loaded, setLoaded] = useState(false);
+
     return (
         <>
-            <div className={`product-container`}>
-                <img className="product-img" src={thumbnail} alt={`${category}-img`} />
-                <div className="product-body">
-                    <div className="product-stock">
-                        <small>{category}</small>
-                        <i>
+            {product && (
+                <div className={`product-container`}>
+                    <Link to={`/favourite`}>
+                        <i className="favourite">
                             <FaRegHeart />
                         </i>
-                    </div>
-                    <p>{title.length > 25 ? title.substring(0, 25) + "..." : title}</p>
-                    <div className="product-buy">
-                        <p>₹ {price}</p>
-                        <small>
-                            <span>₹ {MRPInt}</span> {discountPercentage}% off{" "}
-                        </small>
-                        <small className="rating">{rating} ★</small>
-                    </div>
+                    </Link>
+                    <Link to={`/products/${_id}`}>
+                        <div className="product-img">
+                            <img
+                                src={thumbnail}
+                                alt={`${category}-img`}
+                                style={{ display: loaded ? "block" : "none" }}
+                                onLoad={() => setLoaded(true)}
+                            />
+                        </div>
+                        <div className="product-details">
+                            <small className="category">{category}</small>
+                            <p>{title.length > 25 ? title.substring(0, 25) + "..." : title}</p>
+                            <p>₹ {price}</p>
+                            <small>
+                                <span>₹ {MRPInt}</span>
+                                {discountPercentage}% off{" "}
+                            </small>
+                            <small className="rating">{rating} ★</small>
+                        </div>
+                    </Link>
                     <div className="product-btn">
                         <Link to={"/cart"}>
-                            <button type="button" className="btn">Add To Cart</button>
+                            <button type="button" className="btn">
+                                Add To Cart
+                            </button>
                         </Link>
-                        <Link to={`/products/${id}`}>
+                        <Link to={`/products/${_id}`}>
                             <button type="button" className="btn view-btn">
-                                <i><GrFormView /></i>
+                                <i>
+                                    <IoEyeSharp />
+                                </i>
                             </button>
                         </Link>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };

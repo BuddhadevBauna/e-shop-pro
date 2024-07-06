@@ -21,6 +21,7 @@ import AddCategory from './components/admin/manage-categories/add/AddCategory';
 import AddProduct from './components/admin/manage-products/add/AddProduct';
 import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
 import ProductListing from './components/products/allProducts/ProductListing';
+import ProductDetails from './components/products/single-product/ProductDetails';
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "", element: <ProductListing /> },
       { path: "products/category/:particularCategory", element: <ProductExplorer /> },
       { path: "products/search", element: <ProductExplorer /> },
+      { path: "products/:productId", element: <ProductDetails /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "logout", element: <Logout /> },

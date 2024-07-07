@@ -1,12 +1,13 @@
 import axios from "axios";
-import { setAllCategoriesProducts } from "../../store/redux/reducers/allCategoryProductSlice";
+import { removeCategoriesProducts, setAllCategoriesProducts } from "../../store/redux/reducers/allCategoryProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setSingleProduct } from "../../store/redux/reducers/singleProductSlice";
+import { removeSingleProduct, setSingleProduct } from "../../store/redux/reducers/singleProductSlice";
 
 //get category of product
 const fetchProductsOfCategory = async (categoryType, dispatch) => {
     try {
+        dispatch(removeCategoriesProducts());
         const response = await axios.get(`http://localhost:3030/products/category/${categoryType}`);
         // console.log(response.data);
         // console.log({categoryType, products: response.data});
@@ -44,6 +45,7 @@ export const useFetchProductsOfAllCategories = () => {//custom hook
 //get single product
 export const fetchProduct = async (dispatch, productId) => {
     try {
+        dispatch(removeSingleProduct());
         const response = await axios.get(`http://localhost:3030/products/${productId}`);
         // console.log(response.data);
         dispatch(setSingleProduct(response.data));

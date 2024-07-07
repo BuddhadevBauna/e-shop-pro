@@ -20,7 +20,6 @@ const ProductListing = () => {
                                 products[category.categoryType] && (
                                     <div className="category-product-container">
                                         <h1>{category.name}</h1>
-
                                         <ProductSlider
                                             products={products[category.categoryType]}
                                         />

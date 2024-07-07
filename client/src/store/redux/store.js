@@ -12,11 +12,11 @@ import singleProductReducer from "./reducers/singleProductSlice";
 const store = configureStore({
     reducer : {
         allCategory : categoryReducer,
-        categoryOfProducts : productsOfCategoryReducer,
         allCategoriesProducts : allCategoryProductReducer,
-        filterAndSortProducts : filterAndSortProductReducer,
+        categoryOfProducts : productsOfCategoryReducer,
         searchCategories : searchCategoryReducer,
         searchProducts : searchProductReducer,
+        filterAndSortProducts : filterAndSortProductReducer,
         filterAndSearchProducts : filterAndSearchProductReducer,
         singleProduct : singleProductReducer
     }

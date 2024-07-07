@@ -1,0 +1,87 @@
+.product-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1.5rem;
+    margin: 2rem 3%;
+
+    & .left-side {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & .image-container {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+
+            & .verically-img-show {
+                display: flex;
+                flex-direction: column;
+                width: 5rem;
+                border: none;
+                outline: none;
+
+                & li {
+                    box-sizing: border-box;
+                    height: 5rem;
+                    padding: 0.3rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    opacity: 0.5;
+                    border: solid 2.5px rgba(128, 128, 128, 0.5);
+                    border-bottom: none;
+                    outline: none;
+
+                    & img {
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
+                }
+
+                & li:last-child {
+                    border-bottom: solid 2.5px rgba(128, 128, 128, 0.5);
+                }
+
+                & li:hover {
+                    opacity: initial;
+                    border-bottom: solid 3px blue;
+                    border: 3px solid blue;
+                    cursor: pointer;
+                }
+
+                & .scroll-btn {
+                    background-color: white;
+                    cursor: pointer;
+                    border: solid 1.5px rgba(173, 167, 167, 0.5);
+
+                    & i {
+                        font-size: 1.5rem;
+                        color: blueviolet;
+                        font-weight: bold;
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+
+        & .button-container {
+            display: flex;
+            gap: 0.5rem;
+
+            & .btn {
+                width: 50%;
+                padding: 0.5rem 0;
+                border: none;
+                outline: none;
+                background-color: blue;
+                color: white;
+                font-weight: 700;
+                border-radius: 0.3rem;
+                cursor: pointer;
+            }
+        }
+
+    }
+}

@@ -1,52 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ProductSlider.css";
 import ProductSlide from "./slide/ProductSlide";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const ProductSlider = ({ products }) => {
-    const [startIndex, setStartIndex] = useState(0);
-    const productsPerSlide = 3;
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isDisablePrevButton, setDisablePrevButton] = useState(true);
+    const [isDisableNextButton, setDisableNextButton] = useState(false);
+    const itemsPerSlide = 3;
 
-    const nextSlide = () => {
-        if (startIndex + productsPerSlide < products.length) {
-            setStartIndex(prevIndex => prevIndex + 1);
-        }
+    const handlePrevClick = () => {
+        setCurrentIndex((prevIndex) => Math.max(prevIndex - itemsPerSlide, 0));
     };
 
-    const prevSlide = () => {
-        if (startIndex > 0) {
-            setStartIndex(prevIndex => prevIndex - 1);
-        }
+    const handleNextClick = () => {
+        setCurrentIndex((prevIndex) =>
+            Math.min(prevIndex + itemsPerSlide, products.length - itemsPerSlide)
+        );
     };
 
-    const canShowNext = startIndex + productsPerSlide < products.length;
-    const canShowPrev = startIndex > 0;
+    useEffect(() => {
+        setDisablePrevButton(currentIndex === 0);
+        setDisableNextButton(currentIndex + itemsPerSlide >= products.length);
+    }, [currentIndex, itemsPerSlide, products.length]);
+
+    const visibleProducts = products.slice(currentIndex, currentIndex + itemsPerSlide);
 
     return (
-        <section className="product-slider-container">
-            <button 
-                className={`prev-btn ${!canShowPrev ? 'disable-btn' : ''}`} 
-                onClick={prevSlide}
-                disabled={!canShowPrev}
-            >
-                <i><GrFormPrevious /></i>
-            </button>
-            {products?.slice(startIndex, startIndex + productsPerSlide).map((product, index) => {
-                return (
-                    <ProductSlide
-                        key={index}
-                        product={product}
-                    />
-                )
-            })}
-            <button 
-                className={`next-btn ${!canShowNext ? 'disable-btn' : ''}`}
-                onClick={nextSlide}
-                disabled={!canShowNext}
-            >
-                <i><GrFormNext /></i>
-            </button>
-        </section>
+        <>
+            {products &&
+                <section className={`product-slider-container`}>
+                    <button
+                        className={`prev-btn ${isDisablePrevButton && 'prev-btn-disable'}`}
+                        onClick={handlePrevClick}
+                        disabled={isDisablePrevButton}
+                    >
+                        <i><GrFormPrevious /></i>
+                    </button>
+                    <div className="product-slider">
+                        {visibleProducts.map((product, index) => {
+                            return (
+                                <ProductSlide
+                                    key={index}
+                                    product={product}
+                                />
+                            )
+                        })}
+                    </div>
+                    <button
+                        className={`next-btn ${isDisableNextButton && 'next-btn-disable'}`}
+                        onClick={handleNextClick}
+                        disabled={isDisableNextButton}
+                    >
+                        <i><GrFormNext /></i>
+                    </button>
+                </section>
+            }
+        </>
     );
 }
 

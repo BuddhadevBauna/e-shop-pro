@@ -13,7 +13,7 @@ const ProductListing = () => {
         if (!categories || !products) return <h1>Loading...</h1>;
         else {
             return (
-                <section className="body">
+                <section>
                     {categories.map((category, index) => (
                         <div key={index}>
                             {category.subCategory.length === 0 ? (

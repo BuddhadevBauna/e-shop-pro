@@ -1,23 +1,33 @@
 .product-slider-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
     padding: 1rem;
-    /* position: relative; */
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center; 
+
+    & .product-slider {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: scroll;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+    }
 
     & .prev-btn,
     & .next-btn {
+        position: absolute;
+        top: 50%;
+        /* Move the element back by 50% of its own height */
+        transform: translateY(-50%);
         width: 3rem;
-        height: 3rem;
+        height: 5rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border: none;
         outline: none;
-        border-radius: 0.5rem;
         background-color: white;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         cursor: pointer;
 
         & i {
@@ -28,19 +38,12 @@
         }
     }
 
-    & .prev-btn-disable,
-    & .next-btn-disable {
-        box-shadow: none;
-        opacity: 0.5;
-
-        i {
-            color: rgb(85, 85, 180);
-        }
+    & .prev-btn {
+        left: 0;
+        z-index: 1;
     }
 
-    & .product-slider {
-        display: flex;
-        gap: 0.5rem;
-        transition: 0.5s ease-in-out;
+    & .next-btn {
+        right: 0rem;
     }
 }

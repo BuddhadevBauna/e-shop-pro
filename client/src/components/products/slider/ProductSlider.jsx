@@ -1,44 +1,63 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ProductSlider.css";
 import ProductSlide from "./slide/ProductSlide";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const ProductSlider = ({ products }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isDisablePrevButton, setDisablePrevButton] = useState(true);
-    const [isDisableNextButton, setDisableNextButton] = useState(false);
-    const itemsPerSlide = 3;
-
-    const handlePrevClick = () => {
-        setCurrentIndex((prevIndex) => Math.max(prevIndex - itemsPerSlide, 0));
-    };
-
-    const handleNextClick = () => {
-        setCurrentIndex((prevIndex) =>
-            Math.min(prevIndex + itemsPerSlide, products.length - itemsPerSlide)
-        );
-    };
+    const boxRef = useRef(null);
+    const [showPrevButton, setShowPrevButton] = useState(false);
+    const [showNextButton, setShowNextButton] = useState(true);
 
     useEffect(() => {
-        setDisablePrevButton(currentIndex === 0);
-        setDisableNextButton(currentIndex + itemsPerSlide >= products.length);
-    }, [currentIndex, itemsPerSlide, products.length]);
+        const sliderBox = boxRef.current;
 
-    const visibleProducts = products.slice(currentIndex, currentIndex + itemsPerSlide);
+        const handleScroll = () => {
+            if (sliderBox.scrollLeft === 0) {
+                setShowPrevButton(false);
+            } else {
+                setShowPrevButton(true);
+            }
+
+            if (sliderBox.scrollLeft + sliderBox.clientWidth >= sliderBox.scrollWidth) {
+                setShowNextButton(false);
+            } else {
+                setShowNextButton(true);
+            }
+        };
+
+        handleScroll();// Check initial state on mount
+
+        sliderBox.addEventListener("scroll", handleScroll);
+
+        return () => {
+            sliderBox.removeEventListener("scroll", handleScroll);
+        };
+    }, [products]);
+
+    const handlePrevClick = () => {
+        let width = boxRef.current.clientWidth;
+        boxRef.current.scrollLeft -= width;
+    }
+
+    const handleNextClick = () => {
+        let width = boxRef.current.clientWidth;
+        boxRef.current.scrollLeft += width;
+    }
 
     return (
         <>
             {products &&
-                <section className={`product-slider-container`}>
-                    <button
-                        className={`prev-btn ${isDisablePrevButton && 'prev-btn-disable'}`}
-                        onClick={handlePrevClick}
-                        disabled={isDisablePrevButton}
-                    >
-                        <i><GrFormPrevious /></i>
-                    </button>
-                    <div className="product-slider">
-                        {visibleProducts.map((product, index) => {
+                <section className="product-slider-container">
+                    {showPrevButton &&
+                        <button
+                            className="prev-btn"
+                            onClick={handlePrevClick}
+                        >
+                            <i><GrFormPrevious /></i>
+                        </button>
+                    }
+                    <div className="product-slider" ref={boxRef}>
+                        {products.map((product, index) => {
                             return (
                                 <ProductSlide
                                     key={index}
@@ -47,13 +66,14 @@ const ProductSlider = ({ products }) => {
                             )
                         })}
                     </div>
-                    <button
-                        className={`next-btn ${isDisableNextButton && 'next-btn-disable'}`}
-                        onClick={handleNextClick}
-                        disabled={isDisableNextButton}
-                    >
-                        <i><GrFormNext /></i>
-                    </button>
+                    {showNextButton &&
+                        <button
+                            className="next-btn"
+                            onClick={handleNextClick}
+                        >
+                            <i><GrFormNext /></i>
+                        </button>
+                    }
                 </section>
             }
         </>

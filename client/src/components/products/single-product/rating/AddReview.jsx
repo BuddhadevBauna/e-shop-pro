@@ -1,7 +1,18 @@
 import { useState } from "react";
-import "./AddRating.css";
+import "./AddReview.css";
+import { useAuth } from "../../../../store/context/auth";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddRating = () => {
+const AddReview = () => {
+    const {AuthorizationToken, loginUserData} = useAuth();
+    // console.log(AuthorizationToken, loginUserData);
+
+    const {productId} = useParams();
+    // console.log(productId);
+
+    const navigate = useNavigate();
+
     const [input, setInput] = useState({
         rating: "",
         reviewHeading: "",
@@ -18,6 +29,22 @@ const AddRating = () => {
 
     const handleSubmit = (e) => { 
         e.preventDefault();
+        const addRating = async () => {
+            try {
+                const finalInput = {...input, reviewerName: loginUserData.username};
+                const response = await axios.post(`http://localhost:3030/products/${productId}/review`, finalInput, {
+                    headers: {
+                        Authorization: AuthorizationToken
+                    }
+                })
+                if(response.status === 200) {
+                    navigate(`/products/${productId}`);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        addRating();
     }
 
     return (
@@ -73,4 +100,4 @@ const AddRating = () => {
     );
 }
 
-export default AddRating;
+export default AddReview;

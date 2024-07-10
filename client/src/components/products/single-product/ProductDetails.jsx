@@ -109,7 +109,7 @@ const ProductDetails = () => {
                             <div className="information rating-container">
                                 <div className="add-rating">
                                     <h4>Rating & Review</h4>
-                                    <Link to={'rating'}>
+                                    <Link to={'review'}>
                                         <button>Rate Product</button>
                                     </Link>
                                 </div>

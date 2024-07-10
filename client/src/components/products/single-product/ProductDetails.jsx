@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./ProductDetails.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
 
@@ -106,11 +106,14 @@ const ProductDetails = () => {
                                 <p className="warenty">{warrantyInformation}</p>
                                 <p className="ships">{shippingInformation}</p>
                             </div>
-                            <div className="information">
+                            <div className="information rating-container">
                                 <div className="add-rating">
                                     <h4>Rating & Review</h4>
-                                    <button>Rate Product</button>
+                                    <Link to={'rating'}>
+                                        <button>Rate Product</button>
+                                    </Link>
                                 </div>
+                                <hr />
                                 <div className="all-rating">
                                     <div className="rating-review">
                                         <h5 className="rating-title">
@@ -119,6 +122,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>
@@ -126,6 +130,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>
@@ -133,6 +138,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>
@@ -140,6 +146,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>
@@ -147,6 +154,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>
@@ -154,6 +162,7 @@ const ProductDetails = () => {
                                         </h5>
                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
+                                    <hr />
                                     <div className="rating-review">
                                         <h5 className="rating-title">
                                             <span className="rate">4 ★</span>

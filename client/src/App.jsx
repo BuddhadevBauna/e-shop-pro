@@ -22,6 +22,7 @@ import AddProduct from './components/admin/manage-products/add/AddProduct';
 import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
 import ProductListing from './components/products/allProducts/ProductListing';
 import ProductDetails from './components/products/single-product/ProductDetails';
+import AddRating from './components/products/single-product/rating/AddRating';
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: "products/category/:particularCategory", element: <ProductExplorer /> },
       { path: "products/search", element: <ProductExplorer /> },
       { path: "products/:productId", element: <ProductDetails /> },
+      { path: "products/:productId/rating", element: <AddRating /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "logout", element: <Logout /> },

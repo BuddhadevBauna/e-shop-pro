@@ -7,6 +7,7 @@ import * as sortAndFilterProduct from "../controllers/products/sort-filter-produ
 import authMiddleware from "../middlewares/auth-middleware.js";
 import adminMiddleware from "../middlewares/admin-middleware.js";
 import deleteProduct from "../controllers/products/delete-product-controller.js";
+import reviewProduct from "../controllers/products/review-product-controller.js";
 
 const router = express.Router();
 
@@ -28,5 +29,9 @@ router.route('/category/:particularCategory/q').get(sortAndFilterProduct.sortAnd
 router.route('/search/q').get(sortAndFilterProduct.sortAndFilterSearchProducts);
 //get product
 router.route('/:productId').get(getProduct.getSingleProduct);
+
+//controll by user
+//review product
+router.route('/:productId/review').post(authMiddleware, reviewProduct);
 
 export default router;

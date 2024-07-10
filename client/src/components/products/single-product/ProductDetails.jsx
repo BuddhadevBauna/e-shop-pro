@@ -35,7 +35,7 @@ const ProductDetails = () => {
 
     const content = useMemo(() => {
         let { images, category, title, price, discountPercentage, rating, brand, stock,
-            availabilityStatus, returnPolicy, warrantyInformation, shippingInformation
+            availabilityStatus, returnPolicy, warrantyInformation, shippingInformation, reviews = []
         } = product;
         let MRP = price / (1 - discountPercentage / 100);
         let MRPInt = Math.round(MRP);
@@ -113,63 +113,19 @@ const ProductDetails = () => {
                                         <button>Rate Product</button>
                                     </Link>
                                 </div>
-                                <hr />
                                 <div className="all-rating">
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <hr />
-                                    <div className="rating-review">
-                                        <h5 className="rating-title">
-                                            <span className="rate">4 ★</span>
-                                            <span className="rate-heading">WonderFul</span>
-                                        </h5>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
+                                    {reviews.map((review) => 
+                                        <div key={review._id}>
+                                            <hr />
+                                            <div className="rating-review">
+                                                <h5 className="rating-title">
+                                                    <span className="rate">{review.rating} ★</span>
+                                                    <span className="rate-heading">{review.reviewHeading}</span>
+                                                </h5>
+                                                <p>{review.reviewDescription}</p>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

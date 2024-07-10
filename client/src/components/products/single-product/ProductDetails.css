@@ -203,7 +203,6 @@
                 & .all-rating {
                     display: flex;
                     flex-direction: column;
-                    gap: 1rem;
 
                     & .rating-review {
                         padding: 1rem;

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./ProductDetails.css";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
@@ -8,6 +7,8 @@ import { fetchProduct } from "../../../api/products/productsAPI";
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
     // console.log(product);
+
+    const [showImage, setShowImage] = useState("");
 
     const { productId } = useParams();
     // console.log(productId);
@@ -19,7 +20,17 @@ const ProductDetails = () => {
 
     useEffect(() => {
         getProductDetails();
-    }, [getProductDetails])
+    }, [getProductDetails]);
+
+    useEffect(() => {
+        if (product && product.images && product.images.length > 0) {
+            setShowImage(product.images[0]);
+        }
+    }, [product]);
+
+    const handleImageChange = (image) => {
+        setShowImage(image);
+    };
 
 
     const content = useMemo(() => {
@@ -30,37 +41,28 @@ const ProductDetails = () => {
                     <div className="left-side">
                         <div className="image-container">
                             {images &&
-                                <div className="verically-img-show">
-                                    <button
-                                        className="scroll-btn top"
-                                        onClick={() => handlePrevClick()}
-                                    >
-                                        <i><IoIosArrowUp /></i>
-                                    </button>
-                                    <ul>
-                                        {images.slice(startIndex, startIndex + imagesPerPage)
-                                            .map((image, index) => {
+                                <>
+                                    <div className="verically-img-show">
+                                        <ul>
+                                            {images.map((image, index) => {
                                                 return (
-                                                    <li key={index}>
+                                                    <li 
+                                                        key={index}
+                                                        onMouseOver={() => handleImageChange(image)}>
                                                         <img
                                                             src={image}
-                                                            alt={category +startIndex+ '' +index + '-img'}
+                                                            alt={category + index + '-img'}
                                                         />
                                                     </li>
                                                 )
                                             })}
-                                    </ul>
-                                    <button
-                                        className="scroll-btn bottom"
-                                        onClick={() => handleNextClick()}
-                                    >
-                                        <i><IoIosArrowDown /></i>
-                                    </button>
-                                </div>
+                                        </ul>
+                                    </div>
+                                    <div className="hover-img-show">
+                                        <img src={showImage} alt={category + '-img'} />
+                                    </div>
+                                </>
                             }
-                            <div className="hover-img-show">
-                                <h1>Hello</h1>
-                            </div>
                         </div>
                         <div className="button-container">
                             <button className="btn">Add To Cart</button>
@@ -75,7 +77,7 @@ const ProductDetails = () => {
                 </div>
             </>
         );
-    }, [product])
+    }, [product, showImage])
 
     return content;
 }

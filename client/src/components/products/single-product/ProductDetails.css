@@ -13,55 +13,64 @@
             display: flex;
             flex-direction: row;
             gap: 0.5rem;
+            border: solid 1.5px rgb(173, 163, 163);
 
             & .verically-img-show {
                 display: flex;
                 flex-direction: column;
-                width: 5rem;
                 border: none;
                 outline: none;
+                height: 20rem;
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(100, 97, 97, 0.61) lightgray;
 
-                & li {
-                    box-sizing: border-box;
-                    height: 5rem;
-                    padding: 0.3rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    opacity: 0.5;
-                    border: solid 2.5px rgba(128, 128, 128, 0.5);
-                    border-bottom: none;
-                    outline: none;
+                & ul {
+                    border-right: solid 1.5px rgb(173, 163, 163);
 
-                    & img {
-                        max-width: 100%;
-                        max-height: 100%;
-                    }
-                }
-
-                & li:last-child {
-                    border-bottom: solid 2.5px rgba(128, 128, 128, 0.5);
-                }
-
-                & li:hover {
-                    opacity: initial;
-                    border-bottom: solid 3px blue;
-                    border: 3px solid blue;
-                    cursor: pointer;
-                }
-
-                & .scroll-btn {
-                    background-color: white;
-                    cursor: pointer;
-                    border: solid 1.5px rgba(173, 167, 167, 0.5);
-
-                    & i {
-                        font-size: 1.5rem;
-                        color: blueviolet;
-                        font-weight: bold;
+                    & li {
+                        box-sizing: border-box;
+                        width: 5rem;
+                        height: 5rem;
+                        padding: 0.3rem;
                         display: flex;
                         justify-content: center;
+                        align-items: center;
+                        opacity: 0.5;
+                        border-top: solid 1.5px rgb(173, 163, 163);
+                        outline: none;
+
+                        & img {
+                            max-width: 100%;
+                            max-height: 100%;
+                        }
                     }
+
+                    & li:first-child {
+                        border-top: none;
+                    }
+
+                    & li:hover {
+                        opacity: initial;
+                        border: 3px solid blue;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            & .hover-img-show {
+                width: calc(100% - 5rem);
+                height: 20rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                & img {
+                    width: 90%;
+                    height: auto;
+                    max-width: 85%;
+                    max-height: 85%;
                 }
             }
         }

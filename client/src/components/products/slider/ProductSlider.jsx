@@ -10,6 +10,7 @@ const ProductSlider = ({ products }) => {
 
     useEffect(() => {
         const sliderBox = boxRef.current;
+        // console.log(sliderBox);
 
         const handleScroll = () => {
             if (sliderBox.scrollLeft === 0) {

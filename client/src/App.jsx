@@ -23,6 +23,7 @@ import UpdateProduct from './components/admin/manage-products/update/UpdateProdu
 import ProductListing from './components/products/allProducts/ProductListing';
 import ProductDetails from './components/products/single-product/ProductDetails';
 import AddReview from './components/products/single-product/rating/AddReview';
+import ProductRoot from './pages/ProductRoot';
 
 
 const router = createBrowserRouter([
@@ -30,10 +31,16 @@ const router = createBrowserRouter([
     path: "/", element: <Root />,
     children: [
       { path: "", element: <ProductListing /> },
-      { path: "products/category/:particularCategory", element: <ProductExplorer /> },
-      { path: "products/search", element: <ProductExplorer /> },
-      { path: "products/:productId", element: <ProductDetails /> },
-      { path: "products/:productId/review", element: <AddReview /> },
+      {
+        path: "products", element: <ProductRoot />,
+        children: [
+          { path: "", element: <ProductListing /> },
+          { path: "category/:particularCategory", element: <ProductExplorer /> },
+          { path: "search", element: <ProductExplorer /> },
+          { path: ":productId", element: <ProductDetails /> },
+          { path: ":productId/review", element: <AddReview /> },
+        ]
+      },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "logout", element: <Logout /> },
@@ -44,15 +51,31 @@ const router = createBrowserRouter([
     path: "admin", element: <AdminLayout />,
     children: [
       //categories
-      { path: "categories", element: <ManageCategories /> },
-      { path: "categories/add", element: <AddCategory /> },
-      { path: "categories/update/q", element: <UpdateCategoryOrSubCategory /> },
+      {
+        path: "categories",
+        children: [
+          { path: "", element: <ManageCategories /> },
+          { path: "add", element: <AddCategory /> },
+          { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
+        ]
+      },
       //products
-      { path: "products", element: <ManageProducts /> },
-      { path: "products/add", element: <AddProduct /> },
-      { path: "products/update/:productId", element: <UpdateProduct /> },
+      {
+        path: "products",
+        children: [
+          { path: "", element: <ManageProducts /> },
+          { path: "add", element: <AddProduct /> },
+          { path: "update/:productId", element: <UpdateProduct /> },
+        ]
+      },
       //users
-      { path: "user", element: <ManageUsers /> }
+      {
+        path: "user",
+        children: [
+          { path: "user", element: <ManageUsers /> },
+        ]
+      }
+      
     ]
   }
 ]);

@@ -3,19 +3,24 @@ import "./ProductDetails.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
+import ClientError from "../../error/ClientError";
 
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
     // console.log(product);
 
     const [showImage, setShowImage] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const { productId } = useParams();
     // console.log(productId);
     const dispatch = useDispatch();
 
     const getProductDetails = useCallback(() => {
-        fetchProduct(dispatch, productId);
+        setLoading(true);
+        fetchProduct(dispatch, productId).finally(() => {
+            setLoading(false);
+        });
     }, [productId, dispatch]);
 
     useEffect(() => {
@@ -23,7 +28,7 @@ const ProductDetails = () => {
     }, [getProductDetails]);
 
     useEffect(() => {
-        if (product && product.images && product.images.length > 0) {
+        if (product?.images?.length > 0) {
             setShowImage(product.images[0]);
         }
     }, [product]);
@@ -34,11 +39,18 @@ const ProductDetails = () => {
 
 
     const content = useMemo(() => {
+        if (loading) {
+            return <h1>Loading...</h1>;
+        }
+
+        if (Object.keys(product).length == 0) return <ClientError />;
+
         let { images, category, title, price, discountPercentage, rating, brand, stock,
             availabilityStatus, returnPolicy, warrantyInformation, shippingInformation, reviews = []
         } = product;
         let MRP = price / (1 - discountPercentage / 100);
         let MRPInt = Math.round(MRP);
+
         return (
             <>
                 <div className="product-details-container">
@@ -79,7 +91,7 @@ const ProductDetails = () => {
                         <div className="information-container">
                             <div className="information">
                                 <p className="title">{title}</p>
-                                <p className="brand">Brand : {brand}</p>
+                                {brand && <p className="brand">Brand : {brand}</p>}
                                 <p className="rating">
                                     <span className="rate">{rating} ★</span>
                                     <span>
@@ -90,7 +102,7 @@ const ProductDetails = () => {
                             <div className="information">
                                 <h4 className="price-heading">Spacial Price</h4>
                                 <p className="price">
-                                    <span>₹ {price}</span>
+                                    <span>₹ {parseInt(price)}</span>
                                     <span className="mrp">₹ {MRPInt}</span>
                                     <span className="discount">{discountPercentage}% off</span>
                                 </p>
@@ -114,7 +126,7 @@ const ProductDetails = () => {
                                     </Link>
                                 </div>
                                 <div className="all-rating">
-                                    {reviews.map((review) => 
+                                    {reviews.map((review) =>
                                         <div key={review._id}>
                                             <hr />
                                             <div className="rating-review">
@@ -133,7 +145,7 @@ const ProductDetails = () => {
                 </div>
             </>
         );
-    }, [product, showImage])
+    }, [product, showImage, loading])
 
     return content;
 }

@@ -3,7 +3,7 @@ import "./FilterAndSortProduct.css";
 import { FaRegHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import constructQueryString from "./generate-query-string/constructQueryString";
 import {
     removeFilterAndSortProducts,
@@ -104,21 +104,19 @@ const FilterAndSortProduct = (props) => {
         return <h1>Loading...</h1>;
     }
     const renderList = finalProducts.map((product, index) => {
-        let { title, thumbnail, rating, description, price, discountPercentage, stock, } = product;
+        let { _id, title, thumbnail, rating, description, price, discountPercentage, stock, } = product;
         let MRP = price / (1 - discountPercentage / 100);
         let MRPInt = Math.round(MRP);
         return (
             <div key={index} className="container-filter">
-                <div className="product-img">
-                    <img src={thumbnail} alt="product-img"></img>
-                </div>
                 <div className="product-details">
-                    <div className="icon">
-                        <i>
-                            <FaRegHeart />
-                        </i>
-                    </div>
-                    <div className="product-details-container">
+                    <Link to={`/favourite`} className="favourite">
+                        <i className="icon"><FaRegHeart /></i>
+                    </Link>
+                    <Link to={`/products/${_id}`} className="product-img">
+                        <img src={thumbnail} alt="product-img"></img>
+                    </Link>
+                    <Link to={`/products/${_id}`} className="product-details-container">
                         <div className="product-description">
                             <h2>
                                 {window.innerWidth < 767 ? `${title.slice(0, 18)}...` : title}
@@ -134,14 +132,13 @@ const FilterAndSortProduct = (props) => {
                             </p>
                         </div>
                         <div className="product-buy">
-                            <p>₹ {price}</p>
+                            <p>₹ {parseInt(price)}</p>
                             <small>
                                 <span>₹ {MRPInt}</span> {discountPercentage}% off
                             </small>
                             <small className="stock">only {stock} left</small>
-                            <button>Buy Now</button>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         );
@@ -151,7 +148,7 @@ const FilterAndSortProduct = (props) => {
         <>
             {finalProducts.length === 0 ?
                 <div className="filter-product-container">
-                    <h1 style={{backgroundColor: "white", padding: "1rem", textAlign: "center", fontSize: "1.3rem"}}>No Product Found</h1>
+                    <h1 style={{ backgroundColor: "white", padding: "1rem", textAlign: "center", fontSize: "1.3rem" }}>No Product Found</h1>
                 </div>
                 :
                 <div className="filter-product-container">{renderList}</div>

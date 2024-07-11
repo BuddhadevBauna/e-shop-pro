@@ -32,28 +32,14 @@ const ProductSlide = ({ product }) => {
                         <div className="product-details">
                             <small className="category">{category}</small>
                             <p>{title.length > 25 ? title.substring(0, 25) + "..." : title}</p>
-                            <p>₹ {price}</p>
-                            <small>
-                                <span>₹ {MRPInt}</span>
-                                {discountPercentage}% off{" "}
-                            </small>
                             <small className="rating">{rating} ★</small>
+                            <p>₹ {Math.round(price)}</p>
+                            <small>
+                                <span className="mrp">₹ {MRPInt}</span>
+                                <span>{discountPercentage}% off</span>
+                            </small>
                         </div>
                     </Link>
-                    <div className="product-btn">
-                        <Link to={"/cart"}>
-                            <button type="button" className="btn">
-                                Add To Cart
-                            </button>
-                        </Link>
-                        <Link to={`/products/${_id}`}>
-                            <button type="button" className="btn view-btn">
-                                <i>
-                                    <IoEyeSharp />
-                                </i>
-                            </button>
-                        </Link>
-                    </div>
                 </div>
             )}
         </>

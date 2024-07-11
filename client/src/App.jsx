@@ -22,14 +22,16 @@ import AddProduct from './components/admin/manage-products/add/AddProduct';
 import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
 import ProductListing from './components/products/allProducts/ProductListing';
 import ProductDetails from './components/products/single-product/ProductDetails';
-import AddReview from './components/products/single-product/rating/AddReview';
+import AddReview from './components/user/review/AddReview';
 import ProductRoot from './pages/ProductRoot';
+import Cart from './components/user/cart/Cart';
 
 
 const router = createBrowserRouter([
   {
     path: "/", element: <Root />,
     children: [
+      // Home routes
       { path: "", element: <ProductListing /> },
       {
         path: "products", element: <ProductRoot />,
@@ -41,16 +43,20 @@ const router = createBrowserRouter([
           { path: ":productId/review", element: <AddReview /> },
         ]
       },
+      // Auth routes
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "logout", element: <Logout /> },
+      //user related routes
+      { path: "cart", element: <Cart /> }
     ],
   },
+  // Error route
   { path: "/*", element: <ClientError /> },
   {
     path: "admin", element: <AdminLayout />,
     children: [
-      //categories
+      // Category management routes
       {
         path: "categories",
         children: [
@@ -59,7 +65,7 @@ const router = createBrowserRouter([
           { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
         ]
       },
-      //products
+      // Product management routes
       {
         path: "products",
         children: [
@@ -68,7 +74,7 @@ const router = createBrowserRouter([
           { path: "update/:productId", element: <UpdateProduct /> },
         ]
       },
-      //users
+      // User management routes
       {
         path: "user",
         children: [

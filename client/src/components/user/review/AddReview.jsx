@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./AddReview.css";
-import { useAuth } from "../../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 

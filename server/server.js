@@ -7,6 +7,7 @@ import cors from "cors";
 import authRoute from './routes/auth-router.js';
 import errorMiddleware from './middlewares/error-middleware.js';
 import statusRoute from './routes/status-router.js';
+import cartRoute from './routes/cart-route.js';
 
 //create express server
 const app = express();
@@ -30,6 +31,8 @@ app.use('/auth', authRoute);
 app.use('/categories/', categoryRoute);
 //products
 app.use('/products/', productRoute);
+//cart item
+app.use('/cart', cartRoute);
 //status
 app.use('/status', statusRoute);
 

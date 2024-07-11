@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./ProductDetails.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
 import ClientError from "../../error/ClientError";
+import { useAuth } from "../../../store/context/auth";
+import axios from "axios";
 
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
@@ -15,6 +17,10 @@ const ProductDetails = () => {
     const { productId } = useParams();
     // console.log(productId);
     const dispatch = useDispatch();
+
+    const {loginUserData, AuthorizationToken} = useAuth();
+    // console.log(loginUserData);
+    const navigate = useNavigate();
 
     const getProductDetails = useCallback(() => {
         setLoading(true);
@@ -37,6 +43,39 @@ const ProductDetails = () => {
         setShowImage(image);
     };
 
+    const handleCart = () => {
+        const addProductInCart = async () => {
+            try {
+                const {username, email} = loginUserData;
+                const { _id, title, description, brand, price, discountPercentage, thumbnail } = product;
+                const cartData = {
+                    "username" : username,
+                    "useremail" : email,
+                    "cartItems" : {
+                        "productId" : _id,
+                        "title" : title,
+                        "description" : description,
+                        "brand" : brand,
+                        "price" : price,
+                        "discountPercentage" : discountPercentage,
+                        "thumbnail" : thumbnail
+                    }
+                }
+                const response = await axios.post('http://localhost:3030/cart/add', cartData, {
+                    headers: {
+                        Authorization : AuthorizationToken
+                    }
+                });
+                if(response.status === 201 || response.status === 200) {
+                    navigate('/cart');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        addProductInCart();
+    }
+
 
     const content = useMemo(() => {
         if (loading) {
@@ -45,8 +84,9 @@ const ProductDetails = () => {
 
         if (Object.keys(product).length == 0) return <ClientError />;
 
-        let { images, category, title, price, discountPercentage, rating, brand, stock,
-            availabilityStatus, returnPolicy, warrantyInformation, shippingInformation, reviews = []
+        let { _id, images, category, title, description, price, discountPercentage, rating,
+            brand, stock, availabilityStatus, returnPolicy, warrantyInformation,
+            shippingInformation, reviews = []
         } = product;
         let MRP = price / (1 - discountPercentage / 100);
         let MRPInt = Math.round(MRP);
@@ -65,7 +105,7 @@ const ProductDetails = () => {
                                                     return (
                                                         <li
                                                             key={index}
-                                                            onMouseOver={() => handleImageChange(image)}>
+                                                            onMouseOver={handleImageChange}>
                                                             <img
                                                                 src={image}
                                                                 alt={category + index + '-img'}
@@ -82,7 +122,10 @@ const ProductDetails = () => {
                                 }
                             </div>
                             <div className="button-container">
-                                <button className="btn">Add To Cart</button>
+                                <button
+                                    className="btn"
+                                    onClick={handleCart}
+                                >Add To Cart</button>
                                 <button className="btn">Buy Now</button>
                             </div>
                         </div>
@@ -91,6 +134,7 @@ const ProductDetails = () => {
                         <div className="information-container">
                             <div className="information">
                                 <p className="title">{title}</p>
+                                <p className="description">{description}</p>
                                 {brand && <p className="brand">Brand : {brand}</p>}
                                 <p className="rating">
                                     <span className="rate">{rating} ★</span>
@@ -100,7 +144,7 @@ const ProductDetails = () => {
                                 </p>
                             </div>
                             <div className="information">
-                                <h4 className="price-heading">Spacial Price</h4>
+                                <h4 className="price-heading">Spacial Price :</h4>
                                 <p className="price">
                                     <span>₹ {parseInt(price)}</span>
                                     <span className="mrp">₹ {MRPInt}</span>

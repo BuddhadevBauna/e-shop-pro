@@ -28,13 +28,17 @@ const cartSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    shippingInformation: {
+        type: String,
+        required: true
+    },
     stock: {
         type: Number,
         required: true
     },
-    shippingInformation: {
-        type: String,
-        required: true
+    totalItem: {
+        type: Number,
+        required: true,
     }
 });
 

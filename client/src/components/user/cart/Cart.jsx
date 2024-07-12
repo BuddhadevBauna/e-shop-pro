@@ -64,7 +64,7 @@ const Cart = () => {
                 <div className="price-details-container">
                     <div className="price-details">
                         <h4>PRICE DETAILS</h4>
-                        <hr />
+                        <hr style={{borderTopStyle: "solid", }}/>
                         <div>
                             <p>
                                 <span>Price ({cartData.cartItems.length} item)</span>

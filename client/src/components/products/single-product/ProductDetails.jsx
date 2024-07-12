@@ -12,11 +12,10 @@ const ProductDetails = () => {
     // console.log(product);
     const [showImage, setShowImage] = useState("");
     const [loading, setLoading] = useState(true);
+    const [isProductExistInCart, setProductExistInCart] = useState(false);
     const { productId } = useParams();
-    // console.log(productId);
     const dispatch = useDispatch();
-    const {loginUserData, AuthorizationToken} = useAuth();
-    // console.log(loginUserData);
+    const { loginUserData, AuthorizationToken, cartData, isLoadingCartData } = useAuth();
     const navigate = useNavigate();
 
     const getProductDetails = useCallback(() => {
@@ -40,42 +39,49 @@ const ProductDetails = () => {
         setShowImage(image);
     };
 
-    const handleCart = () => {
-        const addProductInCart = async () => {
-            try {
-                const {username, email} = loginUserData;
-                const { _id, title, description, brand, price, discountPercentage, thumbnail, 
-                    stock, shippingInformation
-                } = product;
-                const cartData = {
-                    "username" : username,
-                    "useremail" : email,
-                    "cartItems" : {
-                        "productId" : _id,
-                        "title" : title,
-                        "description" : description,
-                        "brand" : brand,
-                        "price" : price,
-                        "discountPercentage" : discountPercentage,
-                        "thumbnail" : thumbnail,
-                        "stock" : stock,
-                        "shippingInformation" : shippingInformation
-                    }
+    const addProductInCart = async () => {
+        try {
+            const { username, email } = loginUserData;
+            const { _id, title, description, brand, price, discountPercentage, thumbnail,
+                stock, shippingInformation
+            } = product;
+            const cartData = {
+                "username": username,
+                "useremail": email,
+                "cartItems": {
+                    "productId": _id,
+                    "title": title,
+                    "description": description,
+                    "brand": brand,
+                    "price": price,
+                    "discountPercentage": discountPercentage,
+                    "thumbnail": thumbnail,
+                    "shippingInformation": shippingInformation,
+                    "stock": stock,
+                    "totalItem": 1
                 }
-                const response = await axios.post('http://localhost:3030/cart/add', cartData, {
-                    headers: {
-                        Authorization : AuthorizationToken
-                    }
-                });
-                if(response.status === 201 || response.status === 200) {
-                    navigate('/cart');
-                }
-            } catch (error) {
-                console.error(error);
             }
+            const response = await axios.post('http://localhost:3030/cart/add', cartData, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            if (response.status === 201 || response.status === 200) {
+                navigate('/cart');
+            }
+        } catch (error) {
+            console.error(error);
         }
-        addProductInCart();
     }
+
+    useEffect(() => {
+        // console.log("isLoadingCartData:", isLoadingCartData);
+        // console.log("cartData:", cartData);
+        // console.log("productId:", productId);
+        if (cartData && !isLoadingCartData && productId) {
+            setProductExistInCart(cartData.cartItems?.some(item => item.productId === productId));
+        }
+    }, [cartData, isLoadingCartData, productId]);
 
 
     const content = useMemo(() => {
@@ -123,10 +129,15 @@ const ProductDetails = () => {
                                 }
                             </div>
                             <div className="button-container">
-                                <button
-                                    className="btn"
-                                    onClick={handleCart}
-                                >Add To Cart</button>
+                                {isProductExistInCart ? (
+                                    <button className="btn">Go To Cart</button>
+                                ) : (
+                                    <button
+                                        className="btn"
+                                        onClick={addProductInCart}>
+                                        Add To Cart
+                                    </button>
+                                )}
                                 <button className="btn">Buy Now</button>
                             </div>
                         </div>
@@ -190,7 +201,7 @@ const ProductDetails = () => {
                 </div>
             </>
         );
-    }, [product, showImage, loading])
+    }, [product, showImage, loading, isProductExistInCart])
 
     return content;
 }

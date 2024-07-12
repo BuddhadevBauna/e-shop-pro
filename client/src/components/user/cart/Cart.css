@@ -67,6 +67,7 @@
 
                     & .discount {
                         color: green;
+                        font-weight: bold;
                     }
                 }
             }
@@ -82,6 +83,7 @@
 
                     & span:last-child {
                         color: green;
+                        font-weight: bold;
                     }
                 }
             }

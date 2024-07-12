@@ -2,7 +2,7 @@ import Cart from "../../models/cart-model.js";
 
 const productsOfCartOfParticularUser = async (req, res) => {
     try {
-        const {useremail} = req.body;
+        const {useremail} = req.query;
 
         const cartItems = await Cart.findOne({useremail : useremail});
         if(cartItems) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 //context api(create context, provider, consumer)
 //Context create
@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
     const [loginUserData, setLoginUserData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isServerIssue, setServerIssue] = useState(null);
+    const [cartData, setCartData] = useState(null);
+    const [isLoadingCartData, setLoadingCartData] = useState(true);
 
     //for store token in local storage
     const storeTokenInLS = (token) => {
@@ -75,6 +77,26 @@ export const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
+    const fetchCartProducts = useCallback(async () => {
+        setLoadingCartData(true);
+        try {
+            const response = await axios.get(`http://localhost:3030/cart?useremail=${loginUserData.email}`, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            // console.log(response.data);
+            setCartData(response.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoadingCartData(false);
+        }
+    }, [loginUserData.email, AuthorizationToken])
+    useEffect(() => {
+        fetchCartProducts();
+    }, [fetchCartProducts]);
+
     return (
         <AuthContext.Provider
             value={{
@@ -84,7 +106,9 @@ export const AuthProvider = ({ children }) => {
                 AuthorizationToken,
                 loginUserData,
                 isLoading,
-                isServerIssue
+                isServerIssue,
+                cartData,
+                isLoadingCartData
             }}
         >
             {children}

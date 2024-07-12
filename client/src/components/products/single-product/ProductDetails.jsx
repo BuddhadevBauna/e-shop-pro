@@ -10,14 +10,11 @@ import axios from "axios";
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
     // console.log(product);
-
     const [showImage, setShowImage] = useState("");
     const [loading, setLoading] = useState(true);
-
     const { productId } = useParams();
     // console.log(productId);
     const dispatch = useDispatch();
-
     const {loginUserData, AuthorizationToken} = useAuth();
     // console.log(loginUserData);
     const navigate = useNavigate();
@@ -47,7 +44,9 @@ const ProductDetails = () => {
         const addProductInCart = async () => {
             try {
                 const {username, email} = loginUserData;
-                const { _id, title, description, brand, price, discountPercentage, thumbnail } = product;
+                const { _id, title, description, brand, price, discountPercentage, thumbnail, 
+                    stock, shippingInformation
+                } = product;
                 const cartData = {
                     "username" : username,
                     "useremail" : email,
@@ -58,7 +57,9 @@ const ProductDetails = () => {
                         "brand" : brand,
                         "price" : price,
                         "discountPercentage" : discountPercentage,
-                        "thumbnail" : thumbnail
+                        "thumbnail" : thumbnail,
+                        "stock" : stock,
+                        "shippingInformation" : shippingInformation
                     }
                 }
                 const response = await axios.post('http://localhost:3030/cart/add', cartData, {
@@ -105,7 +106,7 @@ const ProductDetails = () => {
                                                     return (
                                                         <li
                                                             key={index}
-                                                            onMouseOver={handleImageChange}>
+                                                            onMouseOver={() => handleImageChange(image)}>
                                                             <img
                                                                 src={image}
                                                                 alt={category + index + '-img'}

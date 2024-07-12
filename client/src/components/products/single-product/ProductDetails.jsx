@@ -15,7 +15,7 @@ const ProductDetails = () => {
     const [isProductExistInCart, setProductExistInCart] = useState(false);
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const { loginUserData, AuthorizationToken, cartData, isLoadingCartData } = useAuth();
+    const { loginUserData, AuthorizationToken, cartData, isLoadingCartData, fetchCartProducts } = useAuth();
     const navigate = useNavigate();
 
     const getProductDetails = useCallback(() => {
@@ -67,6 +67,7 @@ const ProductDetails = () => {
                 }
             });
             if (response.status === 201 || response.status === 200) {
+                await fetchCartProducts();
                 navigate('/cart');
             }
         } catch (error) {
@@ -130,7 +131,9 @@ const ProductDetails = () => {
                             </div>
                             <div className="button-container">
                                 {isProductExistInCart ? (
-                                    <button className="btn">Go To Cart</button>
+                                    <Link to={'/cart'}>
+                                        <button className="btn">Go To Cart</button>
+                                    </Link>
                                 ) : (
                                     <button
                                         className="btn"

@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoadingCartData(false);
         }
-    }, [loginUserData.email, AuthorizationToken])
+    }, [loginUserData.email, AuthorizationToken]);
     useEffect(() => {
         fetchCartProducts();
     }, [fetchCartProducts]);
@@ -108,7 +108,8 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 isServerIssue,
                 cartData,
-                isLoadingCartData
+                isLoadingCartData,
+                fetchCartProducts
             }}
         >
             {children}

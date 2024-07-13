@@ -27,14 +27,41 @@ const Cart = () => {
         }
     }
 
+    const deleteCartItem = async (userCartID, cartItemId) => {
+        try {
+            const response = await axios.delete(`http://localhost:3030/cart/delete?userCartID=${userCartID}&cartItemId=${cartItemId}`, {
+                headers: {
+                    Authorization: AuthorizationToken
+                }
+            });
+            if (response.status === 200) {
+                await fetchCartProducts();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     let totalSalePrice = 0;
     let totalMRP = 0;
     const content = useMemo(() => {
         if (isLoadingCartData) {
-            return <div className="cart-section" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Loading...</div>;
+            return (
+                <div className="cart-section" style={{ height: "12rem" }}>
+                    <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Loading...</p>
+                </div>
+            );
         }
         if (!cartData || !cartData.cartItems || cartData.cartItems.length === 0) {
-            return <div className="cart-section" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Your cart is empty.</div>;
+            return (
+                <div className="cart-section empty-cart">
+                    <p>Your cart is empty!</p>
+                    <small>Add products to it now.</small>
+                    <Link to={'/'}>
+                        <button>Shop Now</button>
+                    </Link>
+                </div>
+            );
         }
         return (
             <section className="cart-section">
@@ -105,7 +132,7 @@ const Cart = () => {
                                             </button>
                                         </div>
                                         <div className="remove-container">
-                                            <button>REMOVE</button>
+                                            <button onClick={() => deleteCartItem(cartData._id, _id)}>REMOVE</button>
                                         </div>
                                     </div>
                                 );

@@ -47,19 +47,19 @@ This project is an eCommerce web application developed using React.js for the fr
   - npm
   - MongoDB
 
--**Clone the Repository:**
+**Clone Repository:**
 ```bash
   git clone https://github.com/BuddhadevBauna/e-shop-pro.git
   cd online-shopping
 ```
 
--**Install depandencies for frontend:**
+**Install depandencies for frontend:**
 ```bash
   cd client
   npm install
 ```
 
--**Install depandencies for backend:**
+**Install depandencies for backend:**
 ```bash
   cd ../server
   npm install

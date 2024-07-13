@@ -4,7 +4,7 @@ const addProductInCart = async (req, res) => {
     try {
         const cartDetails = req.body;
 
-        //find the user cart by email
+        //find the user cart exist or not by email
         let userCart = await Cart.findOne({useremail: cartDetails.useremail});
 
         if(!userCart) {

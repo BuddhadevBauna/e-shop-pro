@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { ImAidKit } from "react-icons/im";
 import { MdAccountCircle } from "react-icons/md";
@@ -13,7 +13,8 @@ const Navbar = () => {
     const [isSearchContainerVisible, setSearchContainerVisible] = useState(false);
     const [isListContainerVisible, setListContainerVisible] = useState(false);
     const [isUserSectionActive, setUserSectionActive] = useState(false);
-    const { isLoggedIn } = useAuth();
+    const [totalCartItem, setTotalCartItem] = useState();
+    const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
     // console.log(isLoggedIn);
 
     const toggleSearchContainer = () => {
@@ -32,6 +33,12 @@ const Navbar = () => {
     const handleMouseLeave = () => {
         setUserSectionActive(false);
     }
+
+    useEffect(() => {
+        if (!isLoadingCartData && cartData) {
+            setTotalCartItem(cartData.cartItems.length);
+        }
+    }, [isLoadingCartData, cartData])
 
     return (
         <div className="navbar">
@@ -141,7 +148,10 @@ const Navbar = () => {
                     </li>
                     <li className="list-item">
                         <NavLink className="nav-link" to="/cart">
-                            <i><FaCartArrowDown /></i>
+                            <i>
+                                <FaCartArrowDown />
+                                {totalCartItem > 0 && <span>{totalCartItem}</span>}
+                            </i>
                             <p>Cart</p>
                         </NavLink>
                     </li>

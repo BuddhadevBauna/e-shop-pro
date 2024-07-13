@@ -7,9 +7,6 @@ import axios from "axios";
 
 const Cart = () => {
     const { cartData, isLoadingCartData, AuthorizationToken, fetchCartProducts } = useAuth();
-    const [totalCartItemMRP, setTotalCartItemMRP] = useState(0);
-    const [totalDiscount, setTotalDiscount] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
 
     const handleQuantityChange = async (itemID, quantity) => {
         try {
@@ -30,6 +27,8 @@ const Cart = () => {
         }
     }
 
+    let totalSalePrice = 0;
+    let totalMRP = 0;
     const content = useMemo(() => {
         if (isLoadingCartData) {
             return <div className="cart-section" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Loading...</div>;
@@ -47,14 +46,15 @@ const Cart = () => {
                                     discountPercentage, thumbnail, stock, shippingInformation,
                                     quantity
                                 } = cartItem;
-                                let totalPrice = price * quantity;
-                                let MRP = totalPrice / (1 - discountPercentage / 100);
+                                let subTotalSalePrice = price * quantity;
+                                let subTotalMRP = subTotalSalePrice / (1 - discountPercentage / 100);
+                                totalSalePrice += subTotalSalePrice;
+                                totalMRP += subTotalMRP;
 
                                 const handleIncrement = () => {
                                     if (stock > 10) {
                                         if (quantity < 5) {
                                             handleQuantityChange(_id, quantity + 1);
-                                            setTotalAmount(totalAmount + totalPrice);
                                         }
                                     }
                                 };
@@ -79,8 +79,8 @@ const Cart = () => {
                                             </Link>
                                             {brand && <p className="brand">Brand : {brand}</p>}
                                             <p className="price">
-                                                <span className="mrp">₹ {Math.round(MRP)}</span>
-                                                <span className="sale-price">₹ {parseInt(totalPrice)}</span>
+                                                <span className="mrp">₹ {Math.round(subTotalMRP)}</span>
+                                                <span className="sale-price">₹ {Math.round(subTotalSalePrice)}</span>
                                                 <span className="discount">{discountPercentage}% off</span>
                                             </p>
                                         </div>
@@ -120,11 +120,11 @@ const Cart = () => {
                         <div>
                             <p>
                                 <span>Price ({cartData.cartItems.length} item)</span>
-                                <span>₹{totalCartItemMRP}</span>
+                                <span>₹{Math.round(totalMRP)}</span>
                             </p>
                             <p>
                                 <span>Discount</span>
-                                <span className="discount">-₹{totalDiscount}</span>
+                                <span className="discount">-₹{Math.round(totalMRP - totalSalePrice)}</span>
                             </p>
                             <p>
                                 <span>Delivery Charges</span>
@@ -133,10 +133,10 @@ const Cart = () => {
                             <hr />
                             <p className="total">
                                 <span>Total Amount</span>
-                                <span>₹{totalAmount}</span>
+                                <span>₹{Math.round(totalSalePrice)}</span>
                             </p>
                             <hr />
-                            <p className="saving">You will save ₹{totalDiscount} on this order</p>
+                            <p className="saving">You will save ₹{Math.round(totalSalePrice)} on this order</p>
                         </div>
                     </div>
                 </div>

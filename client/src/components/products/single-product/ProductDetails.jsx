@@ -58,7 +58,7 @@ const ProductDetails = () => {
                     "thumbnail": thumbnail,
                     "shippingInformation": shippingInformation,
                     "stock": stock,
-                    "totalItem": 1
+                    "quantity": 1
                 }
             }
             const response = await axios.post('http://localhost:3030/cart/add', cartData, {

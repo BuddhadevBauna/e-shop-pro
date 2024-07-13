@@ -17,8 +17,7 @@ const updateProductInCart = async (req, res) => {
             return res.status(404).json({ message: 'User cart or cart item not found' });
         }
 
-        return res.json({ message: 'Cart item quantity updated successfully'});
-
+        return res.status(200).json({ message: 'Cart item quantity updated successfully'});
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Cart item quantity update unsuccessful' });

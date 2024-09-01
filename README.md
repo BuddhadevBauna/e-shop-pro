@@ -75,13 +75,13 @@ This project is an eCommerce web application developed using React.js for the fr
 ## Run the Application
 - **Frontend:**
 ```bash
-  cd ../server
+  cd ../client
   npm run dev
 ```
 
 - **Backend:**
 ```bash
-  cd client
+  cd ../server
   npm start
 ```
 

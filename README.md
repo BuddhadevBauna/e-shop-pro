@@ -50,7 +50,6 @@ This project is an eCommerce web application developed using React.js for the fr
 **Clone Repository:**
 ```bash
   git clone https://github.com/BuddhadevBauna/e-shop-pro.git
-  cd online-shopping
 ```
 
 **Install depandencies for frontend:**

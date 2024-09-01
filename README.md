@@ -81,7 +81,7 @@ This project is an eCommerce web application developed using React.js for the fr
 - **Backend:**
 ```bash
   cd ../server
-  npm start
+  node server.js
 ```
 
 

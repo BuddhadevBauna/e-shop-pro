@@ -10,13 +10,14 @@ import axios from "axios";
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
     // console.log(product);
-    const [showImage, setShowImage] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [isProductExistInCart, setProductExistInCart] = useState(false);
     const { productId } = useParams();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [activeImage, setActiveImage] = useState("");
+    const [showImage, setShowImage] = useState("");
     const { loginUserData, AuthorizationToken, cartData, isLoadingCartData, fetchCartProducts } = useAuth();
     const navigate = useNavigate();
+    const [isProductExistInCart, setProductExistInCart] = useState(false);
 
     const getProductDetails = useCallback(() => {
         setLoading(true);
@@ -31,11 +32,13 @@ const ProductDetails = () => {
 
     useEffect(() => {
         if (product?.images?.length > 0) {
+            setActiveImage(product.images[0]);
             setShowImage(product.images[0]);
         }
     }, [product]);
 
     const handleImageChange = (image) => {
+        setActiveImage(image);
         setShowImage(image);
     };
 
@@ -76,10 +79,7 @@ const ProductDetails = () => {
     }
 
     useEffect(() => {
-        // console.log("isLoadingCartData:", isLoadingCartData);
-        // console.log("cartData:", cartData);
-        // console.log("productId:", productId);
-        if (cartData && !isLoadingCartData && productId) {
+        if (!isLoadingCartData && cartData && productId) {
             setProductExistInCart(cartData.cartItems?.some(item => item.productId === productId));
         }
     }, [cartData, isLoadingCartData, productId]);
@@ -113,6 +113,7 @@ const ProductDetails = () => {
                                                     return (
                                                         <li
                                                             key={index}
+                                                            className={`${activeImage === image ? "active" : ""}`}
                                                             onMouseOver={() => handleImageChange(image)}>
                                                             <img
                                                                 src={image}

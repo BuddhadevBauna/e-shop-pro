@@ -2,8 +2,7 @@ import express from "express";
 import addProduct from "../controllers/products/add-product-controller.js";
 import updateProduct from "../controllers/products/update-product-controller.js";
 import * as getProduct from "../controllers/products/get-product-controller.js";
-import searchProductsOrCategory from "../controllers/products/search-product-controller.js";
-import * as sortAndFilterProduct from "../controllers/products/sort-filter-product-controller.js"
+import searchAndSelectProductsOrCategory from "../controllers/products/search-select-product-controller.js";
 import authMiddleware from "../middlewares/auth-middleware.js";
 import adminMiddleware from "../middlewares/admin-middleware.js";
 import deleteProduct from "../controllers/products/delete-product-controller.js";
@@ -19,14 +18,12 @@ router.route('/update/:productId').patch(authMiddleware, adminMiddleware, update
 //delete Product
 router.route('/delete/:productId').delete(authMiddleware, adminMiddleware, deleteProduct);
 
-//get product
+//get products
 router.route('/').get(getProduct.getAllProduct);
 router.route('/category/:particularCategory').get(getProduct.getCategoryOfProduct);
-//search product
-router.route('/search').get(searchProductsOrCategory);
-//sort & filter product
-router.route('/category/:particularCategory/q').get(sortAndFilterProduct.sortAndFilterCategryOfProduct);
-router.route('/search/q').get(sortAndFilterProduct.sortAndFilterSearchProducts);
+//search, select, sort, filter product
+router.route('/searchandSelect').get(searchAndSelectProductsOrCategory);
+
 //get product
 router.route('/:productId').get(getProduct.getSingleProduct);
 

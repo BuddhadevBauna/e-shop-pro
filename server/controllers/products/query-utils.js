@@ -1,35 +1,29 @@
-export const buildSortOrder = (query) => {
+export const buildSortOption = (query) => {
     const { sortBy } = query;
-    // console.log(`sortBy: ${sortBy}`);
 
-    let sortOrder = {};
+    let sortOption = {};
     if (sortBy === 'price_desc') {
-        sortOrder = { price: 'desc' };
+        sortOption.price = -1;
     } else if(sortBy === 'price_asc') {
-        sortOrder = { price: 'asc' };
+        sortOption.price = 1;
     }
-    // console.log(sortOrder);
 
-    return sortOrder;
+    return sortOption;
 }
 
-export const buildFilterQueryObject = (query, filterQueryObject) => {
-    const { filterBrand, minPrice, maxPrice, minRating, maxRating } = query;
-    // console.log(`brand: ${filterBrand}, minPrice: ${minPrice}, maxPrice: ${maxPrice}, minRating: ${minRating}, maxRating: ${maxRating}`);
+export const buildFilterQueryString = (query, queryString = {}) => {
+    const { brands, minRatings } = query;
     
-    if(filterBrand) {
-        const brands = filterBrand.split(',');
-        filterQueryObject.brand = { $in: brands.map(brand => new RegExp(brand, 'i')) }
+    if(brands) {
+        const brandArray = brands.split(',');
+        queryString.brand = { $in: brandArray };
     }
     
-    if(minPrice && maxPrice) filterQueryObject.price = { $gte: parseFloat(minPrice), $lte: parseFloat(maxPrice) };
-    else if(minPrice) filterQueryObject.price = { $gte: parseFloat(minPrice) };
-    else if(maxPrice) filterQueryObject.price = { $lte: parseFloat(maxPrice) };
-    
-    if(minRating && maxRating) filterQueryObject.rating = { $gte: minRating, $lte: maxRating };
-    else if(minRating) filterQueryObject.rating = { $gte: minRating };
-    else if(maxRating) filterQueryObject.rating = { $lte: maxRating };
-    // console.log(filterQueryObject);
+    if(minRatings) {
+        const ratingArray = minRatings.split(',').map(Number);
+        const highestRating = Math.max(...ratingArray);
+        queryString.rating = { $gte: highestRating };
+    }
 
-    return filterQueryObject;
+    return queryString;
 }

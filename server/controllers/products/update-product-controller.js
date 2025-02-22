@@ -13,7 +13,7 @@ const updateProduct = async (req, res) => {
         }
         return res.status(200).json({message: "update product successful"});
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({message: "update product not successful"})
     }
 }

@@ -12,7 +12,7 @@ const deleteCategory = async (req, res) => {
         }
         // console.log(category);
 
-        //delete full catehgory
+        //delete full category
         if(!subCategoryId) {
             await Category.deleteOne({_id: categoryId})
             return res.status(200).json({ message: "Category delete successful in database" });

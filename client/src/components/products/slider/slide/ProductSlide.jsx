@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./ProductSlide.css";
 import { FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { IoEyeSharp } from "react-icons/io5";
 
 const ProductSlide = ({ product }) => {
     let { _id, title, thumbnail, category, price, discountPercentage, rating } = product;

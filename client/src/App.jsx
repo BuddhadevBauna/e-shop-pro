@@ -25,38 +25,42 @@ import ProductDetails from './components/products/single-product/ProductDetails'
 import AddReview from './components/user/review/AddReview';
 import ProductRoot from './pages/ProductRoot';
 import Cart from './components/user/cart/Cart';
+import AccountRoot from './pages/AccountRoot';
 
 
 const router = createBrowserRouter([
   {
     path: "/", element: <Root />,
     children: [
-      // Home routes
       { path: "", element: <ProductListing /> },
       {
         path: "products", element: <ProductRoot />,
         children: [
           { path: "", element: <ProductListing /> },
-          { path: "category/:particularCategory", element: <ProductExplorer /> },
+          { path: "select", element: <ProductExplorer /> },
           { path: "search", element: <ProductExplorer /> },
           { path: ":productId", element: <ProductDetails /> },
           { path: ":productId/review", element: <AddReview /> },
         ]
       },
-      // Auth routes
-      { path: "register", element: <Register /> },
-      { path: "login", element: <Login /> },
-      { path: "logout", element: <Logout /> },
-      //user related routes
-      { path: "cart", element: <Cart /> }
+      {
+        path: 'account', element: <AccountRoot />,
+        children: [
+          { path: 'register', element: <Register /> },
+          { path: 'login', element: <Login /> },
+          { path: 'logout', element: <Logout /> },
+          // { path: 'verify/:token', element: <Verify /> },
+          // { path: 'password/forgot', element: <ForgotPassword /> },
+          // { path: 'password/reset/:token', element: <ResetPassword /> }
+        ],
+      },
+      { path: "viewcart", element: <Cart /> }
     ],
   },
-  // Error route
   { path: "/*", element: <ClientError /> },
   {
     path: "admin", element: <AdminLayout />,
     children: [
-      // Category management routes
       {
         path: "categories",
         children: [
@@ -65,7 +69,6 @@ const router = createBrowserRouter([
           { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
         ]
       },
-      // Product management routes
       {
         path: "products",
         children: [
@@ -74,14 +77,12 @@ const router = createBrowserRouter([
           { path: "update/:productId", element: <UpdateProduct /> },
         ]
       },
-      // User management routes
       {
         path: "user",
         children: [
           { path: "user", element: <ManageUsers /> },
         ]
       }
-      
     ]
   }
 ]);
@@ -89,13 +90,14 @@ const router = createBrowserRouter([
 function App() {
   const { isServerIssue } = useAuth();
 
+  if (isServerIssue) {
+    return <ServerError />;
+  }
+
   //call custom hook
   useFetchAllCategory();
   useFetchProductsOfAllCategories();
 
-  if (isServerIssue) {
-    return <ServerError />;
-  }
   return (
     <RouterProvider router={router} />
   );

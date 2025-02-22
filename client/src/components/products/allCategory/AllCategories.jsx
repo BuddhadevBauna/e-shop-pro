@@ -16,12 +16,12 @@ const AllCategories = () => {
   }
 
   const renderCategories = categories.map((category, index) => {
-    const { name, categoryType, subCategory } = category;
+    const { name, subCategory } = category;
     return (
       <div className="category-container" key={index}>
         {subCategory.length === 0 ? (
           <div>
-            <Link to={`/products/category/${categoryType}`}>
+            <Link to={`/products/select/?q=${encodeURIComponent(name)}`}>
               <menu>{name}</menu>
             </Link>
           </div>
@@ -30,14 +30,14 @@ const AllCategories = () => {
             onMouseOver={() => handleCategoryover(name)}
             onMouseLeave={() => handlemouseLeave()}
           >
-            <Link to={`/products/category/${subCategory[0].categoryType}`} className="category-menu">
+            <Link to={`/products/select/?q=${encodeURIComponent(name)}`} className="category-menu">
               {name}
-              { activeCategory === name ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i> }
+              {activeCategory === name ? <i><IoIosArrowUp /></i> : <i><IoIosArrowDown /></i>}
             </Link>
             <ul style={{ display: activeCategory === name ? "block" : "none" }}>
               {subCategory.map((subCat, subIndex) => (
                 <li key={subIndex}>
-                  <Link to={`/products/category/${subCat.categoryType}`}>{subCat.name}</Link>
+                  <Link to={`/products/select/?q=${encodeURIComponent(subCat.name)}`}>{subCat.name}</Link>
                 </li>
               ))}
             </ul>

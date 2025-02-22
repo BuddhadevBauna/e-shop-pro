@@ -1,5 +1,6 @@
 .filter-sidebar-container {
     width: 15rem;
+
     & .filter-sidebar {
         display: flex;
         flex-direction: column;
@@ -11,6 +12,7 @@
         position: sticky;
         top: 7rem;
         z-index: 7;
+
         & .filters {
             display: flex;
             flex-direction: row;
@@ -18,25 +20,34 @@
             white-space: nowrap;
             font-weight: 500;
             color: blueviolet;
+
             & p.second {
                 font-size: 0.9rem;
                 cursor: pointer;
             }
         }
+
         & h1 {
             font-size: 1rem;
         }
+
         & div {
             & li {
                 font-size: 0.9rem;
                 color: gray;
                 cursor: pointer;
+
                 & input {
                     margin-right: 0.2rem;
                     cursor: pointer;
                 }
             }
+
+            & li.active {
+                color: blue;
+            }
         }
+
         & .filter-category {
             & .subcategory-heading {
                 display: flex;
@@ -44,13 +55,19 @@
                 color: black;
                 font-weight: 600;
                 cursor: pointer;
+
                 & i {
                     display: flex;
                     align-items: center;
                 }
             }
+
             & .subCategory-ul {
                 padding-left: 1.1rem;
+            }
+
+            & .category-menu.active {
+                color: blue;
             }
         }
     }

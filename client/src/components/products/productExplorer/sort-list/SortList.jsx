@@ -1,9 +1,17 @@
+import React from "react";
 import "./SortList.css";
 import { IoIosArrowForward } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const SortList = ({setSortCriteria}) => {
+const SortList = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const handleSort = (sortBy) => {
-        setSortCriteria(sortBy);
+        const url = new URL(window.location.origin + location.pathname + location.search);
+        let query = url.searchParams;
+        query.set("sortBy", sortBy);
+        navigate(`${url.pathname}?${query.toString()}`);
     }
 
     return (
@@ -16,7 +24,7 @@ const SortList = ({setSortCriteria}) => {
                 </ul>
             </div>
         </div>
-    )
+    );
 }
 
 export default SortList;

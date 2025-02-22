@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { ImAidKit } from "react-icons/im";
-import { MdAccountCircle } from "react-icons/md";
-import { FaArrowUp, FaBars, FaCartArrowDown, FaRegHeart, FaRegUserCircle, FaSearch } from "react-icons/fa";
+import { FaCartArrowDown, FaRegHeart, FaRegUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchContainer from "./products/search/SearchContainer";
 import { useAuth } from "../store/context/auth";
 
 
 const Navbar = () => {
-    const [isSearchContainerVisible, setSearchContainerVisible] = useState(false);
-    const [isListContainerVisible, setListContainerVisible] = useState(false);
     const [isUserSectionActive, setUserSectionActive] = useState(false);
     const [totalCartItem, setTotalCartItem] = useState();
     const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
     // console.log(isLoggedIn);
-
-    const toggleSearchContainer = () => {
-        setSearchContainerVisible(!isSearchContainerVisible);
-    }
-    const collapseNavbar = () => {
-        setSearchContainerVisible(!isSearchContainerVisible);
-    }
-    const toggleListContainer = () => {
-        setListContainerVisible(!isListContainerVisible);
-    }
+    const location = useLocation();
 
     const handleMouseOver = () => {
         setUserSectionActive(true);
@@ -42,45 +30,21 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
-            <div className={`navabar-container ${isSearchContainerVisible ? "navbar-container-sm" : ""}`}>
+            <div className="navabar-container">
                 <div className="main-container">
-                    <div className="sidebar-container">
-                        <i className="sidebar-icon-sm" onClick={toggleListContainer}>
-                            <FaBars />
-                        </i>
-                        <h1 className="logo">
-                            <ImAidKit />
-                        </h1>
-                    </div>
-                    <div className="search-and-account-sm">
-                        <button className="search-btn" onClick={toggleSearchContainer}>
-                            <i className="search-icon">
-                                <FaSearch />
-                            </i>
-                        </button>
-                        <NavLink className="nav-link" to="/login">
-                            <i><MdAccountCircle /></i>
-                            <p>Account</p>
-                        </NavLink>
-                    </div>
+                    <h1 className="logo"><ImAidKit /></h1>
                 </div>
-                <div className={`search-container ${isSearchContainerVisible ? "search-active" : ""}`}>
+                <div className="search-container">
                     <div className="search-box-and-submit-btn">
                         <SearchContainer />
                     </div>
-                    <i className="collapse-icon-sm" onClick={collapseNavbar}>
-                        <FaArrowUp />
-                    </i>
                 </div>
-                <ul
-                    className={`list-item-container ${isSearchContainerVisible ? "list-item-container-sm" : ""} 
-                    ${isListContainerVisible ? "list-active" : ""}`}
-                >
+                <ul className="list-item-container">
                     <li className="list-item">
                         {!isLoggedIn ? (
                             <NavLink
                                 className="nav-link"
-                                to="/login"
+                                to="/account/login"
                                 onMouseOver={handleMouseOver}
                                 onMouseLeave={handleMouseLeave}
                             >
@@ -113,7 +77,7 @@ const Navbar = () => {
                             >
                                 {!isLoggedIn &&
                                     <>
-                                        <Link to={'/register'}>
+                                        <Link to={'/account/register'}>
                                             <div className="user-registration">
                                                 <p>New Customer?</p>
                                                 <p className="signup">Register</p>
@@ -124,21 +88,21 @@ const Navbar = () => {
                                 }
                                 <div className="user">
                                     {!isLoggedIn ?
-                                        <Link to={'/login'}>
+                                        <Link to={'/account/login'}>
                                             <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
                                         </Link>
                                         :
                                         <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
                                     }
                                     {!isLoggedIn ?
-                                        <Link to={'/login'}>
+                                        <Link to={'/account/login'}>
                                             <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
                                         </Link>
                                         :
                                         <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
                                     }
                                     {isLoggedIn &&
-                                        <Link to={'/logout'}>
+                                        <Link to={'/account/logout'}>
                                             <p className="logout"><i><IoIosLogOut /></i><span>Logout</span></p>
                                         </Link>
                                     }
@@ -146,15 +110,17 @@ const Navbar = () => {
                             </div>
                         }
                     </li>
-                    <li className="list-item">
-                        <NavLink className="nav-link" to="/cart">
-                            <i>
-                                <FaCartArrowDown />
-                                {totalCartItem > 0 && <span>{totalCartItem}</span>}
-                            </i>
-                            <p>Cart</p>
-                        </NavLink>
-                    </li>
+                    {location.pathname !== "/viewcart" && (
+                        <li className="list-item">
+                            <NavLink className="nav-link" to="/viewcart">
+                                <i>
+                                    <FaCartArrowDown />
+                                    {totalCartItem > 0 && <span>{totalCartItem}</span>}
+                                </i>
+                                <p>Cart</p>
+                            </NavLink>
+                        </li>
+                    )}
                 </ul>
             </div>
         </div>

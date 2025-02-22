@@ -6,7 +6,7 @@ export const getAllProduct = async (req, res) => {
         const products = await Product.find({});
         return res.status(200).json(products);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return res.status(500).json({message: "All product get unsucessful"});
     }
 }

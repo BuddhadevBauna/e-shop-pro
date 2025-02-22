@@ -60,10 +60,9 @@ export const AuthProvider = ({ children }) => {
             if (response.statusText === "OK") {
                 const data = response.data;
                 setLoginUserData(data.userData);
-                // setIsLoading(false);
             }
         } catch (error) {
-            console.log("Error fetching userdata", error);
+            // console.log("Error fetching userdata", error);
         } finally {
             setIsLoading(false);
         }
@@ -78,7 +77,6 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     const fetchCartProducts = useCallback(async () => {
-        setLoadingCartData(true);
         try {
             const response = await axios.get(`http://localhost:3030/cart?useremail=${loginUserData.email}`, {
                 headers: {
@@ -88,7 +86,7 @@ export const AuthProvider = ({ children }) => {
             // console.log(response.data);
             setCartData(response.data);
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         } finally {
             setLoadingCartData(false);
         }

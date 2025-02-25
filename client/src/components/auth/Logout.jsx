@@ -3,11 +3,10 @@ import { useAuth } from "../../store/context/auth";
 import { Navigate } from "react-router-dom";
 
 const Logout = () => {
-    const {logoutUser} = useAuth();
-
+    const {removeTokenFromLocalStorage} = useAuth();
     useEffect(() => {
-        logoutUser();
-    }, [logoutUser]);
+        removeTokenFromLocalStorage();
+    }, []);
 
     return (
         <>

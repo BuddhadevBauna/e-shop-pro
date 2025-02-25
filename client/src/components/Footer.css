@@ -90,6 +90,8 @@
     color: white;
 }
 .soc-icon {
+    width: 1rem;
+    height: 1rem;
     display: flex;
     font-size: 1rem;
     padding: 0.5rem;

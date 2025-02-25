@@ -6,7 +6,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import axios from "axios";
 
 const Cart = () => {
-    const { cartData, isLoadingCartData, AuthorizationToken, fetchCartProducts } = useAuth();
+    const { isLoggedIn, cartData, isLoadingCartData, AuthorizationToken, fetchCartProducts } = useAuth();
 
     const handleQuantityChange = async (itemID, quantity) => {
         try {
@@ -45,6 +45,17 @@ const Cart = () => {
     let totalSalePrice = 0;
     let totalMRP = 0;
     const content = useMemo(() => {
+        if(!isLoggedIn) {
+            return (
+                <div className="cart-section login-to-view">
+                    <p>Missing Cart items?</p>
+                    <small>Login to see the items you added previously.</small>
+                    <Link to={'/account/login'}>
+                        <button>Login</button>
+                    </Link>
+                </div>
+            );
+        }
         if (isLoadingCartData) {
             return (
                 <div className="cart-section" style={{ height: "12rem" }}>

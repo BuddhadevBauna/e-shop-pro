@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { ImAidKit } from "react-icons/im";
 import { FaCartArrowDown, FaRegHeart, FaRegUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import SearchContainer from "./products/search/SearchContainer";
 import { useAuth } from "../store/context/auth";
 
@@ -13,7 +13,6 @@ const Navbar = () => {
     const [totalCartItem, setTotalCartItem] = useState();
     const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
     // console.log(isLoggedIn);
-    const location = useLocation();
 
     const handleMouseOver = () => {
         setUserSectionActive(true);
@@ -57,7 +56,7 @@ const Navbar = () => {
                         ) : (
                             <NavLink
                                 className="nav-link"
-                                to="/account"
+                                to="/account/details"
                                 onMouseOver={handleMouseOver}
                                 onMouseLeave={handleMouseLeave}
                             >
@@ -87,20 +86,12 @@ const Navbar = () => {
                                     </>
                                 }
                                 <div className="user">
-                                    {!isLoggedIn ?
-                                        <Link to={'/account/login'}>
-                                            <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
-                                        </Link>
-                                        :
+                                    <Link to={'/account/details'}>
                                         <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
-                                    }
-                                    {!isLoggedIn ?
-                                        <Link to={'/account/login'}>
-                                            <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
-                                        </Link>
-                                        :
+                                    </Link>
+                                    <Link to={'/wishlist'}>
                                         <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
-                                    }
+                                    </Link>
                                     {isLoggedIn &&
                                         <Link to={'/account/logout'}>
                                             <p className="logout"><i><IoIosLogOut /></i><span>Logout</span></p>
@@ -110,17 +101,15 @@ const Navbar = () => {
                             </div>
                         }
                     </li>
-                    {location.pathname !== "/viewcart" && (
-                        <li className="list-item">
-                            <NavLink className="nav-link" to="/viewcart">
-                                <i>
-                                    <FaCartArrowDown />
-                                    {totalCartItem > 0 && <span>{totalCartItem}</span>}
-                                </i>
-                                <p>Cart</p>
-                            </NavLink>
-                        </li>
-                    )}
+                    <li className="list-item">
+                        <NavLink className="nav-link" to="/viewcart">
+                            <i>
+                                <FaCartArrowDown />
+                                {totalCartItem > 0 && <span>{totalCartItem}</span>}
+                            </i>
+                            <p>Cart</p>
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </div>

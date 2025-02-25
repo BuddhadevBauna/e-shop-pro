@@ -15,7 +15,7 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const [activeImage, setActiveImage] = useState("");
     const [showImage, setShowImage] = useState("");
-    const { loginUserData, AuthorizationToken, cartData, isLoadingCartData, fetchCartProducts } = useAuth();
+    const { isLoggedIn, loginUserData, AuthorizationToken, cartData, isLoadingCartData, fetchCartProducts } = useAuth();
     const navigate = useNavigate();
     const [isProductExistInCart, setProductExistInCart] = useState(false);
 
@@ -41,6 +41,10 @@ const ProductDetails = () => {
         setActiveImage(image);
         setShowImage(image);
     };
+
+    const goToCart = () => {
+        navigate('/viewcart');
+    }
 
     const addProductInCart = async () => {
         try {
@@ -132,17 +136,22 @@ const ProductDetails = () => {
                             </div>
                             <div className="button-container">
                                 {isProductExistInCart ? (
-                                    <Link to={'/cart'}>
-                                        <button className="btn">Go To Cart</button>
-                                    </Link>
+                                    <button
+                                        className={`btn ${!isLoggedIn ? "disabled" : ""}`}
+                                        disabled={!isLoggedIn}
+                                        onClick={goToCart}
+                                    >Go To Cart</button>
                                 ) : (
                                     <button
-                                        className="btn"
-                                        onClick={addProductInCart}>
-                                        Add To Cart
-                                    </button>
+                                        className={`btn ${!isLoggedIn ? "disabled" : ""}`}
+                                        disabled={!isLoggedIn}
+                                        onClick={addProductInCart}
+                                    >Add To Cart</button>
                                 )}
-                                <button className="btn">Buy Now</button>
+                                <button
+                                    className={`btn ${!isLoggedIn ? "disabled" : ""}`}
+                                    disabled={!isLoggedIn}
+                                >Buy Now</button>
                             </div>
                         </div>
                     </div>

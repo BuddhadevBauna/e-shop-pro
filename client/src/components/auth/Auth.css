@@ -38,6 +38,10 @@
                 input:focus {
                     border: solid 0.2rem blue;
                 }
+
+                a {
+                    color: blue;
+                }
             }
             & .auth-btn {
                 margin-top: 0.5rem;

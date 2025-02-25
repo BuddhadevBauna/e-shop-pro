@@ -3,20 +3,22 @@ import addProduct from "../controllers/products/add-product-controller.js";
 import updateProduct from "../controllers/products/update-product-controller.js";
 import * as getProduct from "../controllers/products/get-product-controller.js";
 import searchAndSelectProductsOrCategory from "../controllers/products/search-select-product-controller.js";
-import authMiddleware from "../middlewares/auth-middleware.js";
-import adminMiddleware from "../middlewares/admin-middleware.js";
 import deleteProduct from "../controllers/products/delete-product-controller.js";
 import reviewProduct from "../controllers/products/review-product-controller.js";
+import verifyToken from "../middlewares/verifyToken-middleware.js";
+import getUserRole from "../middlewares/getUserRole-middleware.js";
+import checkAdmin from "../middlewares/checkAdmin-middleware.js";
+import checkCustomer from "../middlewares/checkCustomer-middleware.js";
 
 const router = express.Router();
 
 //controlled by Admin
 //add product
-router.route('/add').post(authMiddleware, adminMiddleware, addProduct);
+router.route('/add').post(verifyToken, getUserRole, checkAdmin, addProduct);
 //update Product
-router.route('/update/:productId').patch(authMiddleware, adminMiddleware, updateProduct);
+router.route('/update/:productId').patch(verifyToken, getUserRole, checkAdmin, updateProduct);
 //delete Product
-router.route('/delete/:productId').delete(authMiddleware, adminMiddleware, deleteProduct);
+router.route('/delete/:productId').delete(verifyToken, getUserRole, checkAdmin, deleteProduct);
 
 //get products
 router.route('/').get(getProduct.getAllProduct);
@@ -29,6 +31,6 @@ router.route('/:productId').get(getProduct.getSingleProduct);
 
 //controll by user
 //review product
-router.route('/:productId/review').post(authMiddleware, reviewProduct);
+router.route('/:productId/review').post(verifyToken, getUserRole, checkCustomer, reviewProduct);
 
 export default router;

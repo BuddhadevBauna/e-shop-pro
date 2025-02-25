@@ -7,30 +7,14 @@ export const AuthContext = createContext();
 
 //provider(for data passing)
 export const AuthProvider = ({ children }) => {
+    const [isServerIssue, setServerIssue] = useState(true);
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const [isLoggedIn, setLoggedIn] = useState(!!token);
-    const AuthorizationToken = `Bearer ${token}`;
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const [loginUserData, setLoginUserData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const [isServerIssue, setServerIssue] = useState(null);
     const [cartData, setCartData] = useState(null);
     const [isLoadingCartData, setLoadingCartData] = useState(true);
 
-    //for store token in local storage
-    const storeTokenInLS = (token) => {
-        setToken(token);
-        setLoggedIn(true);
-        localStorage.setItem("token", token);
-    };
-
-    //for user logout
-    const logoutUser = () => {
-        setToken("");
-        setLoggedIn(false);
-        localStorage.removeItem("token");
-    };
-
-    //for check server status
     const checkServerStatus = async () => {
         try {
             const response = await axios.get('http://localhost:3030/status');
@@ -48,39 +32,47 @@ export const AuthProvider = ({ children }) => {
         checkServerStatus();
     }, []);
 
-    //for get currently login user data
-    const userAuthentication = async () => {
+    const storeTokenInLocalStorage = (token) => {
+        setToken(token);
+        localStorage.setItem("token", token);
+    };
+
+    const removeTokenFromLocalStorage = () => {
+        setToken(null);
+        localStorage.removeItem('token');
+    }
+
+    const fetchLoggedinUserData = async () => {
         try {
-            const response = await axios.get(`http://localhost:3030/auth/user`, {
-                headers: {
-                    Authorization: AuthorizationToken,
-                },
-            });
+            const url = 'http://localhost:3030/user';
+            const response = await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}});
             // console.log(response);
-            if (response.statusText === "OK") {
-                const data = response.data;
-                setLoginUserData(data.userData);
+            if(response?.status >= 200 && response?.status <= 300) {
+                setLoggedIn(true);
+                setLoginUserData(response.data);
             }
         } catch (error) {
-            // console.log("Error fetching userdata", error);
+            // console.error(error);
+            setLoggedIn(false);
+            setLoginUserData(null);
         } finally {
             setIsLoading(false);
         }
-    };
+    }
     useEffect(() => {
-        if (token) {
-            userAuthentication();
-        } else {
-            setLoginUserData("");
+        if(token) fetchLoggedinUserData();
+        else {
+            setLoggedIn(false);
+            setLoginUserData(null);
             setIsLoading(false);
         }
-    }, [token]);
+    }, [token])
 
     const fetchCartProducts = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:3030/cart?useremail=${loginUserData.email}`, {
                 headers: {
-                    Authorization: AuthorizationToken
+                    Authorization: `Bearer ${token}`
                 }
             });
             // console.log(response.data);
@@ -90,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoadingCartData(false);
         }
-    }, [loginUserData.email, AuthorizationToken]);
+    }, [loginUserData?.email, token]);
     useEffect(() => {
         fetchCartProducts();
     }, [fetchCartProducts]);
@@ -98,16 +90,15 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider
             value={{
-                storeTokenInLS,
-                isLoggedIn,
-                logoutUser,
-                AuthorizationToken,
-                loginUserData,
-                isLoading,
                 isServerIssue,
+                token,
+                storeTokenInLocalStorage,
+                removeTokenFromLocalStorage,
+                isLoading,
+                isLoggedIn,
+                loginUserData,
                 cartData,
-                isLoadingCartData,
-                fetchCartProducts
+                isLoadingCartData
             }}
         >
             {children}

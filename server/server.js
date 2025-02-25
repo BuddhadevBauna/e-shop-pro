@@ -5,6 +5,7 @@ import productRoute from './routes/product-router.js';
 import categoryRoute from './routes/category-router.js';
 import cors from "cors";
 import authRoute from './routes/auth-router.js';
+import userRoute from './routes/user-router.js';
 import errorMiddleware from './middlewares/error-middleware.js';
 import statusRoute from './routes/status-router.js';
 import cartRoute from './routes/cart-route.js';
@@ -27,11 +28,12 @@ app.use(express.json());
 //routes
 //auth
 app.use('/auth', authRoute);
+app.use('', userRoute);
 //categories
 app.use('/categories/', categoryRoute);
-//products
+// //products
 app.use('/products/', productRoute);
-//cart item
+// //cart item
 app.use('/cart', cartRoute);
 //status
 app.use('/status', statusRoute);

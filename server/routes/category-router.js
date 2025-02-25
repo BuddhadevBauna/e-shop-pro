@@ -2,19 +2,20 @@ import express from "express";
 import addCategory from "../controllers/categories/add-category-controller.js";
 import * as getCategory from "../controllers/categories/get-category-controller.js";
 import categoryUpdate from "../controllers/categories/update-category-controller.js";
-import authMiddleware from "../middlewares/auth-middleware.js";
-import adminMiddleware from "../middlewares/admin-middleware.js";
 import deleteCategory from "../controllers/categories/delete-category-controller.js";
+import verifyToken from "../middlewares/verifyToken-middleware.js";
+import getUserRole from "../middlewares/getUserRole-middleware.js";
+import checkAdmin from "../middlewares/checkAdmin-middleware.js";
 
 const router = express.Router();
 
 //controlled By Admin
 //add category
-router.route('/add').post(authMiddleware,adminMiddleware, addCategory);
+router.route('/add').post(verifyToken, getUserRole, checkAdmin, addCategory);
 //update category
-router.route('/update/q').patch(authMiddleware, adminMiddleware, categoryUpdate);
+router.route('/update/q').patch(verifyToken, getUserRole, checkAdmin, categoryUpdate);
 //delete category
-router.route('/delete/q').delete(authMiddleware, adminMiddleware, deleteCategory);
+router.route('/delete/q').delete(verifyToken, getUserRole, checkAdmin, deleteCategory);
 
 //get all category
 router.route('/').get(getCategory.getAllCategory);

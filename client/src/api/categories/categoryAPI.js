@@ -15,7 +15,7 @@ export const fetchAllCategory = async (dispatch) => {
     }
 }
 //custom hook for fetch all category
-export const useFetchAllCategory = async () => {
+export const useFetchAllCategory = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         fetchAllCategory(dispatch);

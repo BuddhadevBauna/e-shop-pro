@@ -14,7 +14,7 @@ const ProductSlide = ({ product }) => {
         <>
             {product && (
                 <div className={`product-container`}>
-                    <Link to={`/favourite`}>
+                    <Link to={`/wishlist`}>
                         <i className="favourite">
                             <FaRegHeart />
                         </i>

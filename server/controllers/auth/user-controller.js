@@ -1,13 +1,16 @@
-//for get currently login user data
-const user = async (req, res) => {
+const user = (req, res) => {
     try {
-        const userData = req.userData;
-        // console.log(userData);
-        return res
-            .status(200)
-            .json({ userData })
+        const userData = {
+            id: req.verifiedUserData.id,
+            name: req.verifiedUserData.name,
+            email: req.verifiedUserData.email,
+        }
+        return res.status(200).json({
+            userRole: req.verifiedUserData.role,
+            extraUserData: userData
+        });
     } catch (error) {
-        console.log(`error from user route ${error}`);
+        console.log(error);
     }
 }
 

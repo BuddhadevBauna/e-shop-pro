@@ -26,6 +26,12 @@ import AddReview from './components/user/review/AddReview';
 import ProductRoot from './pages/ProductRoot';
 import Cart from './components/user/cart/Cart';
 import AccountRoot from './pages/AccountRoot';
+import Information from './components/user/information/Information';
+import FavouriteItems from './components/user/favourite/FavouriteItems';
+import RoleBasedRoute from './middleware/RoleBasedRoute';
+import Verify from './components/auth/verify/Verify';
+import ForgotPassword from './components/auth/password_update/ForgotPassword';
+import ResetPassword from './components/auth/password_update/ResetPassword';
 
 
 const router = createBrowserRouter([
@@ -40,7 +46,12 @@ const router = createBrowserRouter([
           { path: "select", element: <ProductExplorer /> },
           { path: "search", element: <ProductExplorer /> },
           { path: ":productId", element: <ProductDetails /> },
-          { path: ":productId/review", element: <AddReview /> },
+          { 
+            path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer"]} />,
+            children: [
+              { path: "", element: <AddReview /> }
+            ]
+          },
         ]
       },
       {
@@ -49,42 +60,59 @@ const router = createBrowserRouter([
           { path: 'register', element: <Register /> },
           { path: 'login', element: <Login /> },
           { path: 'logout', element: <Logout /> },
-          // { path: 'verify/:token', element: <Verify /> },
-          // { path: 'password/forgot', element: <ForgotPassword /> },
-          // { path: 'password/reset/:token', element: <ResetPassword /> }
+          { path: 'verify/:token', element: <Verify /> },
+          { path: 'password/forgot', element: <ForgotPassword /> },
+          { path: 'password/reset/:token', element: <ResetPassword /> },
+          {
+            path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
+            children: [
+              { path: 'details', element: <Information /> }
+            ]
+          }
         ],
       },
-      { path: "viewcart", element: <Cart /> }
+      {
+        path: "", element: <RoleBasedRoute allowedRoles={["customer"]} />,
+        children: [
+          { path: "viewcart", element: <Cart /> },
+          { path: 'wishlist', element: <FavouriteItems /> },
+        ]
+      }
     ],
   },
-  { path: "/*", element: <ClientError /> },
   {
-    path: "admin", element: <AdminLayout />,
+    path: "/admin", element: <RoleBasedRoute allowedRoles={["admin"]} />,
     children: [
       {
-        path: "categories",
+        path: "", element: <AdminLayout />,
         children: [
-          { path: "", element: <ManageCategories /> },
-          { path: "add", element: <AddCategory /> },
-          { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
-        ]
-      },
-      {
-        path: "products",
-        children: [
-          { path: "", element: <ManageProducts /> },
-          { path: "add", element: <AddProduct /> },
-          { path: "update/:productId", element: <UpdateProduct /> },
-        ]
-      },
-      {
-        path: "user",
-        children: [
-          { path: "user", element: <ManageUsers /> },
+          {
+            path: "categories",
+            children: [
+              { path: "", element: <ManageCategories /> },
+              { path: "add", element: <AddCategory /> },
+              { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
+            ]
+          },
+          {
+            path: "products",
+            children: [
+              { path: "", element: <ManageProducts /> },
+              { path: "add", element: <AddProduct /> },
+              { path: "update/:productId", element: <UpdateProduct /> },
+            ]
+          },
+          {
+            path: "user",
+            children: [
+              { path: "user", element: <ManageUsers /> },
+            ]
+          }
         ]
       }
     ]
-  }
+  },
+  { path: "/*", element: <ClientError /> },
 ]);
 
 function App() {

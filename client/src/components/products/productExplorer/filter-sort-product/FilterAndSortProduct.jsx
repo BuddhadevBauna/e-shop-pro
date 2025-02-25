@@ -23,7 +23,7 @@ const FilterAndSortProduct = () => {
                         return (
                             <div key={index} className="container-filter">
                                 <div className="product-details">
-                                    <Link to={`/favourite`} target="_blank" className="favourite">
+                                    <Link to={`/wishlist`} target="_blank" className="favourite">
                                         <i className="icon"><FaRegHeart /></i>
                                     </Link>
                                     <Link to={`/products/${_id}`} target="_blank" className="product-img">

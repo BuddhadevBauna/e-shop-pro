@@ -1,0 +1,77 @@
+.verify-container {
+    margin: 3rem 2rem;
+
+    & h2 {
+        padding: 0 0 1rem 1rem;
+        font-size: 1.5rem;
+        color: blueviolet;
+    }
+
+    & .verify-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+        & p {
+            color: rgb(0, 30, 43);
+        }
+
+        & .bold {
+            font-weight: 700;
+        }
+
+        & .verify-actions {
+            & .otp-input {
+                padding: 0.6rem;
+                border: 1px solid #ccc;
+                border-radius: 0.3rem;
+                font-size: 1rem;
+                margin-right: 0.6rem;
+            }
+
+            & .send-btn,
+            .verify-btn,
+            .resend-btn {
+                padding: 0.6rem;
+                border: none;
+                border-radius: 0.4rem;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            & .send-btn {
+                background-color: #007bff;
+                color: white;
+                margin-bottom: 0.5rem;
+            }
+
+            & .send-btn:hover {
+                background-color: #0056b3;
+            }
+
+            & .verify-btn {
+                background-color: #28a745;
+                color: white;
+            }
+
+            & .verify-btn:hover {
+                background-color: #218838;
+            }
+
+            & .resend-btn {
+                background-color: #ffc107;
+                color: black;
+                margin-bottom: 0.5rem;
+            }
+
+            & .resend-btn:hover {
+                background-color: #e0a800;
+            }
+        }
+    }
+}

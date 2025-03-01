@@ -18,6 +18,7 @@ export const getParticularCategoryOrSubCategory = async (req, res) => {
 
         if (!subCategoryId) {
             let category = await Category.findOne({ _id: categoryId });
+            // console.log(category);
             if (!category) {
                 return res.status(404).json({ message: "Category not found" });
             }

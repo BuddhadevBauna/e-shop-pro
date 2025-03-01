@@ -5,20 +5,19 @@ import { useAuth } from "../../store/context/auth";
 import ServerError from "../error/ServerError";
 
 const AdminLayout = () => {
-    const {isServerIssue, loginUserData} = useAuth();
+    const {isServerIssue} = useAuth();
 
     const location = useLocation();
-    const isAdminRoute = location.pathname === '/admin';
     
     if(isServerIssue) {
         return <ServerError />;
     }
     return (
-        <>
+        <main>
             <AdminDashboard />
-            {isAdminRoute && loginUserData.isAdmin && <h1 className="admin-section-header">Welcome! to admin section</h1>}
+            {(location.pathname === '/admin' || location.pathname === '/admin/') && <h1 className="admin-section-header">Welcome! to admin section</h1>}
             <Outlet />
-        </>
+        </main>
     );
 }
 

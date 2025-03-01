@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 const verifyToken = (req, res, next) => {
     try {
         const token = req.header("Authorization");
+        // console.log(token);
         if(!token) {
             const status = 401;
             const message = "Unauthorized HTTP, token not provided";

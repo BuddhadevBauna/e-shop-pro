@@ -47,6 +47,14 @@ const AllCategories = () => {
     );
   });
 
+  if (!categories) {
+    return (
+      <div className='loading home-page'>
+        <p>Loading</p>
+        <span>.</span><span>.</span><span>.</span>
+      </div>
+    )
+  }
   return (
     <div className="flex-container">
       {renderCategories}

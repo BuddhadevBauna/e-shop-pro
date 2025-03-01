@@ -46,7 +46,7 @@ const router = createBrowserRouter([
           { path: "select", element: <ProductExplorer /> },
           { path: "search", element: <ProductExplorer /> },
           { path: ":productId", element: <ProductDetails /> },
-          { 
+          {
             path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer"]} />,
             children: [
               { path: "", element: <AddReview /> }
@@ -116,8 +116,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { isServerIssue } = useAuth();
+  const { isServerIssueLoading, isServerIssue } = useAuth();
 
+  if (isServerIssueLoading) {
+    return (
+      <div className='loading home-page'>
+        <p>Loading</p>
+        <span>.</span><span>.</span><span>.</span>
+      </div>
+    )
+  }
   if (isServerIssue) {
     return <ServerError />;
   }

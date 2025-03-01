@@ -8,10 +8,11 @@ export const AuthContext = createContext();
 //provider(for data passing)
 export const AuthProvider = ({ children }) => {
     const [isServerIssue, setServerIssue] = useState(true);
+    const [isServerIssueLoading, setServerIssueLoading] = useState(true);
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [loginUserData, setLoginUserData] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingUserData, setIsLoadingUserData] = useState(true);
     const [cartData, setCartData] = useState(null);
     const [isLoadingCartData, setLoadingCartData] = useState(true);
 
@@ -26,6 +27,8 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             setServerIssue(true);
+        } finally {
+            setServerIssueLoading(false);
         }
     }
     useEffect(() => {
@@ -56,7 +59,7 @@ export const AuthProvider = ({ children }) => {
             setLoggedIn(false);
             setLoginUserData(null);
         } finally {
-            setIsLoading(false);
+            setIsLoadingUserData(false);
         }
     }
     useEffect(() => {
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
         else {
             setLoggedIn(false);
             setLoginUserData(null);
-            setIsLoading(false);
+            setIsLoadingUserData(false);
         }
     }, [token])
 
@@ -90,11 +93,12 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider
             value={{
+                isServerIssueLoading,
                 isServerIssue,
                 token,
                 storeTokenInLocalStorage,
                 removeTokenFromLocalStorage,
-                isLoading,
+                isLoadingUserData,
                 isLoggedIn,
                 loginUserData,
                 cartData,

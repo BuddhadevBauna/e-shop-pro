@@ -1,0 +1,113 @@
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    & .popup {
+        background: #fff;
+        padding: 2rem 1.2rem;
+        border-radius: 0.5rem;
+        width: 22rem;
+        max-width: 90%;
+        position: relative;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        color: #333;
+        text-align: center;
+
+        & .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        & .popup-title {
+            margin-top: 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 1.2rem;
+        }
+
+        & .popup-info {
+            margin-top: 1.2rem;
+        }
+
+        & .popup-message {
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+
+            & span.bold {
+                font-weight: 700;
+                color: black;
+            }
+        }
+
+        & .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+        }
+
+        & .confirm-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        & .confirm-btn:hover {
+            background-color: #0056b3;
+        }
+
+        & .delete-form {
+            text-align: center;
+
+            & .form-container {
+                margin-top: 0.6rem;
+            }
+
+            & .form-menu {
+                margin-bottom: 1rem;
+                text-align: left;
+                width: 100%;
+
+                & .form-label {
+                    display: block;
+                    margin-bottom: 0.3rem;
+                    font-weight: bold;
+                }
+
+                & .form-input {
+                    display: block;
+                    width: 100%;
+                    box-sizing: border-box;
+                    padding: 0.5rem;
+                    border: 1px solid #ccc;
+                    border-radius: 0.25rem;
+                }
+            }
+
+            & .submit-btn {
+                width: 100%;
+                box-sizing: border-box;
+                background-color: #ff5e57;
+                color: #fff;
+            }
+
+            & .submit-btn:hover {
+                background-color: #ff4a43;
+            }
+        }
+    }
+}

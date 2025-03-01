@@ -6,6 +6,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+
         & i {
             display: flex;
             align-items: center;
@@ -13,6 +14,7 @@
             color: #007bff;
             cursor: pointer;
         }
+        
         & i:hover {
             color: #0056b3;
         }

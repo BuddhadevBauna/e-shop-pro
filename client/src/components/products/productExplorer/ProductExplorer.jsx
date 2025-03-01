@@ -4,7 +4,7 @@ import "./ProductExplorer.css";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { removeSelectedOrSearchCategories, setSelectedOrSearchCategories } from "../../../store/redux/reducers/selectedOrSearchCategorySlice";
-import { removeSelectedOrSearchProducts, setSelectedOrSearchProducts } from "../../../store/redux/reducers/selectedOrSearchProductSlice";
+import { fetchProductsStart, removeSelectedOrSearchProducts, setSelectedOrSearchProducts } from "../../../store/redux/reducers/selectedOrSearchProductSlice";
 import FilterSidebar from "./filter-sidebar/FilterSidebar";
 import SortList from "./sort-list/SortList";
 import FilterAndSortProduct from "./filter-sort-product/FilterAndSortProduct";
@@ -19,11 +19,15 @@ const ProductExplorer = () => {
             dispatch(removeSelectedOrSearchCategories());
             dispatch(removeBrandsOfSelectedOrSearchProducts());
             dispatch(removeSelectedOrSearchProducts());
+
+            dispatch(fetchProductsStart());
+
             const response = await axios.get(url);
             const categories = response?.data?.categories;
             const products = response?.data?.products;
             const brands = response?.data?.uniqueBrands;
             // console.log(categories, brands, products);
+            
             dispatch(setSelectedOrSearchCategories(categories));
             dispatch(setBrandsOfSelectedOrSearchProducts(brands));
             dispatch(setSelectedOrSearchProducts(products));

@@ -31,9 +31,9 @@ app.use('/auth', authRoute);
 app.use('', userRoute);
 //categories
 app.use('/categories/', categoryRoute);
-// //products
+//products
 app.use('/products/', productRoute);
-// //cart item
+//cart item
 app.use('/cart', cartRoute);
 //status
 app.use('/status', statusRoute);

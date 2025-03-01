@@ -5,9 +5,17 @@ import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 
 const FilterAndSortProduct = () => {
-    const products = useSelector((state) => state.selectedOrSearchProducts);
-    // console.log(products);
+    const { products, isProductsLoading } = useSelector((state) => state.selectedOrSearchProducts);
+    // console.log(products, isProductsLoading);
 
+    if (isProductsLoading) {
+        return (
+            <div className='loading'>
+                <p>Loading</p>
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+        )
+    }
     return (
         <>
             {products?.length === 0 ?

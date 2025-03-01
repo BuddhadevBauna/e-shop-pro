@@ -1,6 +1,6 @@
 const checkAdmin = (req, res, next) => {
     try {
-        if(req.userRole == "admin") {
+        if(req.userRole.includes("admin")) {
             next();
         } else { 
             const error = {

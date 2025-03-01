@@ -3,15 +3,16 @@ import "../../Form.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     const [input, setInput] = useState({
-        subCategoryName: "",
-        subCategoryType: ""
+        name: "",
+        categoryType: ""
     })
     // console.log(input);
     const [loading, setLoading] = useState(true);
-    const {AuthorizationToken} = useAuth();
+    const {token} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,12 +21,12 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
                 const subCategory = await axios.get(`http://localhost:3030/categories/q?categoryId=${categoryId}&subCategoryId=${subCategoryId}`);
                 // console.log(subCategory.data.name);
                 setInput({
-                    subCategoryName: subCategory.data.name,
-                    subCategoryType: subCategory.data.categoryType || "Null"
-                })
-                setLoading(false);
+                    name: subCategory?.data?.name,
+                    categoryType: subCategory?.data?.categoryType
+                });
             } catch (error) {
                 console.error(error);
+            } finally {
                 setLoading(false);
             }
         }
@@ -35,30 +36,30 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         // console.log(name, value);
-        setInput(prevInput => {
-            return {
-                ...prevInput,
-                [name]: value
-            }
-        })
+        setInput({
+            ...input,
+            [name]: value
+        });
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY_SECTION_URL}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
+            const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_SUBCATEGORY}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
             // console.log(updateSubCategoryURL);
             const response = await axios.patch(updateSubCategoryURL, input, {
                 headers: {
-                    Authorization: AuthorizationToken
+                    Authorization: `Bearer ${token}`
                 }
             });
             // console.log(response);
             if(response.status === 200) {
+                toast.success(response?.data?.message);
                 navigate('/admin/categories');
             }
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            toast.error(error?.response?.data?.message);
         }
     }
 
@@ -75,24 +76,26 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className="form-menu">
-                            <label htmlFor="subCategoryName">SubCategory Name:</label>
+                            <label htmlFor="name">SubCategory Name:</label>
                             <input
                                 type="text"
-                                id="subCategoryName"
-                                name="subCategoryName"
-                                autoComplete="off"
-                                value={input.subCategoryName}
+                                id="name"
+                                name="name"
+                                value={input.name}
+                                placeholder="Enter SubCategory Name..."
+                                required
                                 onChange={handleChange}
                             />
                         </div>
                         <div className="form-menu">
-                            <label htmlFor="subCategoryType">SubCategory Type:</label>
+                            <label htmlFor="categoryType">SubCategory Type:</label>
                             <input
                                 type="text"
-                                id="subCategoryType"
-                                name="subCategoryType"
-                                autoComplete="off"
-                                value={input.subCategoryType}
+                                id="categoryType"
+                                name="categoryType"
+                                value={input.categoryType}
+                                placeholder="Enter SubCategory Type..."
+                                required
                                 onChange={handleChange}
                             />
                         </div>

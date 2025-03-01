@@ -5,9 +5,10 @@ import "../../Button.css";
 import axios from "axios";
 import { useAuth } from "../../../../store/context/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddCategory = () => {
-    const {AuthorizationToken} = useAuth();
+    const {token} = useAuth();
     const navigate = useNavigate();
     const [category, setCategory] = useState({
         name: "",
@@ -55,7 +56,7 @@ const AddCategory = () => {
             ...updatedSubCategories[index],
             [name]: value
         }
-        setSubCategories(updatedSubCategories)
+        setSubCategories(updatedSubCategories);
     }
 
     const handleSubmit = (e) => {
@@ -69,15 +70,17 @@ const AddCategory = () => {
                 const addCategoryURL = import.meta.env.VITE_ADD_CATEGORY;
                 const response = await axios.post(addCategoryURL, input, {
                     headers: {
-                        Authorization: AuthorizationToken
+                        Authorization: `Bearer ${token}`
                     }
                 })
                 // console.log(response);
                 if(response.status === 201) {
+                    toast.success(response?.data?.message);
                     navigate('/admin/categories');
                 }
             } catch (error) {
-                console.error(error);
+                // console.error(error);
+                toast.error(error?.response?.data?.message);
             }
         }
         addCategory();
@@ -98,6 +101,8 @@ const AddCategory = () => {
                             autoComplete="off"
                             required
                             name="name"
+                            value={category.name}
+                            placeholder="Enter Unique Category name..."
                             onChange={handleCategoryChange}
                         />
                     </div>
@@ -108,6 +113,8 @@ const AddCategory = () => {
                             id="categoryType"
                             autoComplete="off"
                             name="categoryType"
+                            value={category.categoryType}
+                            placeholder="Enter Unique Category type..."
                             onChange={handleCategoryChange}
                         />
                     </div>
@@ -125,6 +132,7 @@ const AddCategory = () => {
                                         required
                                         name="name"
                                         value={subCategory.name}
+                                        placeholder="Enter subCategory name..."
                                         onChange={(e) => handleSubCategoryChange(e, index)}
                                     />
                                 </div>
@@ -139,6 +147,7 @@ const AddCategory = () => {
                                         required
                                         name="categoryType"
                                         value={subCategory.categoryType}
+                                        placeholder="Enter subCategory type..."
                                         onChange={(e) => handleSubCategoryChange(e, index)}
                                     />
                                 </div>

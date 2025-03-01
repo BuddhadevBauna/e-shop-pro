@@ -3,18 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 const selectedOrSearchProductSlice = createSlice(
     {
         name : "selected or search products",
-        initialState: [],
+        initialState: {
+            products: [],
+            isProductsLoading: true
+        },
         reducers : {
+            fetchProductsStart(state) {
+                state.isProductsLoading = true;
+            },
             setSelectedOrSearchProducts(state, action) {
                 // console.log(action.payload);
-                return action.payload;
+                state.products = action.payload;
+                state.isProductsLoading = false;
             },
-            removeSelectedOrSearchProducts() {
-                return [];
+            removeSelectedOrSearchProducts(state) {
+                state.products = [];
+                state.isProductsLoading = false;
             }
         }
     }
 )
 
-export const { setSelectedOrSearchProducts, removeSelectedOrSearchProducts} = selectedOrSearchProductSlice.actions
+export const { fetchProductsStart, setSelectedOrSearchProducts, removeSelectedOrSearchProducts} = selectedOrSearchProductSlice.actions
 export default selectedOrSearchProductSlice.reducer

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const subCategorySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     categoryType: {
         type: String,
@@ -15,11 +15,17 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true
     },
     categoryType: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
-    subCategory: [subCategorySchema],
+    subCategory: {
+        type: [subCategorySchema],
+        default: []
+    }
 });
 
 const Category = new mongoose.model("Category", categorySchema);

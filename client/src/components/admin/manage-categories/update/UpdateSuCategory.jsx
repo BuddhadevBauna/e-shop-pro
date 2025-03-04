@@ -45,7 +45,7 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_SUBCATEGORY}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
+            const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
             // console.log(updateSubCategoryURL);
             const response = await axios.patch(updateSubCategoryURL, input, {
                 headers: {

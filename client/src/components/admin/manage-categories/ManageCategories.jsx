@@ -4,8 +4,8 @@ import "../Common.css";
 import React, { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
+import Popup from "../popup/Popup";
 import { useFetchAllCategory } from "../../../api/categories/categoryAPI";
-import Popup from "./delete/Popup";
 
 const ManageCategories = () => {
     const categories = useSelector(state => state.allCategory);
@@ -30,17 +30,25 @@ const ManageCategories = () => {
     }
 
     const deleteCategory = (category) => {
-        setPopupData({ "type": "category", "data": category });
+        setPopupData({ "type": "delete", "data": { "type": "category", ...category } });
+        setPopupVisible(true);
+    }
+    const deleteSubCategory = (categoryId, subCategory) => {
+        setPopupData({ "type": "delete", "data": { "type": "SubCategory", categoryId, ...subCategory } })
         setPopupVisible(true);
     }
 
-    const deleteSubCategory = (categoryId, subCategory, token) => {
-        setPopupData({ "type": "subCategory", "data": { categoryId, subCategory } })
+    const updateCategory = (category) => {
+        setPopupData({ "type": "update", "data": { "type": "category", ...category } });
+        setPopupVisible(true);
+    }
+    const updateSubCategory = (categoryId, subCategory) => {
+        setPopupData({ "type": "update", "data": { "type": "SubCategory", categoryId, ...subCategory } });
         setPopupVisible(true);
     }
 
     return (
-        categories &&
+        (categories || categories.length !== 0) &&
         <section className="container admin admin-categories-section">
             <div className="header-div">
                 <h1>All categories</h1>
@@ -56,7 +64,7 @@ const ManageCategories = () => {
                             <th rowSpan="2">Category Type</th>
                             <th colSpan="5">SubCategory</th>
                             <th rowSpan="2">Update</th>
-                            <th rowSpan="2">Delete</th>
+                            <th rowSpan="2"></th>
                         </tr>
                         <tr className="subcategory">
                             <th>SubCategory Name</th>
@@ -89,9 +97,7 @@ const ManageCategories = () => {
                                                 {subCat.categoryType}
                                             </td>
                                             <td className={`subcategory-td`}>
-                                                <Link to={`update/q?categoryId=${category._id}&subCategoryId=${subCat._id}`}>
-                                                    <button className="btn">Update</button>
-                                                </Link>
+                                                <button className="btn" onClick={() => updateSubCategory(category._id, subCat)}>Update</button>
                                             </td>
                                             <td className={`subcategory-td`}>
                                                 <button className="btn" onClick={() => deleteSubCategory(category._id, subCat)}>Delete</button>
@@ -104,9 +110,7 @@ const ManageCategories = () => {
                                                         </Link>
                                                     </td>
                                                     <td rowSpan={category.subCategory.length}>
-                                                        <Link to={`update/q?categoryId=${category._id}`}>
-                                                            <button className="btn">Update</button>
-                                                        </Link>
+                                                        <button className="btn" onClick={() => updateCategory(category)}>Update</button>
                                                     </td>
                                                     <td rowSpan={category.subCategory.length}>
                                                         <button className="btn" onClick={() => deleteCategory(category)}>Delete</button>
@@ -126,9 +130,7 @@ const ManageCategories = () => {
                                             </Link>
                                         </td>
                                         <td>
-                                            <Link to={`update/q?categoryId=${category._id}`}>
-                                                <button className="btn">Update</button>
-                                            </Link>
+                                            <button className="btn" onClick={() => updateCategory(category)}>Update</button>
                                         </td>
                                         <td>
                                             <button className="btn" onClick={() => deleteCategory(category)}>Delete</button>
@@ -141,7 +143,7 @@ const ManageCategories = () => {
                 </table>
             </div>
             {isPopupVisible &&
-                <Popup data={popupData} onClose={() => setPopupVisible(false)}/>
+                <Popup data={popupData} onClose={() => setPopupVisible(false)} />
             }
         </section>
     );

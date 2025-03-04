@@ -1,15 +1,14 @@
 import axios from "axios";
-import { removeCategoriesProducts, setAllCategoriesProducts } from "../../store/redux/reducers/allCategoryProductSlice";
+import { fetchCategoriesOfProductsStart, setAllCategoriesProducts } from "../../store/redux/reducers/allCategoryProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { removeSingleProduct, setSingleProduct } from "../../store/redux/reducers/singleProductSlice";
 
 //get category of product
-const fetchProductsOfCategory = async (categoryType, dispatch) => {
+const fetchProductsOfCategory = async (id, categoryType, dispatch) => {
     try {
-        dispatch(removeCategoriesProducts());
-        const response = await axios.get(`http://localhost:3030/products/category/${categoryType}`);
-        // console.log(response.data);
+        dispatch(fetchCategoriesOfProductsStart());
+        const response = await axios.get(`http://localhost:3030/products/category/${id}`);
         // console.log({categoryType, products: response.data});
         dispatch(setAllCategoriesProducts({ categoryType, products: response.data }));
     } catch (error) {
@@ -21,10 +20,10 @@ const fetchProductsOfCategory = async (categoryType, dispatch) => {
 export const fetchProductsOfAllCategories = (categories, dispatch) => {
     categories.forEach(category => {
         if (category.subCategory.length === 0) {
-            fetchProductsOfCategory(category.categoryType, dispatch);
+            fetchProductsOfCategory(category._id, category.categoryType, dispatch);
         } else {
             category.subCategory.forEach(subCat => {
-                fetchProductsOfCategory(subCat.categoryType, dispatch);
+                fetchProductsOfCategory(subCat._id, subCat.categoryType, dispatch);
             })
         }
     })

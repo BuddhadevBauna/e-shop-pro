@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../Form.css";
 import "./AddCategory.css";
 import "../../Button.css";
@@ -76,8 +76,10 @@ const AddCategory = () => {
                 // console.log(response);
                 if(response.status === 201) {
                     toast.success(response?.data?.message);
-                    navigate('/admin/categories');
+                } else if(response.status === 207) {
+                    toast.warn(response?.data?.message);
                 }
+                navigate('/admin/categories');
             } catch (error) {
                 // console.error(error);
                 toast.error(error?.response?.data?.message);

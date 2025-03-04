@@ -6,26 +6,21 @@ const deleteSubCategory = async (req, res) => {
         const { categoryId, subCategoryId } = req.query;
         // console.log(categoryId, subCategoryId);       
 
-        const subCategory = await Category.findOne(
-            { _id: categoryId, "subCategory._id": subCategoryId },
-            { "subCategory.$": 1 }
-        );
+        const subCategory = await Category.findOne({_id: subCategoryId, parent: categoryId});
+        // console.log(subCategory);
         if (!subCategory) {
             return res.status(404).json({ message: "SubCategory not found" });
         }
-        // console.log(subCategory);
 
-        let categoryType = subCategory.subCategory[0]?.categoryType;
+        const id = subCategory._id; //we use it as it in form of objectid not string
 
-        const products = await Product.find({ category: categoryType });
+        const products = await Product.find({ category: id });
+        // console.log(products);
         if (products.length > 0) {
-            return res.status(400).json({ message: "Category cannot be deleted because it's corresponding product present." });
+            return res.status(400).json({ message: "SubCategory cannot be deleted because it's corresponding product present." });
         }
 
-        await Category.updateOne(
-            { _id: categoryId },
-            { $pull: { subCategory: { _id: subCategoryId } } }
-        );
+        await Category.deleteOne({ _id: id });
         return res.status(200).json({ message: "subCategory delete successful from database" });
     } catch (error) {
         // console.error(error);

@@ -9,12 +9,14 @@ import verifyToken from "../middlewares/verifyToken-middleware.js";
 import getUserRole from "../middlewares/getUserRole-middleware.js";
 import checkAdmin from "../middlewares/checkAdmin-middleware.js";
 import checkCustomer from "../middlewares/checkCustomer-middleware.js";
+import validate from "../middlewares/validateUserProvidedData-middleware.js";
+import { productSchema } from "../validators/product_validator.js";
 
 const router = express.Router();
 
 //controlled by Admin
 //add product
-router.route('/add').post(verifyToken, getUserRole, checkAdmin, addProduct);
+router.route('/add').post(verifyToken, getUserRole, checkAdmin, validate(productSchema), addProduct);
 //update Product
 router.route('/update/:productId').patch(verifyToken, getUserRole, checkAdmin, updateProduct);
 //delete Product
@@ -22,7 +24,7 @@ router.route('/delete/:productId').delete(verifyToken, getUserRole, checkAdmin, 
 
 //get products
 router.route('/').get(getProduct.getAllProduct);
-router.route('/category/:particularCategory').get(getProduct.getCategoryOfProduct);
+router.route('/category/:particularCategoryId').get(getProduct.getCategoryOfProduct);
 //search, select, sort, filter product
 router.route('/searchandSelect').get(searchAndSelectProductsOrCategory);
 

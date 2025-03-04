@@ -8,18 +8,14 @@ const creatingStringSchema = (feildName) => {
     )
 }
 
-const subCategorySchema = z.object({
-    name: creatingStringSchema("SubCategory Name"),
-    categoryType: creatingStringSchema("SubCategory type")
+const categorySchema = z.object({
+    name: creatingStringSchema("Category Name"),
+    categoryType: creatingStringSchema("Category type"),
+    parent: z.string().optional().nullable()
 });
 
-const baseCategorySchema = z.object({
-    name: creatingStringSchema("Category name"),
-    categoryType: creatingStringSchema("Category type")
-});
+const fullCategorySchema = categorySchema.extend({
+    subCategory: z.array(categorySchema).optional()
+})
 
-const fullCategorySchema = baseCategorySchema.extend({
-    subCategory: z.array(subCategorySchema)
-});
-
-export { baseCategorySchema, subCategorySchema, fullCategorySchema };
+export default fullCategorySchema;

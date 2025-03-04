@@ -47,9 +47,9 @@ const AllCategories = () => {
     );
   });
 
-  if (!categories) {
+  if (!categories || categories.length === 0) {
     return (
-      <div className='loading home-page'>
+      <div className='loading'>
         <p>Loading</p>
         <span>.</span><span>.</span><span>.</span>
       </div>

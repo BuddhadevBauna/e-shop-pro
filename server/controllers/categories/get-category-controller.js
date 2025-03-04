@@ -3,7 +3,31 @@ import Category from "../../models/category-model.js";
 //get all Category
 export const getAllCategory = async (req, res) => {
     try {
-        const categories = await Category.find({});
+        const categories = await Category.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "_id",
+                    foreignField: "parent",
+                    as: "subCategory"
+                }
+            },
+            {
+                $match: { parent: null }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    categoryType: 1,
+                    subCategory: {
+                        _id: 1,
+                        name: 1,
+                        categoryType: 1
+                    }
+                }
+            }
+        ]);
         return res.status(200).json(categories);
     } catch (error) {
         console.error(error);
@@ -24,14 +48,12 @@ export const getParticularCategoryOrSubCategory = async (req, res) => {
             }
             return res.status(200).json(category);
         } else {
-            const subCategory = await Category.findOne(
-                { _id: categoryId, "subCategory._id": subCategoryId },
-                { "subCategory.$": 1 } // Return only the matched subCategory
-            );
-            if (!subCategory.subCategory) {
+            const subCategory = await Category.findOne({_id: subCategoryId, parent: categoryId});
+            // console.log(subCategory);
+            if (!subCategory) {
                 return res.status(404).json({ message: "Sub Category not found" });
             }
-            return res.status(200).json(subCategory.subCategory[0]);
+            return res.status(200).json(subCategory);
         }
     } catch (error) {
         console.error(error);

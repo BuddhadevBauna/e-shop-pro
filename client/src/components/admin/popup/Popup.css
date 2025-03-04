@@ -47,11 +47,15 @@
         & .popup-message {
             font-size: 1rem;
             margin-bottom: 1.2rem;
+        }
 
-            & span.bold {
-                font-weight: 700;
-                color: black;
-            }
+        & span.bold {
+            font-weight: 700;
+            color: black;
+        }
+
+        & span.captalize {
+            text-transform: capitalize;
         }
 
         & .btn {
@@ -61,21 +65,19 @@
             cursor: pointer;
         }
 
-        & .confirm-btn {
+        & .confirm-btn,
+        .update-btn {
             background-color: #007bff;
             color: #fff;
         }
 
-        & .confirm-btn:hover {
+        & .confirm-btn:hover,
+        .update-btn:hover {
             background-color: #0056b3;
         }
 
-        & .delete-form {
-            text-align: center;
-
-            & .form-container {
-                margin-top: 0.6rem;
-            }
+        & .form-container {
+            margin-top: 0.6rem;
 
             & .form-menu {
                 margin-bottom: 1rem;
@@ -98,16 +100,17 @@
                 }
             }
 
-            & .submit-btn {
+            & .delete-btn {
                 width: 100%;
                 box-sizing: border-box;
                 background-color: #ff5e57;
                 color: #fff;
             }
 
-            & .submit-btn:hover {
+            & .delete-btn:hover {
                 background-color: #ff4a43;
             }
         }
+
     }
 }

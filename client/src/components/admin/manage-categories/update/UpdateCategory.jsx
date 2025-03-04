@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateCategory = ({ categoryId }) => {
-    const [input, setInput] = useState({name: "", categoryType: ""});
+    const [input, setInput] = useState({ name: "", categoryType: "" });
     // console.log(input);
     const [loading, setLoading] = useState(true);
-    const {token} = useAuth();
+    const { token } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const UpdateCategory = ({ categoryId }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
+        // console.log(name, value);
         setInput({
             ...input,
             [name]: value
@@ -50,7 +50,7 @@ const UpdateCategory = ({ categoryId }) => {
                 }
             });
             // console.log(response);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 toast.success(response?.data?.message);
                 navigate('/admin/categories');
             }
@@ -63,8 +63,8 @@ const UpdateCategory = ({ categoryId }) => {
     return (
         <>
             {loading ? (
-                <div style={{margin: "5rem 0 2rem"}}>
-                    <h1 style={{textAlign: "center"}}>Loading...</h1>
+                <div style={{ margin: "5rem 0 2rem" }}>
+                    <h1 style={{ textAlign: "center" }}>Loading...</h1>
                 </div>
             ) : (
                 <section className="section-container">

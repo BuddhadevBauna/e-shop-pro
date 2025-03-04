@@ -4,6 +4,7 @@ import ProductSlide from "./slide/ProductSlide";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const ProductSlider = ({ products }) => {
+    // console.log(products);
     const boxRef = useRef(null);
     const [showPrevButton, setShowPrevButton] = useState(false);
     const [showNextButton, setShowNextButton] = useState(true);

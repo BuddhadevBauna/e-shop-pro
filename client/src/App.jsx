@@ -32,6 +32,7 @@ import RoleBasedRoute from './middleware/RoleBasedRoute';
 import Verify from './components/auth/verify/Verify';
 import ForgotPassword from './components/auth/password_update/ForgotPassword';
 import ResetPassword from './components/auth/password_update/ResetPassword';
+import AddSubCategory from './components/admin/manage-categories/add/AddSubCategory';
 
 
 const router = createBrowserRouter([
@@ -91,6 +92,7 @@ const router = createBrowserRouter([
             children: [
               { path: "", element: <ManageCategories /> },
               { path: "add", element: <AddCategory /> },
+              { path: "add/subCategory", element: <AddSubCategory /> },
               { path: "update/q", element: <UpdateCategoryOrSubCategory /> },
             ]
           },

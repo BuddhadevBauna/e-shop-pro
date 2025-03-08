@@ -34,7 +34,7 @@ const ManageCategories = () => {
         setPopupVisible(true);
     }
     const deleteSubCategory = (categoryId, subCategory) => {
-        setPopupData({ "type": "delete", "data": { "type": "SubCategory", categoryId, ...subCategory } })
+        setPopupData({ "type": "delete", "data": { "type": "subCategory", categoryId, ...subCategory } })
         setPopupVisible(true);
     }
 
@@ -43,7 +43,7 @@ const ManageCategories = () => {
         setPopupVisible(true);
     }
     const updateSubCategory = (categoryId, subCategory) => {
-        setPopupData({ "type": "update", "data": { "type": "SubCategory", categoryId, ...subCategory } });
+        setPopupData({ "type": "update", "data": { "type": "subCategory", categoryId, ...subCategory } });
         setPopupVisible(true);
     }
 

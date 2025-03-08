@@ -11,7 +11,7 @@ const creatingStringSchema = (feildName, min, max) => {
 export const productSchema = z.object({
     title: creatingStringSchema("Title", 3, 100),
     description: creatingStringSchema("Description", 10, 500),
-    category: z.string({ required_error: "Category is required." }),
+    category: creatingStringSchema("Category", 3, 20),
     price: z.number({ required_error: "Price is required." }).min(0, { message: "Price must be a positive number." }),
     discountPercentage: z.number({ required_error: "Discount Percentage is required." })
         .min(0, { message: "Discount cannot be negative." })
@@ -32,7 +32,11 @@ export const productSchema = z.object({
             rating: z.number({ required_error: "Rating is required." }).min(1).max(5),
             reviewHeading: creatingStringSchema("Review Heading", 3, 100),
             reviewDescription: creatingStringSchema("Review Description", 10, 500),
-            reviewOwner: z.string({ required_error: "Review Owner is required." })
+            reviewOwner: z.string()
+                .refine((val) => /^[0-9a-fA-F]{24}$/.test(val), { message: "Invalid user ID format." })
+
         })
     ).optional(),
 });
+
+export const updatedProductSchema = productSchema.partial();

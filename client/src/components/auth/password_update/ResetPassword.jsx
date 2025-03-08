@@ -1,5 +1,5 @@
 import React from "react";
-import useForm from "../../../custom_hook/useForm";
+import authForm from "../form_controll/authForm";
 import { useParams } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -9,7 +9,7 @@ const ResetPassword = () => {
     const token = params.token;
     const url = `http://localhost:3030/auth/reset-password/${token}`;
     const formType = "resetPassword";
-    const { values, handleChange, handleSubmit } = useForm(initialState, requestMethod, url, formType);
+    const { values, handleChange, handleSubmit } = authForm(initialState, requestMethod, url, formType);
 
     return (
         <section>

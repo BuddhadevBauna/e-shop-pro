@@ -5,6 +5,7 @@ import { useAuth } from "../../../store/context/auth";
 import { useDispatch } from "react-redux";
 import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { handleDeleteProduct } from "../manage-products/delete/deleteProduct";
 
 const Popup = ({ data, onClose }) => {
     // console.log(data);
@@ -25,13 +26,14 @@ const Popup = ({ data, onClose }) => {
     const handleDelete = async (e) => {
         e.preventDefault();
         if (data?.data?.type === "category") handleDeleteCategory(data?.data?._id, token, input, dispatch);
-        else handleDeleteSubCategory(data?.data?.categoryId, data?.data?._id, token, input, dispatch);
+        else if(data?.data?.type === "subCategory") handleDeleteSubCategory(data?.data?.categoryId, data?.data?._id, token, input, dispatch);
+        else if(data?.data?.type === "product") handleDeleteProduct(data?.data?.productId, token, input, dispatch, data?.data?.categories);
         onClose();
     }
 
     const handleUpdate = () => {
-        if(data.data.type === "category") navigate(`update/q?categoryId=${data.data._id}`);
-        else if(data.data.type === "SubCategory") navigate(`update/q?categoryId=${data.data.categoryId}&subCategoryId=${data.data._id}`);
+        if(data?.data?.type === "category") navigate(`update/q?categoryId=${data?.data?._id}`);
+        else if(data?.data?.type === "subCategory") navigate(`update/q?categoryId=${data.data.categoryId}&subCategoryId=${data.data._id}`);
     }
 
     return (
@@ -64,7 +66,7 @@ const Popup = ({ data, onClose }) => {
                                     <span className="bold">{data.data.name} </span>
                                     <span>{data.data.type}.</span>
                                 </p>
-                                {data.type === "update" && (data.data.type === "category" || data.data.type === "SubCategory") &&
+                                {data.type === "update" && (data.data.type === "category" || data.data.type === "subCategory") &&
                                     <>
                                         <p className="popup-message">
                                             <span>If you update </span>

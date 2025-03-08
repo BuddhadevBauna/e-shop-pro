@@ -23,13 +23,13 @@ const ProductSlide = ({ product }) => {
                         <div className="product-img">
                             <img
                                 src={thumbnail}
-                                alt={`${category}-img`}
+                                alt={`${category.name}-img`}
                                 style={{ display: loaded ? "block" : "none" }}
                                 onLoad={() => setLoaded(true)}
                             />
                         </div>
                         <div className="product-details">
-                            <small className="category">{category}</small>
+                            <small className="category">{category.name}</small>
                             <p>{title.length > 25 ? title.substring(0, 25) + "..." : title}</p>
                             <small className="rating">{rating} ★</small>
                             <p>₹ {Math.round(price)}</p>

@@ -1,20 +1,26 @@
 import "./ManageProducts.css";
 import "../Common.css";
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { deleteProduct } from "./delete/deleteProduct";
-import { useAuth } from "../../../store/context/auth";
+import { useFetchProductsOfAllCategories } from "../../../api/products/productsAPI";
+import Popup from "../popup/Popup";
 
 const ManageProducts = () => {
     const categories = useSelector(state => state.allCategory);
     // console.log(categories);
     const products = useSelector(state => state.allCategoriesProducts);
     // console.log(products);
+    const [isPopupVisible, setPopupVisible] = useState(false);
+    const [popupData, setPopupData] = useState(null);
 
-    const { token } = useAuth();
-    const dispatch = useDispatch();
+    useFetchProductsOfAllCategories();
+
+    const deleteProduct = (productId, name, categories) => {
+        setPopupData({ "type": "delete", "data": { "type": "product", productId, name, categories } });
+        setPopupVisible(true);
+    }
 
     if (!categories || categories.length === 0 || !products || products?.isCategoriesOfProductsLoading) {
         return (
@@ -43,11 +49,12 @@ const ManageProducts = () => {
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th className="first-th">Name</th>
-                                                    <th className="second-th">Brand</th>
-                                                    <th className="third-th">Price</th>
-                                                    <th className="fourth-th">Update</th>
-                                                    <th className="fifth-th">Delete</th>
+                                                    <th className="name-th">Name</th>
+                                                    <th className="brand-th">Brand</th>
+                                                    <th className="price-th">Price</th>
+                                                    <th className="view-th">View</th>
+                                                    <th className="update-th">Update</th>
+                                                    <th className="delete-th">Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -57,14 +64,19 @@ const ManageProducts = () => {
                                                         <td>{product.brand || 'Null'}</td>
                                                         <td className="price-td">{product.price}</td>
                                                         <td>
-                                                            <Link to={`update/${product._id}`}>
+                                                            <Link to={`${product._id}/view`}>
+                                                                <button className="btn">View</button>
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            <Link to={`${product._id}/update`}>
                                                                 <button className="btn">Update</button>
                                                             </Link>
                                                         </td>
                                                         <td>
                                                             <button
                                                                 className="btn"
-                                                                onClick={() => deleteProduct(product._id, AuthorizationToken, dispatch, categories)}
+                                                                onClick={() => deleteProduct(product._id, product.title, categories)}
                                                             >Delete</button>
                                                         </td>
                                                     </tr>
@@ -82,11 +94,12 @@ const ManageProducts = () => {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th className="first-th">Name</th>
-                                                            <th className="second-th">Brand</th>
-                                                            <th className="third-th">Price</th>
-                                                            <th className="fourth-th">Update</th>
-                                                            <th className="fifth-th">Delete</th>
+                                                            <th className="name-th">Name</th>
+                                                            <th className="brand-th">Brand</th>
+                                                            <th className="price-th">Price</th>
+                                                            <th className="view-th">View</th>
+                                                            <th className="update-th">Update</th>
+                                                            <th className="delete-th">Delete</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -96,14 +109,19 @@ const ManageProducts = () => {
                                                                 <td>{product.brand || 'Null'}</td>
                                                                 <td className="price-td">{product.price}</td>
                                                                 <td>
-                                                                    <Link to={`update/${product._id}`}>
+                                                                    <Link to={`${product._id}/view`}>
+                                                                        <button className="btn">View</button>
+                                                                    </Link>
+                                                                </td>
+                                                                <td>
+                                                                    <Link to={`${product._id}/update`}>
                                                                         <button className="btn">Update</button>
                                                                     </Link>
                                                                 </td>
                                                                 <td>
                                                                     <button
                                                                         className="btn"
-                                                                        onClick={() => deleteProduct(product._id, AuthorizationToken, dispatch, categories)}
+                                                                        onClick={() => deleteProduct(product._id, product.title, categories)}
                                                                     >Delete</button>
                                                                 </td>
                                                             </tr>
@@ -118,6 +136,9 @@ const ManageProducts = () => {
                         </React.Fragment>
                     ))}
                 </div>
+                {isPopupVisible &&
+                    <Popup data={popupData} onClose={() => setPopupVisible(false)} />
+                }
             </section>
         </>
     );

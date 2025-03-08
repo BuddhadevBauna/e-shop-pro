@@ -3,33 +3,37 @@
         & menu {
             margin-top: 1.5rem;
         }
-        & .fifth-th {
-            width: 25%;
+
+        & .name-th {
+            width: 35%;
         }
-        & .second-th {
-            width: 25%;
+
+        & .brand-th {
+            width: 20%;
         }
-        & .third-th {
-            width: 25%;
+
+        & .price-th {
+            width: 15%;
         }
-        & .fourth-th {
-            width: 12.5%;
+
+        & .view-th,
+        .update-th,
+        .delete-th {
+            width: 10%;
         }
-        & .fifth-th {
-            width: 12.5%;
-        }
+
         & tr {
             cursor: pointer;
         }
+
         & th {
             cursor: default;
         }
+
         & tr:hover {
             background-color: #f0f0f0;
         }
-        & th:hover {
-            background-color: #007bff;
-        }
+
         & .price-td {
             text-align: center;
         }

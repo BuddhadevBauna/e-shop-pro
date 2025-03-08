@@ -34,7 +34,6 @@ import ForgotPassword from './components/auth/password_update/ForgotPassword';
 import ResetPassword from './components/auth/password_update/ResetPassword';
 import AddSubCategory from './components/admin/manage-categories/add/AddSubCategory';
 
-
 const router = createBrowserRouter([
   {
     path: "/", element: <Root />,
@@ -101,7 +100,8 @@ const router = createBrowserRouter([
             children: [
               { path: "", element: <ManageProducts /> },
               { path: "add", element: <AddProduct /> },
-              { path: "update/:productId", element: <UpdateProduct /> },
+              { path: ":productId/view", element: <UpdateProduct /> },
+              { path: ":productId/update", element: <UpdateProduct /> },
             ]
           },
           {

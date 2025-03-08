@@ -26,16 +26,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 //routes
-//auth
 app.use('/auth', authRoute);
 app.use('', userRoute);
-//categories
 app.use('/categories/', categoryRoute);
-//products
 app.use('/products/', productRoute);
-//cart item
 app.use('/cart', cartRoute);
-//status
 app.use('/status', statusRoute);
 
 //middleware

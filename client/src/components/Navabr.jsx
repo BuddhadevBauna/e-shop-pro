@@ -33,11 +33,7 @@ const Navbar = () => {
                 <div className="main-container">
                     <h1 className="logo"><ImAidKit /></h1>
                 </div>
-                <div className="search-container">
-                    <div className="search-box-and-submit-btn">
-                        <SearchContainer />
-                    </div>
-                </div>
+                <SearchContainer />
                 <ul className="list-item-container">
                     <li className="list-item">
                         {!isLoggedIn ? (

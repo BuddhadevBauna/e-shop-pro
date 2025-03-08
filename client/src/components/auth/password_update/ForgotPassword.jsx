@@ -1,11 +1,11 @@
 import React from "react";
-import useForm from "../../../custom_hook/useForm";
+import authForm from "../form_controll/authForm";
 
 const ForgotPassword = () => {
     const initialState = { email: "" };
     const requestMethod = "POST";
     const url = "http://localhost:3030/auth/send-link";
-    const { values, handleChange, handleSubmit } = useForm(initialState, requestMethod, url);
+    const { values, handleChange, handleSubmit } = authForm(initialState, requestMethod, url);
 
     return (
         <section>

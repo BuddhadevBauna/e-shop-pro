@@ -1,5 +1,5 @@
 import React from "react";
-import useForm from "../../custom_hook/useForm";
+import authForm from "./form_controll/authForm";
 import "./Auth.css";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const Login = () => {
     const requestMethod = "POST";
     const url = "http://localhost:3030/auth/login";
     const formType = "login"
-    const { values, handleChange, handleSubmit } = useForm(initialState, requestMethod, url, formType);
+    const { values, handleChange, handleSubmit } = authForm(initialState, requestMethod, url, formType);
 
     return (
         <section>

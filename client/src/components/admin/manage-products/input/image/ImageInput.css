@@ -1,0 +1,39 @@
+.section-container {
+    & .form-menu {
+        & h2 {
+            font-size: 1rem;
+        }
+        
+        & .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            margin-bottom: 0.3rem;
+
+            & .image {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                border: 0.1px solid gray;
+                padding: 0.5rem;
+                border-radius: 0.3rem;
+            }
+        }
+    }
+}
+
+.section-view-container {
+    & form {
+        & .form-menu {
+            & .image-container {
+                width: 100%;
+                margin-bottom: 0;
+
+                & .image {
+                    box-sizing: border-box;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

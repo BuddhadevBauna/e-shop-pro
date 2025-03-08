@@ -1,0 +1,11 @@
+.form-menu {
+    & .category-input-container {
+        & textarea {
+            box-sizing: border-box;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
+        }
+    }
+}

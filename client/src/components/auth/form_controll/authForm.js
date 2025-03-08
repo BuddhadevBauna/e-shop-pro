@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../store/context/auth";
+import { useAuth } from "../../../store/context/auth";
 
-const useForm = (initialState, requestMethod, url, formType = "") => {
+const authForm = (initialState, requestMethod, url, formType = "") => {
     const [values, setValues] = useState(initialState);
     const {storeTokenInLocalStorage} = useAuth();
     const navigate = useNavigate();
@@ -55,4 +55,4 @@ const useForm = (initialState, requestMethod, url, formType = "") => {
     return {values, handleChange, handleSubmit};
 }
 
-export default useForm;
+export default authForm;

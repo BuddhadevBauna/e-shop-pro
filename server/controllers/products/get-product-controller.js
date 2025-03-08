@@ -16,7 +16,7 @@ export const getCategoryOfProduct = async (req, res) => {
     try {
         const { particularCategoryId } = req.params;
         // console.log(particularCategoryId);
-        const products = await Product.find({category: particularCategoryId});
+        const products = await Product.find({category: particularCategoryId}).populate("category");
         if (products.length === 0) {
             return res.status(404).json({ message: "No products found in this category" });
         }
@@ -32,10 +32,14 @@ export const getSingleProduct = async (req, res) => {
     try {
         const { productId } = req.params;
         // console.log(productId);
-        const product = await Product.findById(productId);
+        
+        const product = await Product.findById(productId)
+            .populate("category")
+            .populate("reviews.reviewOwner", "name email");
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
+
         return res.status(200).json(product);
     } catch (error) {
         console.error(error);

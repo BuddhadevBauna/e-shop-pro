@@ -1,6 +1,6 @@
 import React from "react";
 import "./Auth.css";
-import useForm from "../../custom_hook/useForm";
+import authForm from "./form_controll/authForm";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -8,7 +8,7 @@ const Register = () => {
     const requestMethod = "POST";
     const url = "http://localhost:3030/auth/register";
     const formType = "register"
-    const { values, handleChange, handleSubmit } = useForm(initialState, requestMethod, url, formType);
+    const { values, handleChange, handleSubmit } = authForm(initialState, requestMethod, url, formType);
     return (
         <section>
             <div className="auth-container">

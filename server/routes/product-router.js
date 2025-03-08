@@ -10,7 +10,8 @@ import getUserRole from "../middlewares/getUserRole-middleware.js";
 import checkAdmin from "../middlewares/checkAdmin-middleware.js";
 import checkCustomer from "../middlewares/checkCustomer-middleware.js";
 import validate from "../middlewares/validateUserProvidedData-middleware.js";
-import { productSchema } from "../validators/product_validator.js";
+import { productSchema, updatedProductSchema } from "../validators/product_validator.js";
+import validatePassword from "../middlewares/validatePassword-middleware.js";
 
 const router = express.Router();
 
@@ -18,9 +19,9 @@ const router = express.Router();
 //add product
 router.route('/add').post(verifyToken, getUserRole, checkAdmin, validate(productSchema), addProduct);
 //update Product
-router.route('/update/:productId').patch(verifyToken, getUserRole, checkAdmin, updateProduct);
+router.route('/update/:productId').patch(verifyToken, getUserRole, checkAdmin, validate(updatedProductSchema), updateProduct);
 //delete Product
-router.route('/delete/:productId').delete(verifyToken, getUserRole, checkAdmin, deleteProduct);
+router.route('/delete/:productId').delete(verifyToken, getUserRole, checkAdmin, validatePassword, deleteProduct);
 
 //get products
 router.route('/').get(getProduct.getAllProduct);
@@ -31,7 +32,7 @@ router.route('/searchandSelect').get(searchAndSelectProductsOrCategory);
 //get product
 router.route('/:productId').get(getProduct.getSingleProduct);
 
-//controll by user
+//controll by customer
 //review product
 router.route('/:productId/review').post(verifyToken, getUserRole, checkCustomer, reviewProduct);
 

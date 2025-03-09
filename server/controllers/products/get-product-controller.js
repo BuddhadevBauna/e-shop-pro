@@ -35,7 +35,7 @@ export const getSingleProduct = async (req, res) => {
         
         const product = await Product.findById(productId)
             .populate("category")
-            .populate("reviews.reviewOwner", "name email");
+            .populate("reviews");
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }

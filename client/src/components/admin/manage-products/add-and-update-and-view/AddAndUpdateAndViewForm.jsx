@@ -46,11 +46,11 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         setInput={setInput}
                     />
                     <CustomInput
-                        label="Price"
+                        label="MRP"
                         type="number"
                         required={true}
-                        name="price"
-                        value={input.price}
+                        name="mrp"
+                        value={input.mrp}
                         mode={mode}
                         input={input}
                         setInput={setInput}
@@ -68,19 +68,6 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         setInput={setInput}
                         min={0}
                         max={100}
-                        step={0.01}
-                    />
-                    <CustomInput
-                        label="Rating"
-                        type="number"
-                        required={true}
-                        name="rating"
-                        value={input.rating}
-                        mode={mode}
-                        input={input}
-                        setInput={setInput}
-                        min={0}
-                        max={5}
                         step={0.01}
                     />
                     <CustomInput
@@ -120,16 +107,6 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         required={true}
                         name="shippingInformation"
                         value={input.shippingInformation}
-                        mode={mode}
-                        input={input}
-                        setInput={setInput}
-                    />
-                    <CustomInput
-                        label="Availability Status"
-                        type="text"
-                        required={true}
-                        name="availabilityStatus"
-                        value={input.availabilityStatus}
                         mode={mode}
                         input={input}
                         setInput={setInput}

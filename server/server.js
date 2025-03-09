@@ -5,10 +5,11 @@ import productRoute from './routes/product-router.js';
 import categoryRoute from './routes/category-router.js';
 import cors from "cors";
 import authRoute from './routes/auth-router.js';
-import userRoute from './routes/user-router.js';
+import userRoute from './routes/customer/details/user-data-get-router.js';
 import errorMiddleware from './middlewares/error-middleware.js';
 import statusRoute from './routes/status-router.js';
-import cartRoute from './routes/cart-route.js';
+import cartRoute from './routes/customer/cart/cart-router.js';
+import reviewRoute from './routes/customer/review/review-router.js';
 
 //create express server
 const app = express();
@@ -28,8 +29,9 @@ app.use(express.json());
 //routes
 app.use('/auth', authRoute);
 app.use('', userRoute);
-app.use('/categories/', categoryRoute);
-app.use('/products/', productRoute);
+app.use('/categories', categoryRoute);
+app.use('/products', productRoute);
+app.use('/reviews', reviewRoute);
 app.use('/cart', cartRoute);
 app.use('/status', statusRoute);
 

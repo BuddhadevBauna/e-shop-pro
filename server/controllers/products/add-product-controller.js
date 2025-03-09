@@ -16,7 +16,7 @@ const addProduct = async (req, res) => {
         productDetails.category = category._id;
         // console.log(productDetails);
 
-        const newProduct = await Product.create(productDetails);
+        await Product.create(productDetails);
         return res.status(201).json({message: "add product sucessful in database."});
     } catch (error) {
         // console.error(error);

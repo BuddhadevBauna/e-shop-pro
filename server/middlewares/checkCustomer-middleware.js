@@ -1,6 +1,6 @@
 const checkCustomer = (req, res, next) => {
     try {
-        if(req.userRole == "customer") {
+        if(req.userRole.includes("customer")) {
             next();
         } else { 
             const error = {

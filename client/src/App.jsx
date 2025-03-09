@@ -22,12 +22,13 @@ import AddProduct from './components/admin/manage-products/add/AddProduct';
 import UpdateProduct from './components/admin/manage-products/update/UpdateProduct';
 import ProductListing from './components/products/allProducts/ProductListing';
 import ProductDetails from './components/products/single-product/ProductDetails';
-import AddReview from './components/user/review/AddReview';
 import ProductRoot from './pages/ProductRoot';
-import Cart from './components/user/cart/Cart';
 import AccountRoot from './pages/AccountRoot';
-import Information from './components/user/information/Information';
-import FavouriteItems from './components/user/favourite/FavouriteItems';
+import Information from './components/customer/information/Information';
+import Cart from './components/customer/cart/Cart';
+import FavouriteItems from './components/customer/favourite/FavouriteItems';
+import AddReview from './components/customer/review/add/AddReview';
+import Reviews from './components/customer/review/Reviews';
 import RoleBasedRoute from './middleware/RoleBasedRoute';
 import Verify from './components/auth/verify/Verify';
 import ForgotPassword from './components/auth/password_update/ForgotPassword';
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
           {
             path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer"]} />,
             children: [
-              { path: "", element: <AddReview /> }
+              { path: "add", element: <AddReview /> }
             ]
           },
         ]
@@ -76,6 +77,7 @@ const router = createBrowserRouter([
         children: [
           { path: "viewcart", element: <Cart /> },
           { path: 'wishlist', element: <FavouriteItems /> },
+          { path: 'reviews', element: <Reviews /> }
         ]
       }
     ],

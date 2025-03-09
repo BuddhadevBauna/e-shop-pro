@@ -25,9 +25,7 @@ const FilterAndSortProduct = () => {
                 :
                 <div className="filter-product-container">
                     {products.map((product, index) => {
-                        let { _id, title, thumbnail, rating, description, price, discountPercentage, stock, } = product;
-                        let MRP = price / (1 - discountPercentage / 100);
-                        let MRPInt = Math.round(MRP);
+                        let { _id, title, thumbnail, rating, description, mrp, salePrice, discountPercentage, stock, } = product;
                         return (
                             <div key={index} className="container-filter">
                                 <div className="product-details">
@@ -51,9 +49,9 @@ const FilterAndSortProduct = () => {
                                             </p>
                                         </div>
                                         <div className="product-buy">
-                                            <p>₹ {parseInt(price)}</p>
+                                            <p>₹ {salePrice}</p>
                                             <small>
-                                                <span>₹ {MRPInt}</span> {discountPercentage}% off
+                                                <span>₹ {mrp}</span> {discountPercentage}% off
                                             </small>
                                             <small className="stock">only {stock} left</small>
                                         </div>

@@ -1,47 +1,50 @@
 import { useState } from "react";
 import "./AddReview.css";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../../store/context/auth";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddReview = () => {
-    const {AuthorizationToken, loginUserData} = useAuth();
-    // console.log(AuthorizationToken, loginUserData);
-
+    const {token, loginUserData} = useAuth();
+    // console.log(token, loginUserData);
     const {productId} = useParams();
     // console.log(productId);
-
     const navigate = useNavigate();
 
     const [input, setInput] = useState({
-        rating: "",
+        rating: 1,
         reviewHeading: "",
         reviewDescription: ""
     })
 
     const handleInput = (e) => {
         const {name, value} = e.target;
-        setInput({
-            ...input,
-            [name]: value
-        });
+        setInput((prevInput) => ({
+            ...prevInput,
+            [name]: name === "rating" ? (value === "" ? "" : Number(value)) : value
+        }));
     }
 
     const handleSubmit = (e) => { 
         e.preventDefault();
         const addRating = async () => {
             try {
-                const finalInput = {...input, reviewerName: loginUserData.username};
-                const response = await axios.post(`http://localhost:3030/products/${productId}/review`, finalInput, {
+                const finalInput = {product: productId, reviewOwner: loginUserData?.extraUserData?.id, ...input};
+                // console.log(finalInput);
+                const response = await axios.post(`http://localhost:3030/reviews/add`, finalInput, {
                     headers: {
-                        Authorization: AuthorizationToken
+                        Authorization: `Bearer ${token}`
                     }
                 })
-                if(response.status === 200) {
-                    navigate(`/products/${productId}`);
+                if(response.status === 201) {
+                    toast.success(response?.data?.message);
                 }
             } catch (error) {
-                console.error(error);
+                // console.error(error);
+                toast.error(error?.response?.data?.message);
+            } finally {
+                navigate(`/products/${productId}`);
             }
         }
         addRating();
@@ -60,6 +63,8 @@ const AddReview = () => {
                             id="rating"
                             autoComplete="off"
                             required
+                            min={1}
+                            max={5}
                             name="rating"
                             value={input.rating}
                             onChange={handleInput}

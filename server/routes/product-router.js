@@ -4,11 +4,10 @@ import updateProduct from "../controllers/products/update-product-controller.js"
 import * as getProduct from "../controllers/products/get-product-controller.js";
 import searchAndSelectProductsOrCategory from "../controllers/products/search-select-product-controller.js";
 import deleteProduct from "../controllers/products/delete-product-controller.js";
-import reviewProduct from "../controllers/products/review-product-controller.js";
+import addReview from "../controllers/customer/review/add-review-controller.js";
 import verifyToken from "../middlewares/verifyToken-middleware.js";
 import getUserRole from "../middlewares/getUserRole-middleware.js";
 import checkAdmin from "../middlewares/checkAdmin-middleware.js";
-import checkCustomer from "../middlewares/checkCustomer-middleware.js";
 import validate from "../middlewares/validateUserProvidedData-middleware.js";
 import { productSchema, updatedProductSchema } from "../validators/product_validator.js";
 import validatePassword from "../middlewares/validatePassword-middleware.js";
@@ -31,9 +30,5 @@ router.route('/searchandSelect').get(searchAndSelectProductsOrCategory);
 
 //get product
 router.route('/:productId').get(getProduct.getSingleProduct);
-
-//controll by customer
-//review product
-router.route('/:productId/review').post(verifyToken, getUserRole, checkCustomer, reviewProduct);
 
 export default router;

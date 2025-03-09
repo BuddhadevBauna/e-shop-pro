@@ -94,14 +94,10 @@ const ProductDetails = () => {
             return <h1>Loading...</h1>;
         }
 
-        if (Object.keys(product).length == 0) return <ClientError />;
-
-        let { _id, images, category, title, description, price, discountPercentage, rating,
+        let { images, category, title, description, mrp, discountPercentage, salePrice, rating,
             brand, stock, availabilityStatus, returnPolicy, warrantyInformation,
             shippingInformation, reviews = []
         } = product;
-        let MRP = price / (1 - discountPercentage / 100);
-        let MRPInt = Math.round(MRP);
 
         return (
             <>
@@ -121,7 +117,7 @@ const ProductDetails = () => {
                                                             onMouseOver={() => handleImageChange(image)}>
                                                             <img
                                                                 src={image}
-                                                                alt={category + index + '-img'}
+                                                                alt={category.name + index + '-img'}
                                                             />
                                                         </li>
                                                     )
@@ -129,7 +125,7 @@ const ProductDetails = () => {
                                             </ul>
                                         </div>
                                         <div className="hover-img-show">
-                                            <img src={showImage} alt={category + '-img'} />
+                                            <img src={showImage} alt={category.name + '-img'} />
                                         </div>
                                     </>
                                 }
@@ -171,8 +167,8 @@ const ProductDetails = () => {
                             <div className="information">
                                 <h4 className="price-heading">Spacial Price :</h4>
                                 <p className="price">
-                                    <span>₹ {parseInt(price)}</span>
-                                    <span className="mrp">₹ {MRPInt}</span>
+                                    <span>₹ {salePrice}</span>
+                                    <span className="mrp">₹ {mrp}</span>
                                     <span className="discount">{discountPercentage}% off</span>
                                 </p>
                             </div>
@@ -190,7 +186,7 @@ const ProductDetails = () => {
                             <div className="information rating-container">
                                 <div className="add-rating">
                                     <h4>Rating & Review</h4>
-                                    <Link to={'review'}>
+                                    <Link to={'review/add'}>
                                         <button>Rate Product</button>
                                     </Link>
                                 </div>

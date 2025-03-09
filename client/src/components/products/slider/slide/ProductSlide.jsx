@@ -4,9 +4,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const ProductSlide = ({ product }) => {
-    let { _id, title, thumbnail, category, price, discountPercentage, rating } = product;
-    let MRP = price / (1 - discountPercentage / 100);
-    let MRPInt = Math.round(MRP);
+    let { _id, title, thumbnail, category, mrp, salePrice, discountPercentage, rating } = product;
 
     const [loaded, setLoaded] = useState(false);
 
@@ -19,7 +17,7 @@ const ProductSlide = ({ product }) => {
                             <FaRegHeart />
                         </i>
                     </Link>
-                    <Link to={`/products/${_id}`}>
+                    <Link to={`/products/${_id}`} target="_blank">
                         <div className="product-img">
                             <img
                                 src={thumbnail}
@@ -32,9 +30,9 @@ const ProductSlide = ({ product }) => {
                             <small className="category">{category.name}</small>
                             <p>{title.length > 25 ? title.substring(0, 25) + "..." : title}</p>
                             <small className="rating">{rating} ★</small>
-                            <p>₹ {Math.round(price)}</p>
-                            <small>
-                                <span className="mrp">₹ {MRPInt}</span>
+                            <p>₹ {salePrice}</p>
+                            <small className="mrp-discount">
+                                <span className="mrp">₹ {mrp}</span>
                                 <span>{discountPercentage}% off</span>
                             </small>
                         </div>

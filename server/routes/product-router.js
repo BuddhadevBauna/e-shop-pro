@@ -24,6 +24,7 @@ router.route('/delete/:productId').delete(verifyToken, getUserRole, checkAdmin, 
 
 //get products
 router.route('/').get(getProduct.getAllProduct);
+router.route('/by-ids').get(getProduct.getProductsOfIds);
 router.route('/category/:particularCategoryId').get(getProduct.getCategoryOfProduct);
 //search, select, sort, filter product
 router.route('/searchandSelect').get(searchAndSelectProductsOrCategory);

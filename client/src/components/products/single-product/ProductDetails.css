@@ -9,7 +9,7 @@
         flex-direction: column;
         gap: 0.5rem;
         position: relative;
-        
+
 
         & .left-side-container {
             position: sticky;
@@ -23,7 +23,7 @@
                 flex-direction: row;
                 gap: 0.5rem;
                 border: solid 1.5px rgb(173, 163, 163);
-    
+
                 & .verically-img-show {
                     display: flex;
                     flex-direction: column;
@@ -36,8 +36,8 @@
                     overflow-x: hidden;
                     scrollbar-width: thin;
                     scrollbar-color: rgba(100, 97, 97, 0.61) lightgray;
-    
-    
+
+
                     & ul {
                         & li {
                             box-sizing: border-box;
@@ -49,13 +49,13 @@
                             opacity: 0.5;
                             border-bottom: solid 1.5px rgb(173, 163, 163);
                             outline: none;
-    
+
                             & img {
                                 max-width: 100%;
                                 max-height: 100%;
                             }
                         }
-    
+
                         & li.active {
                             opacity: initial;
                             border: 3px solid blue;
@@ -63,14 +63,14 @@
                         }
                     }
                 }
-    
+
                 & .hover-img-show {
                     width: calc(100% - 5rem);
                     height: 20rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-    
+
                     & img {
                         max-width: 85%;
                         max-height: 85%;
@@ -93,10 +93,17 @@
                     font-weight: 700;
                     border-radius: 0.3rem;
                     cursor: pointer;
-                }
+                    text-decoration: none;
+                    text-align: center;
+                    transition: background-color 0.3s ease;
 
-                & .btn.disabled {
-                    cursor: not-allowed;
+                    &:hover {
+                        background-color: darkblue;
+                    }
+
+                    &:active {
+                        background-color: navy;
+                    }
                 }
             }
         }
@@ -142,7 +149,7 @@
                     & span {
                         margin-right: 0.3rem;
                     }
-                    
+
                     & span:last-child {
                         color: gray;
                         font-weight: bold;
@@ -159,7 +166,7 @@
                     align-items: center;
                     gap: 0.5rem;
                     font-size: 1.2rem;
-                        font-weight: 600;
+                    font-weight: 600;
 
                     & span:first-child {
                         font-size: 1.5rem;

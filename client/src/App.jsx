@@ -75,11 +75,11 @@ const router = createBrowserRouter([
       {
         path: "", element: <RoleBasedRoute allowedRoles={["customer"]} />,
         children: [
-          { path: "viewcart", element: <Cart /> },
-          { path: 'wishlist', element: <FavouriteItems /> },
           { path: 'reviews', element: <Reviews /> }
         ]
-      }
+      },
+      { path: "viewcart", element: <Cart /> },
+      { path: 'wishlist', element: <FavouriteItems /> },
     ],
   },
   {
@@ -121,6 +121,8 @@ const router = createBrowserRouter([
 
 function App() {
   const { isServerIssueLoading, isServerIssue } = useAuth();
+  useFetchAllCategory();
+  useFetchProductsOfAllCategories();
 
   if (isServerIssueLoading) {
     return (
@@ -133,10 +135,6 @@ function App() {
   if (isServerIssue) {
     return <ServerError />;
   }
-
-  //call custom hook
-  useFetchAllCategory();
-  useFetchProductsOfAllCategories();
 
   return (
     <RouterProvider router={router} />

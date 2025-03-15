@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "./SearchContainer.css";
 import { FaSearch } from "react-icons/fa";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import useProductsSearchSuggestions from "../../../custom_hook/useSearchProductsSuggestions";
 import debounce from "lodash.debounce";
 
 const SearchContainer = () => {
+    const location = useLocation();
     const [searchParams] = useSearchParams();
     const suggestions = useProductsSearchSuggestions();
     const navigate = useNavigate();
@@ -14,10 +15,14 @@ const SearchContainer = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
-    const searchTerm = searchParams.get("q") || "";
     useEffect(() => {
-        setInputValue(searchTerm);
-    }, [searchTerm]);
+        if(location.pathname === '/products/search/') {
+            const searchTerm = searchParams.get("q") || "";
+            setInputValue(searchTerm);
+        } else {
+            setInputValue('');
+        }
+    }, [location, searchParams]);
 
     const filteredSuggestions = useMemo(() => {
         if (inputValue === "") return suggestions.slice(0, 10);

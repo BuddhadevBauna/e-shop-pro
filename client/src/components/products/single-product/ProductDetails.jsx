@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./ProductDetails.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
-import ClientError from "../../error/ClientError";
 import { useAuth } from "../../../store/context/auth";
-import axios from "axios";
+import AddToCart from "./add_to_cart/AddToCart";
 
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
@@ -15,8 +14,7 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const [activeImage, setActiveImage] = useState("");
     const [showImage, setShowImage] = useState("");
-    const { isLoggedIn, loginUserData, AuthorizationToken, cartData, isLoadingCartData, fetchCartProducts } = useAuth();
-    const navigate = useNavigate();
+    const { cartData, isLoadingCartData } = useAuth();
     const [isProductExistInCart, setProductExistInCart] = useState(false);
 
     const getProductDetails = useCallback(() => {
@@ -42,49 +40,9 @@ const ProductDetails = () => {
         setShowImage(image);
     };
 
-    const goToCart = () => {
-        navigate('/viewcart');
-    }
-
-    const addProductInCart = async () => {
-        try {
-            const { username, email } = loginUserData;
-            const { _id, title, description, brand, price, discountPercentage, thumbnail,
-                stock, shippingInformation
-            } = product;
-            const cartData = {
-                "username": username,
-                "useremail": email,
-                "cartItems": {
-                    "productId": _id,
-                    "title": title,
-                    "description": description,
-                    "brand": brand,
-                    "price": price,
-                    "discountPercentage": discountPercentage,
-                    "thumbnail": thumbnail,
-                    "shippingInformation": shippingInformation,
-                    "stock": stock,
-                    "quantity": 1
-                }
-            }
-            const response = await axios.post('http://localhost:3030/cart/add', cartData, {
-                headers: {
-                    Authorization: AuthorizationToken
-                }
-            });
-            if (response.status === 201 || response.status === 200) {
-                await fetchCartProducts();
-                navigate('/cart');
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     useEffect(() => {
         if (!isLoadingCartData && cartData && productId) {
-            setProductExistInCart(cartData.cartItems?.some(item => item.productId === productId));
+            setProductExistInCart(cartData.cartSummery?.cartItems?.some(item => item?.product?._id === productId));
         }
     }, [cartData, isLoadingCartData, productId]);
 
@@ -132,22 +90,13 @@ const ProductDetails = () => {
                             </div>
                             <div className="button-container">
                                 {isProductExistInCart ? (
-                                    <button
-                                        className={`btn ${!isLoggedIn ? "disabled" : ""}`}
-                                        disabled={!isLoggedIn}
-                                        onClick={goToCart}
-                                    >Go To Cart</button>
+                                    <Link to={'/viewcart'} className={`btn`}>Go To Cart</Link>
                                 ) : (
-                                    <button
-                                        className={`btn ${!isLoggedIn ? "disabled" : ""}`}
-                                        disabled={!isLoggedIn}
-                                        onClick={addProductInCart}
-                                    >Add To Cart</button>
+                                    <AddToCart 
+                                        productId={productId}
+                                    />
                                 )}
-                                <button
-                                    className={`btn ${!isLoggedIn ? "disabled" : ""}`}
-                                    disabled={!isLoggedIn}
-                                >Buy Now</button>
+                                <button className={`btn`}>Buy Now</button>
                             </div>
                         </div>
                     </div>

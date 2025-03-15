@@ -3,9 +3,9 @@ export const buildSortOption = (query) => {
 
     let sortOption = {};
     if (sortBy === 'price_desc') {
-        sortOption.price = -1;
+        sortOption.salePrice = -1;
     } else if(sortBy === 'price_asc') {
-        sortOption.price = 1;
+        sortOption.salePrice = 1;
     }
 
     return sortOption;

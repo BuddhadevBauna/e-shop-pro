@@ -2,9 +2,9 @@ import Cart from "../../../models/cart-model.js";
 
 const productsOfCartOfParticularUser = async (req, res) => {
     try {
-        const {useremail} = req.query;
+        const {userId} = req.query;
 
-        const cartItems = await Cart.findOne({useremail : useremail});
+        const cartItems = await Cart.findOne({user : userId}).populate('items.product');
         if(cartItems) {
             return res.status(200).json(cartItems);
         }

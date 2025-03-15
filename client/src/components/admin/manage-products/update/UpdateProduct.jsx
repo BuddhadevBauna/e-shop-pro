@@ -52,6 +52,7 @@ const UpdateProduct = () => {
         const upadatedFeilds = Object.fromEntries(Object.entries(input).filter(([key, value]) => {
             return value !== initialInput[key];
         }));
+        // console.log(upadatedFeilds);
         const updateProduct = async () => {
             try {
                 const updateProductURL = import.meta.env.VITE_UPDATE_PRODUCT + '/' + productId;

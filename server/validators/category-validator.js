@@ -1,17 +1,10 @@
 import { z } from "zod";
-
-const creatingStringSchema = (feildName) => {
-    return (
-        z.string({ required_error: `${feildName} is required.`, invalid_type_error: `${feildName} must be string.` })
-            .min(3, { message: `${feildName} must be at least 3 characters` })
-            .max(20, { message: `${feildName} must not exceed 20 charecter` })
-    )
-}
+import { objectIdSchema, stringSchema } from "./validatorSchema.js";
 
 const categorySchema = z.object({
-    name: creatingStringSchema("Category Name"),
-    categoryType: creatingStringSchema("Category type"),
-    parent: z.string().optional().nullable()
+    name: stringSchema("Category Name", 1, 255, true),
+    categoryType: stringSchema("Category Type", 1, 255, true),
+    parent: objectIdSchema("Parent Category", false).nullable()
 });
 
 const fullCategorySchema = categorySchema.extend({

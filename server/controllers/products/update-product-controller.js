@@ -19,7 +19,7 @@ const updateProduct = async (req, res) => {
         }
         // console.log(updatedProductData);
 
-        const updatedProduct = await Product.findByIdAndUpdate({_id: productId}, updatedProductData);
+        const updatedProduct = await Product.findOneAndUpdate({_id: productId}, updatedProductData, { new: true });
         // console.log(updateProduct);
         if(!updatedProduct) {
             return res.status(404).json({ message: "Product not found." });

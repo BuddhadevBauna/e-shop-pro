@@ -33,12 +33,12 @@
                 cursor: pointer;
             }
 
-            & li:hover {
-                color: blue;
-            }
-
             & li:active {
                 color: red;
+            }
+
+            li.selected {
+                color: blue;
             }
         }
     }

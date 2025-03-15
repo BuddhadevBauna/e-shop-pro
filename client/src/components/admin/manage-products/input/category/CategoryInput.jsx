@@ -52,10 +52,9 @@ const CategoryInput = ({ label, type, required, name, value, mode, input, setInp
                     autoComplete="off"
                     required={required}
                     name={name}
-                    value={value}
+                    value={value || ""}
                     placeholder={`Select a ${name}`}
                     onClick={handleCategoryClick}
-                    onChange={handleCategoryChange}
                     readOnly
                 />
                 {showDropdown &&

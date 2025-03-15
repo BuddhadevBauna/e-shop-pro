@@ -55,7 +55,7 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         input={input}
                         setInput={setInput}
                         min={0}
-                        step={0.01}
+                        step={1}
                     />
                     <CustomInput
                         label="Discount Percentage"
@@ -68,7 +68,7 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         setInput={setInput}
                         min={0}
                         max={100}
-                        step={0.01}
+                        step={1}
                     />
                     <CustomInput
                         label="Stock"
@@ -80,6 +80,7 @@ const AddAndUpdateAndViewForm = ({ mode, input, setInput, onSubmit }) => {
                         input={input}
                         setInput={setInput}
                         min={0}
+                        step={1}
                     />
                     <CustomInput
                         label="Brand"

@@ -2,21 +2,21 @@ import Cart from "../../../models/cart-model.js";
 
 const updateProductInCart = async (req, res) => {
     try {
-        const {userCartID, itemId} = req.query;
+        const {userID, cartItemId} = req.query;
         const {quantity} = req.body;
+        // console.log(userID, cartItemId, quantity);
 
-        // Update the cart item quantity with an existence check
+        if(!userID || !cartItemId) return res.status(400).json({message: "Required fill not pass."});
+
         const updatedCart = await Cart.findOneAndUpdate(
-            { _id: userCartID, 'cartItems._id': itemId },
-            { $set: { 'cartItems.$.quantity': quantity } },
+            { user: userID, 'items.product': cartItemId },
+            { $set: { 'items.$.quantity': quantity } },
             { new: true, runValidators: true }
         );
 
-        // Check if the user or cart item was not found
         if (!updatedCart) {
-            return res.status(404).json({ message: 'User cart or cart item not found' });
+            return res.status(404).json({ message: 'Cart item quantity updated unsuccessful' });
         }
-
         return res.status(200).json({ message: 'Cart item quantity updated successfully'});
     } catch (error) {
         console.error(error);

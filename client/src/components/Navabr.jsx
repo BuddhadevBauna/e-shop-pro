@@ -22,8 +22,10 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        if (!isLoadingCartData && cartData) {
-            setTotalCartItem(cartData.cartItems.length);
+        // console.log(isLoadingCartData, cartData);
+        if (!isLoadingCartData) {
+            if(cartData) setTotalCartItem(cartData?.cartSummery?.cartItems?.length);
+            else setTotalCartItem(0);
         }
     }, [isLoadingCartData, cartData])
 

@@ -7,6 +7,7 @@ const getProduct = async (queryString, sortOption,) => {
     try {
         // console.log(queryString, sortOption);
         const products = await Product.find(queryString).sort(sortOption);
+        // console.log(products);
         return products;
     } catch (error) {
         console.error(error);

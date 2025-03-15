@@ -11,6 +11,22 @@ export const getAllProduct = async (req, res) => {
     }
 }
 
+//get products of ids
+export const getProductsOfIds = async (req, res) => {
+    try {
+        const {ids} = req.query;
+        if (ids) {
+            const productIds = ids.split(',');
+            const products = await Product.find({ _id: { $in: productIds } });
+            return res.status(200).json(products);
+        }
+        res.status(400).json({ message: "Please provide product IDs" });
+    } catch (error) {
+        // console.error(error);
+        return res.status(500).json({message: "All product get unsucessful"});
+    }
+}
+
 //get category of products
 export const getCategoryOfProduct = async (req, res) => {
     try {

@@ -3,7 +3,7 @@ import Product from "../../models/product-model.js";
 //get all products
 export const getAllProduct = async (req, res) => {
     try {
-        const products = await Product.find({});
+        const products = await Product.find({isDeleted: false});
         return res.status(200).json(products);
     } catch (error) {
         // console.error(error);
@@ -17,7 +17,7 @@ export const getProductsOfIds = async (req, res) => {
         const {ids} = req.query;
         if (ids) {
             const productIds = ids.split(',');
-            const products = await Product.find({ _id: { $in: productIds } });
+            const products = await Product.find({ _id: { $in: productIds }});
             return res.status(200).json(products);
         }
         res.status(400).json({ message: "Please provide product IDs" });
@@ -32,7 +32,11 @@ export const getCategoryOfProduct = async (req, res) => {
     try {
         const { particularCategoryId } = req.params;
         // console.log(particularCategoryId);
-        const products = await Product.find({category: particularCategoryId}).populate("category");
+        let filter = {category: particularCategoryId};
+        if(!req.isAdmin) {
+            filter.isDeleted = false;
+        }
+        const products = await Product.find(filter).populate("category");
         if (products.length === 0) {
             return res.status(404).json({ message: "No products found in this category" });
         }

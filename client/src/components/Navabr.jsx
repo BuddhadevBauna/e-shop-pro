@@ -24,7 +24,7 @@ const Navbar = () => {
     useEffect(() => {
         // console.log(isLoadingCartData, cartData);
         if (!isLoadingCartData) {
-            if(cartData) setTotalCartItem(cartData?.cartSummery?.cartItems?.length);
+            if(cartData) setTotalCartItem(cartData?.items?.length);
             else setTotalCartItem(0);
         }
     }, [isLoadingCartData, cartData])
@@ -54,7 +54,7 @@ const Navbar = () => {
                         ) : (
                             <NavLink
                                 className="nav-link"
-                                to="/account/details"
+                                to="/account/information"
                                 onMouseOver={handleMouseOver}
                                 onMouseLeave={handleMouseLeave}
                             >
@@ -84,7 +84,7 @@ const Navbar = () => {
                                     </>
                                 }
                                 <div className="user">
-                                    <Link to={'/account/details'}>
+                                    <Link to={'/account/information'}>
                                         <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
                                     </Link>
                                     <Link to={'/wishlist'}>

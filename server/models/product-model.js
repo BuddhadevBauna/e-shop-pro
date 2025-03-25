@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Review"
-    }]
+    }],
+    isDeleted: { type: Boolean, default: false }
 }, {timestamps: true});
 
 productSchema.pre('save', function(next) {

@@ -6,6 +6,7 @@ import CartDetails from "./cart_details/CartDetails";
 
 const Cart = () => {
     const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
+    // console.log(isLoggedIn, isLoadingCartData);
 
     const content = useMemo(() => {
         if (!isLoggedIn) {
@@ -18,7 +19,7 @@ const Cart = () => {
                 );
             }
             // console.log(cartData);
-            if (!cartData || !cartData.cartSummery || !cartData.cartSummery.cartItems || cartData.cartSummery.cartItems.length === 0) {
+            if (!cartData || !cartData.items || cartData.items.length === 0) {
                 return (
                     <div className="cart-section login-to-view">
                         <p>Missing Cart items?</p>
@@ -55,7 +56,7 @@ const Cart = () => {
                 return <CartDetails />;
             }
         }
-    }, [cartData]);
+    }, [isLoggedIn, isLoadingCartData, cartData]);
 
     return content;
 };

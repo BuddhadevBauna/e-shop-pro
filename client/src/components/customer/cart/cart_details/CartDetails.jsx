@@ -43,14 +43,18 @@ const CartDetails = () => {
             }
         }
     };
-    const handleIncrement = (userID, cartItemId, stock, quantity) => {
-        if (stock > 10 && quantity < 5) {
-            handleQuantityChange(userID, cartItemId, quantity + 1);
+    const handleIncrement = (userID, cartItemId, stock, quantity, isDeleted) => {
+        if (!isDeleted) {
+            if (stock > 10 && quantity < 5) {
+                handleQuantityChange(userID, cartItemId, quantity + 1);
+            }
         }
     };
-    const handleDecrement = (userID, cartItemId, quantity) => {
-        if (quantity > 1) {
-            handleQuantityChange(userID, cartItemId, quantity - 1);
+    const handleDecrement = (userID, cartItemId, quantity, isDeleted) => {
+        if (!isDeleted) {
+            if (quantity > 1) {
+                handleQuantityChange(userID, cartItemId, quantity - 1);
+            }
         }
     };
 
@@ -88,10 +92,10 @@ const CartDetails = () => {
         <section className="cart-section">
             <div className="cart-container">
                 <div className="cart">
-                    {cartData?.cartSummery?.cartItems.map((cartItem) => {
+                    {cartData?.items.map((cartItem) => {
                         const { product, quantity, totalDiscount, totalMRP, totalSalePrice } = cartItem;
                         const { _id, title, description, brand, salePrice, discountPercentage,
-                            thumbnail, stock, shippingInformation } = product;
+                            thumbnail, stock, shippingInformation, isDeleted } = product;
 
                         return (
                             <div className="cart-item" key={_id}>
@@ -108,7 +112,7 @@ const CartDetails = () => {
                                         </p>
                                     </Link>
                                     {brand && <p className="brand">Brand : {brand}</p>}
-                                    <p className="price">
+                                    <p className={`price ${isDeleted ? 'not-include-pice' : ''}`}>
                                         <span className="mrp">₹ {totalMRP}</span>
                                         <span className="sale-price">₹ {totalSalePrice}</span>
                                         <span className="discount">
@@ -124,23 +128,26 @@ const CartDetails = () => {
                                     </p>
                                 </div>
                                 <div className="increment-decrement-container">
-                                    <button className={`${quantity === 1 ? 'disable' : ''}`}>
-                                        <i onClick={() => handleDecrement(cartData.user, _id, quantity)}>
+                                    <button className={`${(isDeleted || quantity === 1) ? 'disable' : ''}`}>
+                                        <i onClick={() => handleDecrement(cartData.user, _id, quantity, isDeleted)}>
                                             <FaMinus className="icon" />
                                         </i>
                                     </button>
                                     <p>{quantity}</p>
-                                    <button className={`${(stock > 10 && quantity < 5) ? '' : 'disable'}`}>
-                                        <i onClick={() => handleIncrement(cartData.user, _id, stock, quantity)}>
+                                    <button className={`${isDeleted ? 'disable' : (stock > 10 && quantity < 5) ? '' : 'disable'}`}>
+                                        <i onClick={() => handleIncrement(cartData.user, _id, stock, quantity, isDeleted)}>
                                             <FaPlus className="icon" />
                                         </i>
                                     </button>
                                 </div>
-                                <div className="remove-container">
+                                <div className={`remove-container`}>
                                     <button onClick={() => deleteCartItem(cartData.user, _id)}>
                                         REMOVE
                                     </button>
                                 </div>
+                                {isDeleted &&
+                                    <p className="error">This product is no longer available.</p>
+                                }
                             </div>
                         );
                     })}
@@ -148,18 +155,18 @@ const CartDetails = () => {
             </div>
             <div className="price-details-container">
                 <div className="price-details">
-                    {cartData?.cartSummery && (
+                    {cartData?.items && (
                         <>
                             <h4>PRICE DETAILS</h4>
                             <hr style={{ borderTopStyle: "solid" }} />
                             <div>
                                 <p>
-                                    <span>Price ({cartData.cartSummery.cartItems?.length} item)</span>
-                                    <span>₹{cartData.cartSummery?.cartFinalMRP}</span>
+                                    <span>Price ({cartData.items?.length} item)</span>
+                                    <span>₹{cartData?.cartFinalMRP}</span>
                                 </p>
                                 <p>
                                     <span>Discount</span>
-                                    <span className="discount">-₹{cartData.cartSummery?.cartFinalDiscount}</span>
+                                    <span className="discount">-₹{cartData?.cartFinalDiscount}</span>
                                 </p>
                                 <p>
                                     <span>Delivery Charges</span>
@@ -168,10 +175,10 @@ const CartDetails = () => {
                                 <hr />
                                 <p className="total">
                                     <span>Total Amount</span>
-                                    <span>₹{cartData.cartSummery?.cartFinalPrice}</span>
+                                    <span>₹{cartData?.cartFinalPrice}</span>
                                 </p>
                                 <hr />
-                                <p className="saving">You will save ₹{cartData.cartSummery?.cartFinalDiscount} on this order</p>
+                                <p className="saving">You will save ₹{cartData?.cartFinalDiscount} on this order</p>
                             </div>
                         </>
                     )}

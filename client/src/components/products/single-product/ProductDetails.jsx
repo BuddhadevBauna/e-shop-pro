@@ -41,8 +41,12 @@ const ProductDetails = () => {
     };
 
     useEffect(() => {
-        if (!isLoadingCartData && cartData && productId) {
-            setProductExistInCart(cartData.cartSummery?.cartItems?.some(item => item?.product?._id === productId));
+        if (!isLoadingCartData) {
+            if (cartData && productId) {
+                setProductExistInCart(cartData.items?.some(item => item?.product?._id === productId));
+            } else {
+                setProductExistInCart(false);
+            }
         }
     }, [cartData, isLoadingCartData, productId]);
 
@@ -54,7 +58,7 @@ const ProductDetails = () => {
 
         let { images, category, title, description, mrp, discountPercentage, salePrice, rating,
             brand, stock, availabilityStatus, returnPolicy, warrantyInformation,
-            shippingInformation, reviews = []
+            shippingInformation, reviews = [], isDeleted
         } = product;
 
         return (
@@ -89,14 +93,20 @@ const ProductDetails = () => {
                                 }
                             </div>
                             <div className="button-container">
-                                {isProductExistInCart ? (
-                                    <Link to={'/viewcart'} className={`btn`}>Go To Cart</Link>
+                                {isDeleted ? (
+                                    <button className={`btn notify-btn`}>Notify Me</button>
                                 ) : (
-                                    <AddToCart 
-                                        productId={productId}
-                                    />
+                                    <>
+                                        {isProductExistInCart ? (
+                                            <Link to={'/viewcart'} className={`btn cart-btn`}>Go To Cart</Link>
+                                        ) : (
+                                            <AddToCart
+                                                productId={productId}
+                                            />
+                                        )}
+                                        <button className={`btn buy-btn`}>Buy Now</button>
+                                    </>
                                 )}
-                                <button className={`btn`}>Buy Now</button>
                             </div>
                         </div>
                     </div>

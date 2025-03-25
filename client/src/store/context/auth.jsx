@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }) => {
     const removeTokenFromLocalStorage = async () => {
         setToken(null);
         localStorage.removeItem('token');
+        localStorage.removeItem("cartMergeAlreadyCall");
+        localStorage.removeItem('mergedSuccess')
         setLoggedIn(false);
         setLoginUserData(null);
         setIsLoadingUserData(false);
@@ -54,29 +56,37 @@ export const AuthProvider = ({ children }) => {
 
     const mergerGuestUserCartItem = useCallback(async (userId, token) => {
         if (!userId || !token) return;
+        // localStorage.setItem("cartMergeAlreadyCall", true);
         try {
-            const response = await axios.get(`http://localhost:3030/cart?userId=${userId}`, {headers: {Authorization: `Bearer ${token}`}});
-            let userCart = response?.data?.items || [];
-            let cartMap = new Map(userCart.map((item) => [item.product._id, item.product]))
             let guestCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            let cart = [];
-            guestCart.forEach((guestItem) => {
-                if(!cartMap.has(guestItem.product)) cart.push(guestItem); 
-            })
-            if (cart.length > 0) {
-                const data = { user: userId, guestCart: cart }
-                const response = await axios.post('http://localhost:3030/cart/merge', data, {
-                    headers: { Authorization: `Bearer ${token}` }
+            // console.log(guestCart);
+            if (guestCart.length > 0) {
+                const response = await axios.get(`http://localhost:3030/cart?userId=${userId}`, { headers: { Authorization: `Bearer ${token}` } });
+
+                let userCart = response?.data?.items || [];
+                let cartMap = new Map(userCart.map((item) => [item.product._id, item.product]));
+
+                let cart = [];
+                guestCart.forEach((guestItem) => {
+                    if (!cartMap.has(guestItem.product)) cart.push(guestItem);
                 })
-                // console.log(response);
-                if (response?.status >= 200 && response?.status <= 300) {
-                    localStorage.removeItem('cart');
+                // console.log(cart);
+
+                if (cart.length > 0) {
+                    const data = { user: userId, guestCart: cart }
+                    const response = await axios.post('http://localhost:3030/cart/merge', data, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    // console.log(response);
+                    if (response?.status >= 200 && response?.status <= 300) {
+                        localStorage.removeItem('cart');
+                    }
                 }
             }
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, []);
 
     const fetchCartProducts = useCallback(async (userId, token) => {
         if (!userId || !token) {
@@ -91,26 +101,23 @@ export const AuthProvider = ({ children }) => {
                         let cartFinalMRP = 0;
                         let cartFinalDiscount = 0;
                         let cartFinalPrice = 0;
-                        const cartItems = cart.map((cartItem) => {
+                        const items = cart.map((cartItem) => {
                             const product = products.find(product => product._id.toString() === cartItem.product);
                             if (!product) return null; // Skip missing products
 
                             const quantity = cartItem.quantity;
-                            const totalMRP = parseFloat((product.mrp * quantity).toFixed(2));
-                            const totalDiscount = parseFloat((totalMRP * (product.discountPercentage / 100)).toFixed(2));
-                            const totalSalePrice = parseFloat((totalMRP - totalDiscount).toFixed(2));
-
-                            cartFinalMRP += totalMRP;
-                            cartFinalDiscount += totalDiscount;
-                            cartFinalPrice += totalSalePrice;
+                            const totalMRP = product.mrp * quantity;
+                            const totalDiscount = Math.round(totalMRP * (product.discountPercentage / 100));
+                            const totalSalePrice = totalMRP - totalDiscount;
+                            
+                            if (!product.isDeleted) {
+                                cartFinalMRP += totalMRP;
+                                cartFinalDiscount += totalDiscount;
+                                cartFinalPrice += totalSalePrice;
+                            }
                             return { product, quantity, totalMRP, totalDiscount, totalSalePrice };
                         }).filter(item => item !== null); // Remove skipped products
-                        cartFinalMRP = parseFloat(cartFinalMRP.toFixed(2));
-                        cartFinalDiscount = parseFloat(cartFinalDiscount.toFixed(2));
-                        cartFinalPrice = parseFloat(cartFinalPrice.toFixed(2));
-                        const cartSummery = { cartItems, cartFinalMRP, cartFinalDiscount, cartFinalPrice };
-                        // console.log(cartSummery)
-                        setCartData({ cartSummery });
+                        setCartData({ items, cartFinalMRP, cartFinalDiscount, cartFinalPrice });
                     }
                 } catch (error) {
                     setCartData(null);
@@ -129,7 +136,7 @@ export const AuthProvider = ({ children }) => {
                     }
                 });
                 if (response?.status >= 200 && response?.status <= 300) {
-                    // console.log(response);
+                    // console.log(response.data);
                     setCartData(response.data);
                 }
             } catch (error) {
@@ -158,8 +165,32 @@ export const AuthProvider = ({ children }) => {
                 const userId = response?.data?.extraUserData?.id;
                 setLoggedIn(true);
                 setLoginUserData(response.data);
-                await mergerGuestUserCartItem(userId, token);
-                await fetchCartProducts(userId, token);
+
+                const cartMergeAlreadyCall = localStorage.getItem("cartMergeAlreadyCall");
+                const merging = localStorage.getItem("merging");
+                if (!cartMergeAlreadyCall && !merging) {
+                    localStorage.setItem('merging', true);
+                    await mergerGuestUserCartItem(userId, token);
+                    localStorage.setItem("cartMergeAlreadyCall", true);
+                    localStorage.setItem('mergedSuccess', true);
+                    localStorage.removeItem('merging');
+                }
+
+                if (localStorage.getItem('merging')) {
+                    await new Promise(resolve => {
+                        const checkMergedStatus = () => {
+                            if (localStorage.getItem('mergedSuccess')) {
+                                resolve();
+                                window.removeEventListener('storage', checkMergedStatus);
+                            }
+                        }
+                        window.addEventListener('storage', checkMergedStatus);
+                    })
+                }
+
+                if (localStorage.getItem('mergedSuccess')) {
+                    await fetchCartProducts(userId, token);
+                }
             }
         } catch (error) {
             // console.error(error);
@@ -202,17 +233,10 @@ export const AuthProvider = ({ children }) => {
         }
     }, [isLoggedIn, loginUserData, token]);
 
-    // window.addEventListener("storage", async (event) => {
-    //     if(event.key === 'cart') {
-    //         await fetchCartProducts();
-    //     }
-    // });      
-
     // useEffect(() => {
-    //     console.log(token);
-    //     console.log(isLoggedIn, isLoadingUserData);
-    //     console.log(loginUserData);
-    // }, [token, isLoggedIn, isLoadingCartData, loginUserData]);
+    //     console.log(isLoadingCartData);
+    //     console.log(cartData);
+    // }, [isLoadingCartData, cartData]);
 
     return (
         <AuthContext.Provider

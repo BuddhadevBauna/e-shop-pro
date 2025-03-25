@@ -1,4 +1,5 @@
 import Cart from "../../../models/cart-model.js";
+import Product from "../../../models/product-model.js";
 
 const addProductInCart = async (req, res) => {
     try {
@@ -9,12 +10,16 @@ const addProductInCart = async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        const productToBeAdded = await Product.findOne({_id: product});
+        if(!productToBeAdded || productToBeAdded.isDeleted) return res.status(400).json({message: "Product is not available now."});
+
         let cart = await Cart.findOne({ user });
         if (!cart) {
-            await Cart.create({
+            cart = new Cart({
                 user: user,
                 items: [{ product, quantity }]
             });
+            await cart.save();
             return res.status(200).json({ message: "Product added to cart" });
         }
 

@@ -62,11 +62,22 @@
                         & .sale-price {
                             font-size: 1.5rem;
                             font-weight: 600;
+                            color: black;
                         }
 
                         & .discount {
                             color: green;
                             font-weight: bold;
+                        }
+                    }
+
+                    & .not-include-pice {
+                        text-decoration-line: line-through;
+                        color: red;
+                        opacity: 0.7;
+
+                        &.mrp {
+                            text-decoration-line: initial;
                         }
                     }
                 }
@@ -85,6 +96,11 @@
                             font-weight: bold;
                         }
                     }
+                }
+
+                & .error {
+                    color: red;
+                    grid-column: span 3;
                 }
 
                 & .increment-decrement-container {
@@ -132,6 +148,7 @@
 
                 & .remove-container {
                     grid-column: span 2;
+                    margin: auto 0;
 
                     & button {
                         font-weight: bold;

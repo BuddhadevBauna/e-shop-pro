@@ -8,7 +8,12 @@ import { removeSingleProduct, setSingleProduct } from "../../store/redux/reducer
 const fetchProductsOfCategory = async (id, categoryType, dispatch) => {
     try {
         dispatch(fetchCategoriesOfProductsStart());
-        const response = await axios.get(`http://localhost:3030/products/category/${id}`);
+        let token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:3030/products/category/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         // console.log({categoryType, products: response.data});
         dispatch(setAllCategoriesProducts({ categoryType, products: response.data }));
     } catch (error) {

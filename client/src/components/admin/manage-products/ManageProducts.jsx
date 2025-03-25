@@ -22,6 +22,11 @@ const ManageProducts = () => {
         setPopupVisible(true);
     }
 
+    const updateProductStatus = (productId, name, isDeleted, categories) => {
+        setPopupData({ "type": "update", "data": { "type": "product", "modifiedField": "status", productId, name, isDeleted, categories } });
+        setPopupVisible(true);
+    }
+
     if (!categories || categories.length === 0 || !products || products?.isCategoriesOfProductsLoading) {
         return (
             <div className='loading'>
@@ -53,6 +58,7 @@ const ManageProducts = () => {
                                                     <th className="brand-th">Brand</th>
                                                     <th className="price-th">Price</th>
                                                     <th className="view-th">View</th>
+                                                    <th className="status-th">Sattus</th>
                                                     <th className="update-th">Update</th>
                                                     <th className="delete-th">Delete</th>
                                                 </tr>
@@ -62,20 +68,28 @@ const ManageProducts = () => {
                                                     <tr key={productIndex}>
                                                         <td>{product.title}</td>
                                                         <td>{product.brand || 'Null'}</td>
-                                                        <td className="price-td">{product.price}</td>
+                                                        <td className="price-td">{product.salePrice}</td>
                                                         <td>
                                                             <Link to={`${product._id}/view`}>
-                                                                <button className="btn">View</button>
-                                                            </Link>
-                                                        </td>
-                                                        <td>
-                                                            <Link to={`${product._id}/update`}>
-                                                                <button className="btn">Update</button>
+                                                                <button className="btn view-btn">View</button>
                                                             </Link>
                                                         </td>
                                                         <td>
                                                             <button
-                                                                className="btn"
+                                                                className={`btn ${!product.isDeleted ? "active-status" : "inactive-status"}`}
+                                                                onClick={() => updateProductStatus(product._id, product.title, product.isDeleted, categories)}
+                                                            >
+                                                                {!product.isDeleted ? "Active" : "Inactive"}
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <Link to={`${product._id}/update`}>
+                                                                <button className="btn update-btn">Update</button>
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className="btn delete-btn"
                                                                 onClick={() => deleteProduct(product._id, product.title, categories)}
                                                             >Delete</button>
                                                         </td>
@@ -98,6 +112,7 @@ const ManageProducts = () => {
                                                             <th className="brand-th">Brand</th>
                                                             <th className="price-th">Price</th>
                                                             <th className="view-th">View</th>
+                                                            <th className="status-th">Sattus</th>
                                                             <th className="update-th">Update</th>
                                                             <th className="delete-th">Delete</th>
                                                         </tr>
@@ -107,20 +122,28 @@ const ManageProducts = () => {
                                                             <tr key={productIndex}>
                                                                 <td>{product.title}</td>
                                                                 <td>{product.brand || 'Null'}</td>
-                                                                <td className="price-td">{product.price}</td>
+                                                                <td className="price-td">{product.salePrice}</td>
                                                                 <td>
                                                                     <Link to={`${product._id}/view`}>
-                                                                        <button className="btn">View</button>
-                                                                    </Link>
-                                                                </td>
-                                                                <td>
-                                                                    <Link to={`${product._id}/update`}>
-                                                                        <button className="btn">Update</button>
+                                                                        <button className="btn view-btn">View</button>
                                                                     </Link>
                                                                 </td>
                                                                 <td>
                                                                     <button
-                                                                        className="btn"
+                                                                        className={`btn ${!product.isDeleted ? "active-status" : "inactive-status"}`}
+                                                                        onClick={() => updateProductStatus(product._id, product.title, product.isDeleted, categories)}
+                                                                    >
+                                                                        {!product.isDeleted ? "Active" : "Inactive"}
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <Link to={`${product._id}/update`}>
+                                                                        <button className="btn update-btn">Update</button>
+                                                                    </Link>
+                                                                </td>
+                                                                <td>
+                                                                    <button
+                                                                        className="btn delete-btn"
                                                                         onClick={() => deleteProduct(product._id, product.title, categories)}
                                                                     >Delete</button>
                                                                 </td>

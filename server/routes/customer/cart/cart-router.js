@@ -1,5 +1,5 @@
 import express from "express";
-import verifyToken from "../../../middlewares/verifyToken-middleware.js";
+import verifyReqiredToken from "../../../middlewares/verifyReqiredToken-middleware.js";
 import getUserRole from "../../../middlewares/getUserRole-middleware.js";
 import checkCustomer from "../../../middlewares/checkCustomer-middleware.js";
 import addProductInCart from "../../../controllers/customer/cart/add-product-in-cart-controller.js";
@@ -12,10 +12,10 @@ import mergeGuestCart from "../../../controllers/customer/cart/merge-product-of-
 
 const router = express.Router();
 
-router.route('/add').post(verifyToken, getUserRole, checkCustomer, validate(addToCartSchema), addProductInCart);
-router.route('/merge').post(verifyToken, getUserRole, checkCustomer, validate(mergeGuestCartSchema), mergeGuestCart);
-router.route('/update').patch(verifyToken, getUserRole, checkCustomer, validate(updateCartQunatitySchema), updateProductInCart);
-router.route('/delete').delete(verifyToken, getUserRole, checkCustomer, deleteCartProduct);
-router.route('').get(verifyToken, getUserRole, checkCustomer, productsOfCartOfParticularUser);
+router.route('/add').post(verifyReqiredToken, getUserRole, checkCustomer, validate(addToCartSchema), addProductInCart);
+router.route('/merge').post(verifyReqiredToken, getUserRole, checkCustomer, validate(mergeGuestCartSchema), mergeGuestCart);
+router.route('/update').patch(verifyReqiredToken, getUserRole, checkCustomer, validate(updateCartQunatitySchema), updateProductInCart);
+router.route('/delete').delete(verifyReqiredToken, getUserRole, checkCustomer, deleteCartProduct);
+router.route('').get(verifyReqiredToken, getUserRole, checkCustomer, productsOfCartOfParticularUser);
 
 export default router;

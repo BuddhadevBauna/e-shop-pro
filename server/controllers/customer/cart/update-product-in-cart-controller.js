@@ -1,4 +1,5 @@
 import Cart from "../../../models/cart-model.js";
+import Product from "../../../models/product-model.js";
 
 const updateProductInCart = async (req, res) => {
     try {
@@ -7,6 +8,9 @@ const updateProductInCart = async (req, res) => {
         // console.log(userID, cartItemId, quantity);
 
         if(!userID || !cartItemId) return res.status(400).json({message: "Required fill not pass."});
+
+        const productToBeUpdated = await Product.findOne({_id: cartItemId});
+        if(!productToBeUpdated || productToBeUpdated.isDeleted) return res.status(400).json({message: "Product is not available now."});
 
         const updatedCart = await Cart.findOneAndUpdate(
             { user: userID, 'items.product': cartItemId },

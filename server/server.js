@@ -10,6 +10,7 @@ import errorMiddleware from './middlewares/error-middleware.js';
 import statusRoute from './routes/status-router.js';
 import cartRoute from './routes/customer/cart/cart-router.js';
 import reviewRoute from './routes/customer/review/review-router.js';
+import dynamicRoute from './routes/dynamic-router.js';
 
 //create express server
 const app = express();
@@ -34,6 +35,7 @@ app.use('/products', productRoute);
 app.use('/reviews', reviewRoute);
 app.use('/cart', cartRoute);
 app.use('/status', statusRoute);
+app.use('/dynamic', dynamicRoute)
 
 //middleware
 app.use(errorMiddleware);

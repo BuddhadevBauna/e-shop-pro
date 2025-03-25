@@ -157,8 +157,8 @@ const searchAndSelectProductsOrCategory = async (req, res) => {
         }
 
         //generate query string
-        let queryString = {};
-        let brandQueryString = {};
+        let queryString = {isDeleted: false};
+        let brandQueryString = {isDeleted: false};
         buildFilterQueryString({ brands, minRatings }, queryString);
         const sortOption = buildSortOption({ sortBy });
 

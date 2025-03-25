@@ -1,5 +1,5 @@
 import express from "express";
-import verifyToken from "../../../middlewares/verifyToken-middleware.js";
+import verifyReqiredToken from "../../../middlewares/verifyReqiredToken-middleware.js";
 import getUserRole from "../../../middlewares/getUserRole-middleware.js";
 import checkCustomer from "../../../middlewares/checkCustomer-middleware.js";
 import validate from "../../../middlewares/validateUserProvidedData-middleware.js";
@@ -9,7 +9,7 @@ import reviewProducts from "../../../controllers/customer/review/get-reviews-con
 
 const router = express.Router();
 
-router.route('/add').post(verifyToken, getUserRole, checkCustomer, validate(reviewSchema), addReview);
-router.route('/:userId').get(verifyToken, getUserRole, checkCustomer, reviewProducts);
+router.route('/add').post(verifyReqiredToken, getUserRole, checkCustomer, validate(reviewSchema), addReview);
+router.route('/:userId').get(verifyReqiredToken, getUserRole, checkCustomer, reviewProducts);
 
 export default router;

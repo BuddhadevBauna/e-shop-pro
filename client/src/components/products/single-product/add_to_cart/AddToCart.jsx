@@ -43,7 +43,6 @@ const AddToCart = ({ productId }) => {
                         cartChannel.postMessage({type: 'CART_ADDED'});
                         await fetchCartProducts(userId, token);
                         toast.success(response?.data?.message);
-                        navigate('/cart');
                     }
                 }
             }
@@ -54,7 +53,7 @@ const AddToCart = ({ productId }) => {
     }
 
     return (
-        <button className={`btn`} onClick={addProductInCart}>Add To Cart</button>
+        <button className={`btn cart-btn`} onClick={addProductInCart}>Add To Cart</button>
     )
 }
 

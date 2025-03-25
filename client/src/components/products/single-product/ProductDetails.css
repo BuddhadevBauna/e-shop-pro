@@ -88,7 +88,6 @@
                     padding: 0.5rem 0;
                     border: none;
                     outline: none;
-                    background-color: blue;
                     color: white;
                     font-weight: 700;
                     border-radius: 0.3rem;
@@ -96,14 +95,28 @@
                     text-decoration: none;
                     text-align: center;
                     transition: background-color 0.3s ease;
+                }
 
-                    &:hover {
-                        background-color: darkblue;
-                    }
+                & .notify-btn {
+                    grid-column: span 2;
+                }
 
-                    &:active {
-                        background-color: navy;
-                    }
+                & .cart-btn {
+                    background-color: #28a745;
+                }
+
+                & .cart-btn:hover {
+                    background-color: #1e7e34;
+                }
+
+                & .buy-btn,
+                .notify-btn {
+                    background-color: #fd7e14;
+                }
+
+                & .buy-btn:hover,
+                .notify-btn:hover {
+                    background-color: #e46a0b;
                 }
             }
         }

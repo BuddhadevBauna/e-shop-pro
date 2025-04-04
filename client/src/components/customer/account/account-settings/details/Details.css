@@ -1,0 +1,62 @@
+.details-container {
+    & .details-item {
+        margin-bottom: 1rem;
+
+        & .details-label {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        & .toggle-btn {
+            background: none;
+            border: none;
+            outline: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        
+        & .details-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+
+            & .details-input {
+                width: 16rem;
+                padding: 0.85rem;
+                border: 1px solid #ccc;
+                border-radius: 0.3rem;
+                transition: all 0.3s ease-in-out;
+            }
+
+            & .details-input:disabled {
+                background-color: #e9ecef;
+                color: #6c757d;
+                cursor: not-allowed;
+                border: 1px solid #ccc;
+            }
+
+            & .details-input.active {
+                border-color: #007bff;
+                background: #fff;
+            }
+
+            & .save-btn {
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 0.85rem;
+                border-radius: 0.3rem;
+                cursor: pointer;
+            }
+            
+            & .save-btn:hover {
+                background: #0056b3;
+            }
+        }
+    }
+}

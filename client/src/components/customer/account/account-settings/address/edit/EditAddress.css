@@ -1,0 +1,6 @@
+.edit-address-container {
+    & .address-form-container {
+        border: none;
+        box-shadow: none;
+    }
+}

@@ -84,39 +84,51 @@
                 gap: 0.5rem;
 
                 & .btn {
-                    width: 100%;
-                    padding: 0.5rem 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.6rem 0.9rem;
+                    font-size: 1rem;
+                    font-weight: 600;
                     border: none;
-                    outline: none;
-                    color: white;
-                    font-weight: 700;
-                    border-radius: 0.3rem;
+                    border-radius: 0.4rem;
                     cursor: pointer;
-                    text-decoration: none;
-                    text-align: center;
-                    transition: background-color 0.3s ease;
+                    transition: all 0.3s ease-in-out;
+
+                    & i {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
 
                 & .notify-btn {
                     grid-column: span 2;
+                    background-color: #fd7e14;
+                    color: white;
+                }
+
+                & .notify-btn:hover {
+                    background-color: #e46a0b;
                 }
 
                 & .cart-btn {
-                    background-color: #28a745;
+                    background-color: #007bff;
+                    color: white;
                 }
 
                 & .cart-btn:hover {
+                    background-color: #0056b3;
+                }
+
+                & .buy-btn {
+                    background-color: #28a745;
+                    color: white;
+                }
+
+                & .buy-btn:hover {
                     background-color: #1e7e34;
-                }
-
-                & .buy-btn,
-                .notify-btn {
-                    background-color: #fd7e14;
-                }
-
-                & .buy-btn:hover,
-                .notify-btn:hover {
-                    background-color: #e46a0b;
                 }
             }
         }

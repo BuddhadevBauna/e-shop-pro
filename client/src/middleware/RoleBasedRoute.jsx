@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../store/context/auth";
+import { useAuth } from "../store/context/auth-context";
 import "./RoleBasedRoute.css";
 import ClientError from "../components/error/ClientError";
 

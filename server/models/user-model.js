@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
     verificationCodeExpireAt: {type: Date, default: null},
     isVerified: {type: Boolean, default: false},
     resetPasswordToken: {type: String, default: null},
-    resetPasswordExpires: {type: Date, default: null}
+    resetPasswordExpires: {type: Date, default: null},
+    addresses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address'
+    }]
 });
 
 userSchema.pre('save', async function (next) {
@@ -43,6 +47,7 @@ userSchema.methods.generateToken = function() {
             {
                 id: this._id,
                 email: this.email,
+                phone: this.phone,
                 name: this.name,
                 role: this.role
             },
@@ -57,5 +62,4 @@ userSchema.methods.generateToken = function() {
 }
 
 const User = new mongoose.model('User', userSchema);
-
 export default User;

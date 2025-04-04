@@ -1,0 +1,15 @@
+.add-address-container {
+    & .add-address-box {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        cursor: pointer;
+        color: blue;
+
+        & .plus-icon {
+            display: flex;
+            align-items: center;
+            
+        }
+    }
+}

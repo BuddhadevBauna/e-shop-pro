@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css';
 import { Provider } from 'react-redux';
 import store from './store/redux/store.js';
-import { AuthProvider } from './store/context/auth.jsx';
+import { AuthProvider } from './store/context/auth-context.jsx';
 import { ToastContainer, Bounce } from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById('root')).render(

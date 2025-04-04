@@ -3,7 +3,7 @@ import "./CartDetails.css";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../../store/context/auth";
+import { useAuth } from "../../../../store/context/auth-context";
 import { Link } from "react-router-dom";
 import { cartChannel } from "../../../../store/context/cartUpdateChannel";
 
@@ -43,15 +43,15 @@ const CartDetails = () => {
             }
         }
     };
-    const handleIncrement = (userID, cartItemId, stock, quantity, isDeleted) => {
-        if (!isDeleted) {
-            if (stock > 10 && quantity < 5) {
+    const handleIncrement = (userID, cartItemId, quantity, maxOrderQuantity, stock, isDeleted) => {
+        if (!isDeleted && stock > 0) {
+            if (quantity < maxOrderQuantity) {
                 handleQuantityChange(userID, cartItemId, quantity + 1);
             }
         }
     };
-    const handleDecrement = (userID, cartItemId, quantity, isDeleted) => {
-        if (!isDeleted) {
+    const handleDecrement = (userID, cartItemId, quantity, stock, isDeleted) => {
+        if (!isDeleted && stock > 0) {
             if (quantity > 1) {
                 handleQuantityChange(userID, cartItemId, quantity - 1);
             }
@@ -95,7 +95,7 @@ const CartDetails = () => {
                     {cartData?.items.map((cartItem) => {
                         const { product, quantity, totalDiscount, totalMRP, totalSalePrice } = cartItem;
                         const { _id, title, description, brand, salePrice, discountPercentage,
-                            thumbnail, stock, shippingInformation, isDeleted } = product;
+                            thumbnail, stock, maxOrderQuantity, shippingInformation, isDeleted } = product;
 
                         return (
                             <div className="cart-item" key={_id}>
@@ -128,14 +128,14 @@ const CartDetails = () => {
                                     </p>
                                 </div>
                                 <div className="increment-decrement-container">
-                                    <button className={`${(isDeleted || quantity === 1) ? 'disable' : ''}`}>
-                                        <i onClick={() => handleDecrement(cartData.user, _id, quantity, isDeleted)}>
+                                    <button className={`${(isDeleted || stock === 0 || quantity === 1) ? 'disable' : ''}`}>
+                                        <i onClick={() => handleDecrement(cartData.user, _id, quantity, stock, isDeleted)}>
                                             <FaMinus className="icon" />
                                         </i>
                                     </button>
                                     <p>{quantity}</p>
-                                    <button className={`${isDeleted ? 'disable' : (stock > 10 && quantity < 5) ? '' : 'disable'}`}>
-                                        <i onClick={() => handleIncrement(cartData.user, _id, stock, quantity, isDeleted)}>
+                                    <button className={`${isDeleted || stock === 0 || quantity === maxOrderQuantity  ? 'disable' : ''}`}>
+                                        <i onClick={() => handleIncrement(cartData.user, _id, quantity, maxOrderQuantity, stock, isDeleted)}>
                                             <FaPlus className="icon" />
                                         </i>
                                     </button>
@@ -145,9 +145,15 @@ const CartDetails = () => {
                                         REMOVE
                                     </button>
                                 </div>
-                                {isDeleted &&
+                                {isDeleted ? (
                                     <p className="error">This product is no longer available.</p>
-                                }
+                                ) : (
+                                    stock === 0 ? (
+                                        <p className="error">Product is out of stock.</p>
+                                    ) : (
+                                        null
+                                    )
+                                )}
                             </div>
                         );
                     })}

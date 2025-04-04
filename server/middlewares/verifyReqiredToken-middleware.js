@@ -11,7 +11,6 @@ const verifyReqiredToken = (req, res, next) => {
         }
         const jwtToken = token.replace("Bearer ", "");
         const verifiedUserData = jwt.verify(jwtToken, process.env.JWT_KEY);
-        // console.log(verifiedUserData);
         req.verifiedUserData = verifiedUserData;
         next();
     } catch (e) { 

@@ -1,4 +1,4 @@
-import Cart from "../../../models/cart-model.js";
+import Cart from "../../../models/cart/cart-model.js";
 import Product from "../../../models/product-model.js";
 
 const addProductInCart = async (req, res) => {
@@ -11,7 +11,10 @@ const addProductInCart = async (req, res) => {
         }
 
         const productToBeAdded = await Product.findOne({_id: product});
-        if(!productToBeAdded || productToBeAdded.isDeleted) return res.status(400).json({message: "Product is not available now."});
+        // console.log(productToBeAdded);
+        if(!productToBeAdded) return res.status(400).json({message: "Product not found."});
+        if(productToBeAdded.isDeleted) return res.status(400).json({message: "Product is not available now."});
+        if(productToBeAdded.stock === 0) return res.status(400).json({message: "Product is out of stock."});
 
         let cart = await Cart.findOne({ user });
         if (!cart) {

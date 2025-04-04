@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Cart from "../../../models/cart-model.js";
+import Cart from "../../../models/cart/cart-model.js";
 
 const mergeGuestCart = async (req, res) => {
     const session = await mongoose.startSession();

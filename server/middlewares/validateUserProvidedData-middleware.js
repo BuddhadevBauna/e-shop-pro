@@ -5,6 +5,7 @@ const validate = (schema) => async (req, res, next) => {
         next();
     } catch (err) {
         // console.log(err);
+        // console.log(err.errors[0].message);
         const error = {
             status: 422,
             message: err.errors[0].message

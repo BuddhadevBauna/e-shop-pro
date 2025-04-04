@@ -5,7 +5,7 @@ import { FaCartArrowDown, FaRegHeart, FaRegUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import SearchContainer from "./products/search/SearchContainer";
-import { useAuth } from "../store/context/auth";
+import { useAuth } from "../store/context/auth-context";
 
 
 const Navbar = () => {
@@ -54,7 +54,7 @@ const Navbar = () => {
                         ) : (
                             <NavLink
                                 className="nav-link"
-                                to="/account/information"
+                                to="/account"
                                 onMouseOver={handleMouseOver}
                                 onMouseLeave={handleMouseLeave}
                             >
@@ -84,10 +84,10 @@ const Navbar = () => {
                                     </>
                                 }
                                 <div className="user">
-                                    <Link to={'/account/information'}>
+                                    <Link to={'/account'}>
                                         <p className="profile"><i><FaRegUserCircle /></i><span>My Profile</span></p>
                                     </Link>
-                                    <Link to={'/wishlist'}>
+                                    <Link to={'/account/wishlist'}>
                                         <p className="wishlist"><i><FaRegHeart /></i><span>Wishlist</span></p>
                                     </Link>
                                     {isLoggedIn &&

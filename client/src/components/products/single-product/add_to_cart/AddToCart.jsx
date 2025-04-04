@@ -1,8 +1,9 @@
 import React from "react";
-import { useAuth } from "../../../../store/context/auth";
+import { useAuth } from "../../../../store/context/auth-context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { cartChannel } from "../../../../store/context/cartUpdateChannel";
+import { FaShoppingCart, FaBolt } from "react-icons/fa";
 
 const AddToCart = ({ productId }) => {
     const { isLoadingUserData, isLoggedIn, loginUserData, token, fetchCartProducts } = useAuth();
@@ -20,7 +21,7 @@ const AddToCart = ({ productId }) => {
                     if (!existingItem) {
                         cart.push(cartData);
                         localStorage.setItem('cart', JSON.stringify(cart));
-                        cartChannel.postMessage({type: 'CART_ADDED'});
+                        cartChannel.postMessage({ type: 'CART_ADDED' });
                         await fetchCartProducts();
                         toast.success("Product added to cart.");
                     } else {
@@ -40,7 +41,7 @@ const AddToCart = ({ productId }) => {
                     });
                     // console.log(response);
                     if (response.status >= 200 && response.status <= 300) {
-                        cartChannel.postMessage({type: 'CART_ADDED'});
+                        cartChannel.postMessage({ type: 'CART_ADDED' });
                         await fetchCartProducts(userId, token);
                         toast.success(response?.data?.message);
                     }
@@ -53,7 +54,10 @@ const AddToCart = ({ productId }) => {
     }
 
     return (
-        <button className={`btn cart-btn`} onClick={addProductInCart}>Add To Cart</button>
+        <button className={`btn cart-btn`} onClick={addProductInCart}>
+            <i><FaShoppingCart /></i>
+            <span>Add To Cart</span>
+        </button>
     )
 }
 

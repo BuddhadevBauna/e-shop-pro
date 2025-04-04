@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Popup.css";
 import { handleDeleteCategory, handleDeleteSubCategory } from "../manage-categories/delete/deleteCategory";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth-context";
 import { useDispatch } from "react-redux";
 import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";

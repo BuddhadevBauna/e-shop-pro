@@ -2,7 +2,7 @@ import axios from "axios";
 import "./Verify.css";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth-context";
 import { toast } from "react-toastify";
 
 const Verify = () => {

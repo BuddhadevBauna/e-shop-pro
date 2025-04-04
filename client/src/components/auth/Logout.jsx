@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuth } from "../../store/context/auth";
+import { useAuth } from "../../store/context/auth-context";
 import { Navigate } from "react-router-dom";
 
 const Logout = () => {

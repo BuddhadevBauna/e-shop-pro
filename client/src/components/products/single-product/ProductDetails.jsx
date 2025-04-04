@@ -3,8 +3,11 @@ import "./ProductDetails.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth-context";
 import AddToCart from "./add_to_cart/AddToCart";
+import { FaBolt } from "react-icons/fa";
+import { MdShoppingCartCheckout } from "react-icons/md";
+import Notify from "./notify/Notify";
 
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
@@ -93,18 +96,28 @@ const ProductDetails = () => {
                                 }
                             </div>
                             <div className="button-container">
-                                {isDeleted ? (
-                                    <button className={`btn notify-btn`}>Notify Me</button>
+                                {(isDeleted || stock === 0) ? (
+                                    <Notify 
+                                        productId={productId}
+                                        isDeleted={isDeleted}
+                                        stock={stock}
+                                    />
                                 ) : (
                                     <>
                                         {isProductExistInCart ? (
-                                            <Link to={'/viewcart'} className={`btn cart-btn`}>Go To Cart</Link>
+                                            <Link to={'/viewcart'} className={`btn cart-btn`}>
+                                                <i><MdShoppingCartCheckout /></i>
+                                                <span>Go To Cart</span>
+                                            </Link>
                                         ) : (
                                             <AddToCart
                                                 productId={productId}
                                             />
                                         )}
-                                        <button className={`btn buy-btn`}>Buy Now</button>
+                                        <button className={`btn buy-btn`}>
+                                            <i><FaBolt /></i>
+                                            <span>Buy Now</span>
+                                        </button>
                                     </>
                                 )}
                             </div>

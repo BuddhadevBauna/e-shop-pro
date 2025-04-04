@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth-context";
 
 const authForm = (initialState, requestMethod, url, formType = "") => {
     const [values, setValues] = useState(initialState);
@@ -31,6 +31,7 @@ const authForm = (initialState, requestMethod, url, formType = "") => {
                     navigate('/account/login');
                 } else if(formType === "login") {
                     if(response?.data?.data?.jwtToken) {
+                        // console.log(response?.data?.data?.jwtToken);
                         storeTokenInLocalStorage(response?.data?.data?.jwtToken);
                         navigate('/');
                     } else {

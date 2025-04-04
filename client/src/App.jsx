@@ -14,7 +14,7 @@ import ManageCategories from './components/admin/manage-categories/ManageCategor
 import ManageProducts from './components/admin/manage-products/ManageProducts';
 import { useFetchAllCategory } from './api/categories/categoryAPI';
 import { useFetchProductsOfAllCategories } from './api/products/productsAPI';
-import { useAuth } from './store/context/auth';
+import { useAuth } from './store/context/auth-context';
 import ServerError from './components/error/ServerError';
 import UpdateCategoryOrSubCategory from './components/admin/manage-categories/update/UpdateCategoryOrSubCategory';
 import AddCategory from './components/admin/manage-categories/add/AddCategory';
@@ -24,16 +24,24 @@ import ProductListing from './components/products/allProducts/ProductListing';
 import ProductDetails from './components/products/single-product/ProductDetails';
 import ProductRoot from './pages/ProductRoot';
 import AccountRoot from './pages/AccountRoot';
-import Information from './components/customer/information/Information';
-import Cart from './components/customer/cart/Cart';
-import FavouriteItems from './components/customer/favourite/FavouriteItems';
-import AddReview from './components/customer/review/add/AddReview';
-import Reviews from './components/customer/review/Reviews';
+import AccountDashboard from './pages/AccountDashboard';
 import RoleBasedRoute from './middleware/RoleBasedRoute';
 import Verify from './components/auth/verify/Verify';
 import ForgotPassword from './components/auth/password_update/ForgotPassword';
 import ResetPassword from './components/auth/password_update/ResetPassword';
 import AddSubCategory from './components/admin/manage-categories/add/AddSubCategory';
+//customer
+import Details from './components/customer/account/account-settings/details/Details';
+import Address from './components/customer/account/account-settings/address/Address';
+import AddReview from './components/customer/account/activities/review/add/AddReview';
+import Reviews from './components/customer/account/activities/review/Reviews';
+import FavouriteItems from './components/customer/account/activities/favourite/FavouriteItems';
+import Notification from './components/customer/account/activities/notification/Notification';
+import Order from './components/customer/account/orders/Order';
+import Cart from "./components/customer/cart/Cart"
+
+import { AddressProvider } from './store/context/address-context';
+
 
 const router = createBrowserRouter([
   {
@@ -48,7 +56,7 @@ const router = createBrowserRouter([
           { path: "search", element: <ProductExplorer /> },
           { path: ":productId", element: <ProductDetails /> },
           {
-            path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer"]} />,
+            path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
             children: [
               { path: "add", element: <AddReview /> }
             ]
@@ -67,19 +75,33 @@ const router = createBrowserRouter([
           {
             path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
             children: [
-              { path: 'information', element: <Information /> }
+              { 
+                path: '', element: <AccountDashboard />,
+                children: [
+                  { path: '', element: <Details /> },
+                  { path: 'addresses', element: <Address /> },
+                  { path: "notifications", element: <Notification /> },
+                  { path: 'wishlist', element: <FavouriteItems /> },
+                  { path: 'reviews', element: <Reviews /> }
+                ]
+              },
+            ]
+          },
+          {
+            path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
+            children: [
+              { path: 'orders', element: <Order /> },
             ]
           }
         ],
       },
-      {
-        path: "", element: <RoleBasedRoute allowedRoles={["customer"]} />,
-        children: [
-          { path: 'reviews', element: <Reviews /> }
-        ]
-      },
       { path: "viewcart", element: <Cart /> },
-      { path: 'wishlist', element: <FavouriteItems /> },
+      {
+        path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
+        children: [
+          // { path: "checkout", element: <Checkout /> }
+        ]
+      }
     ],
   },
   {
@@ -137,7 +159,9 @@ function App() {
   }
 
   return (
-    <RouterProvider router={router} />
+    <AddressProvider>
+      <RouterProvider router={router} />
+    </AddressProvider>
   );
 }
 

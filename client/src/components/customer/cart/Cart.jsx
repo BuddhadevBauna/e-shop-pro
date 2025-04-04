@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import "./Cart.css";
-import { useAuth } from "../../../store/context/auth";
+import { useAuth } from "../../../store/context/auth-context";
 import { Link } from "react-router-dom";
-import CartDetails from "./cart_details/CartDetails";
+import CartDetails from "./cart_details/CartDetails"
 
 const Cart = () => {
     const { isLoggedIn, cartData, isLoadingCartData } = useAuth();

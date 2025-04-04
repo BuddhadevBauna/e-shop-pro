@@ -1,0 +1,6 @@
+.information-container {
+    padding: 1rem 3%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}

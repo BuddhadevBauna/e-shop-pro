@@ -1,0 +1,137 @@
+.notification-container {
+    & h2 {
+        margin-bottom: 0.7rem;
+    }
+
+    & .notification-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & .notification-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            background: #fafafa;
+            transition: 0.3s;
+
+            & .content-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                & img {
+                    width: 3rem;
+                    height: auto;
+                    object-fit: cover;
+                }
+
+                & .details-container {
+                    display: flex;
+                    align-items: center;
+    
+                    & input[type="checkbox"] {
+                        margin-right: 0.7rem;
+                        cursor: pointer;
+                    }
+    
+                    & .details-content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.3rem;
+
+                        & .product-title {
+                            color: blue;
+                            cursor: pointer;
+                        }
+    
+                        & .price-details {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.8rem;
+    
+                            & .saleprice {
+                                font-size: 1.5rem;
+                                font-weight: 600;
+                                color: black;
+                            }
+    
+                            & .mrp {
+                                text-decoration-line: line-through;
+                                color: gray;
+                            }
+    
+                            & .discount {
+                                color: green;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            & .delete-btn {
+                font-size: 1.5rem;
+                color: #dc3545;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            
+            .delete-btn:hover {
+                color: #b22222;
+            }
+        }
+
+        & .notification-item:hover {
+            background: #f0f0f0;
+        }
+    }
+
+    & .custom-pagination {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+
+        & .page-number {
+            padding: 0.5rem 0.7rem;
+            border: none;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        & .pagination-btn {
+            padding: 0.5rem 0.7rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        & .pagination-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        & .page-number.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+        & .page-number:hover,
+        .pagination-btn:hover {
+            background-color: #d9d9d9;
+        }
+    }
+}

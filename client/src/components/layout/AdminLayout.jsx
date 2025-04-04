@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import "./AdminLayout.css";
 import AdminDashboard from "../admin/AdminDashboard";
-import { useAuth } from "../../store/context/auth";
+import { useAuth } from "../../store/context/auth-context";
 import ServerError from "../error/ServerError";
 
 const AdminLayout = () => {

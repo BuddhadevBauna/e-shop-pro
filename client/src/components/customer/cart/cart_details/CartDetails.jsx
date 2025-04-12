@@ -3,17 +3,17 @@ import "./CartDetails.css";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../../store/context/auth-context";
 import { Link } from "react-router-dom";
 import { cartChannel } from "../../../../store/context/cartUpdateChannel";
+import { useCart } from "../../../../store/context/cart-context";
 
 const CartDetails = () => {
-    const { token, cartData, fetchCartProducts } = useAuth();
+    const { cartData, fetchCartProducts } = useCart();
 
-    const handleQuantityChange = async (userID, cartItemId, quantity) => {
-        if (!token || !userID) {
+    const handleQuantityChange = async (userID, productId, quantity) => {
+        if (!userID) {
             const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            const existingItem = cart.find((item) => item.product === cartItemId);
+            const existingItem = cart.find((item) => item.product === productId);
             if (existingItem) {
                 existingItem.quantity = quantity;
                 localStorage.setItem("cart", JSON.stringify(cart));
@@ -27,14 +27,14 @@ const CartDetails = () => {
             try {
                 const data = { quantity: quantity };
                 const response = await axios.patch(
-                    `http://localhost:3030/cart/update?userID=${userID}&cartItemId=${cartItemId}`,
+                    `http://localhost:3030/cart/update?userID=${userID}&productId=${productId}`,
                     data,
-                    { headers: { Authorization: `Bearer ${token}` } }
+                    { withCredentials: true }
                 );
                 // console.log(response);
                 if (response.status === 200) {
                     cartChannel.postMessage({ type: 'CART_UPDATED' });
-                    await fetchCartProducts(userID, token);
+                    await fetchCartProducts(userID);
                     toast.success(response?.data?.message);
                 }
             } catch (error) {
@@ -43,25 +43,25 @@ const CartDetails = () => {
             }
         }
     };
-    const handleIncrement = (userID, cartItemId, quantity, maxOrderQuantity, stock, isDeleted) => {
+    const handleIncrement = (userID, productId, quantity, maxOrderQuantity, stock, isDeleted) => {
         if (!isDeleted && stock > 0) {
             if (quantity < maxOrderQuantity) {
-                handleQuantityChange(userID, cartItemId, quantity + 1);
+                handleQuantityChange(userID, productId, quantity + 1);
             }
         }
     };
-    const handleDecrement = (userID, cartItemId, quantity, stock, isDeleted) => {
+    const handleDecrement = (userID, productId, quantity, stock, isDeleted) => {
         if (!isDeleted && stock > 0) {
             if (quantity > 1) {
-                handleQuantityChange(userID, cartItemId, quantity - 1);
+                handleQuantityChange(userID, productId, quantity - 1);
             }
         }
     };
 
-    const deleteCartItem = async (userID, cartItemId) => {
-        if (!token || !userID) {
+    const deleteCartItem = async (userID, productId) => {
+        if (!userID) {
             const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            const updatedCart = cart.filter(item => item.product !== cartItemId);
+            const updatedCart = cart.filter(item => item.product !== productId);
             if (cart.length !== updatedCart.length) {
                 localStorage.setItem('cart', JSON.stringify(updatedCart));
                 cartChannel.postMessage({ type: 'CART_DELETED' });
@@ -73,12 +73,12 @@ const CartDetails = () => {
         } else {
             try {
                 const response = await axios.delete(
-                    `http://localhost:3030/cart/delete?userID=${userID}&cartItemId=${cartItemId}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
+                    `http://localhost:3030/cart/delete?userID=${userID}&productId=${productId}`,
+                    { withCredentials: true }
                 );
                 if (response.status === 200) {
                     cartChannel.postMessage({ type: 'CART_DELETED' });
-                    await fetchCartProducts(userID, token);
+                    await fetchCartProducts(userID);
                     toast.success(response?.data?.message);
                 }
             } catch (error) {
@@ -94,8 +94,9 @@ const CartDetails = () => {
                 <div className="cart">
                     {cartData?.items.map((cartItem) => {
                         const { product, quantity, totalDiscount, totalMRP, totalSalePrice } = cartItem;
-                        const { _id, title, description, brand, salePrice, discountPercentage,
+                        const { _id, title, description, brand,
                             thumbnail, stock, maxOrderQuantity, shippingInformation, isDeleted } = product;
+                        const discountPercentage = Math.round((totalDiscount / totalMRP) * 100);
 
                         return (
                             <div className="cart-item" key={_id}>

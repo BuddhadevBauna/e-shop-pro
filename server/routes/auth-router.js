@@ -5,11 +5,13 @@ import validate from "../middlewares/validateUserProvidedData-middleware.js";
 import { signinSchema, signupSchema } from "../validators/auth-validator.js";
 import { sendVerificationEmail, verifyEmail } from "../controllers/auth/verifyEmail-controller.js";
 import { resetPassword, sendResetPasswordLink } from "../controllers/auth/resetPassword-controller.js";
+import logoutUser from "../controllers/auth/logout-controller.js";
 
 const router = express.Router();
 
 router.route('/register').post(validate(signupSchema), register);
 router.route('/login').post(validate(signinSchema), login);
+router.route('/logout').post(logoutUser);
 
 //verify email
 router.route('/send-code').post(sendVerificationEmail);

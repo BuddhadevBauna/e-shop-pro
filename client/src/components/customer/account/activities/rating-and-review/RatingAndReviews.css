@@ -1,0 +1,94 @@
+.review-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & .review-card {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #ddd;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        & .review-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 18rem;
+            cursor: pointer;
+
+            & .product-image {
+                width: 5rem;
+                height: 5rem;
+                object-fit: cover;
+                border-radius: 0.3rem;
+                border: 1px solid #ccc;
+            }
+
+            & .product-info {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+
+                & .product-title {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                & .product-title:hover {
+                    color: blue;
+                }
+
+                & .product-brand {
+                    font-size: 0.9rem;
+                    color: #666;
+                }
+            }
+        }
+
+        & .review-right {
+            flex: 1;
+            min-width: 18rem;
+
+            & .review-heading {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+            & .rating {
+                font-size: 0.8rem;
+                background-color: green;
+                color: white;
+                width: 3rem;
+                padding: 0.2rem 0.7rem;
+                text-align: center;
+                border-radius: 0.4rem;
+            }
+            
+            & .review-description {
+                margin-top: 0.2rem;
+                font-size: 1rem;
+                color: #333;
+                font-weight: 400;
+            }
+
+            & .review-date {
+                margin-top: 0.2rem;
+                font-size: 0.9rem;
+                color: #777;
+                font-weight: 600;
+            }
+
+            & .add-review {
+                color: blue;
+            }
+        }
+    }
+}

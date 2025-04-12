@@ -3,12 +3,10 @@ import "../../Form.css";
 import "./AddCategory.css";
 import "../../Button.css";
 import axios from "axios";
-import { useAuth } from "../../../../store/context/auth-context";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddCategory = () => {
-    const {token} = useAuth();
     const navigate = useNavigate();
     const [category, setCategory] = useState({
         name: "",
@@ -68,11 +66,7 @@ const AddCategory = () => {
         const addCategory = async () => {
             try {
                 const addCategoryURL = import.meta.env.VITE_ADD_CATEGORY;
-                const response = await axios.post(addCategoryURL, input, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const response = await axios.post(addCategoryURL, input, { withCredentials: true })
                 // console.log(response);
                 if(response.status === 201) {
                     toast.success(response?.data?.message);

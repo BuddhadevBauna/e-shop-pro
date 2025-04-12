@@ -1,22 +1,19 @@
 import { useState } from "react";
 import "./ProductSlide.css";
-import { FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import WishList from "../../wishlist/Wishlist";
 
 const ProductSlide = ({ product }) => {
     let { _id, title, thumbnail, category, mrp, salePrice, discountPercentage, rating } = product;
-
     const [loaded, setLoaded] = useState(false);
 
     return (
         <>
             {product && (
                 <div className={`product-container`}>
-                    <Link to={`/wishlist`}>
-                        <i className="favourite">
-                            <FaRegHeart />
-                        </i>
-                    </Link>
+                    <WishList 
+                        productId={_id}
+                    />
                     <Link to={`/products/${_id}`} target="_blank">
                         <div className="product-img">
                             <img

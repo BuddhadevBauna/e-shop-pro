@@ -12,10 +12,9 @@ const reviewSchema = new mongoose.Schema({
         required: true 
     },
     rating: {type: Number, required: true},
-    reviewHeading: {type: String, required: true},
-    reviewDescription: {type: String, required: true},
-    createdAt: {type: Date, default: Date.now}
-});
+    reviewHeading: {type: String},
+    reviewDescription: {type: String},
+}, {timestamps: true});
 
 const Review = new mongoose.model('Review', reviewSchema);
 export default Review;

@@ -2,15 +2,14 @@ import jwt from "jsonwebtoken";
 
 const verifyReqiredToken = (req, res, next) => {
     try {
-        const token = req.header("Authorization");
+        const token = req.cookies.jwtToken;
         // console.log(token);
         if(!token) {
             const status = 401;
             const message = "Unauthorized HTTP, token not provided";
             next({status, message});
         }
-        const jwtToken = token.replace("Bearer ", "");
-        const verifiedUserData = jwt.verify(jwtToken, process.env.JWT_KEY);
+        const verifiedUserData = jwt.verify(token, process.env.JWT_KEY);
         req.verifiedUserData = verifiedUserData;
         next();
     } catch (e) { 

@@ -4,9 +4,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { cartChannel } from "../../../../store/context/cartUpdateChannel";
 import { FaShoppingCart, FaBolt } from "react-icons/fa";
+import { useCart } from "../../../../store/context/cart-context";
 
 const AddToCart = ({ productId }) => {
-    const { isLoadingUserData, isLoggedIn, loginUserData, token, fetchCartProducts } = useAuth();
+    const { isLoadingUserData, isLoggedIn, loginUserData } = useAuth();
+    const { fetchCartProducts } = useCart();
 
     const addProductInCart = async () => {
         try {
@@ -34,15 +36,11 @@ const AddToCart = ({ productId }) => {
                         product: productId,
                         quantity: 1
                     };
-                    const response = await axios.post('http://localhost:3030/cart/add', cartData, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
+                    const response = await axios.post('http://localhost:3030/cart/add', cartData, { withCredentials: true });
                     // console.log(response);
                     if (response.status >= 200 && response.status <= 300) {
                         cartChannel.postMessage({ type: 'CART_ADDED' });
-                        await fetchCartProducts(userId, token);
+                        await fetchCartProducts(userId);
                         toast.success(response?.data?.message);
                     }
                 }

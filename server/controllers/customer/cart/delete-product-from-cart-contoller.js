@@ -2,24 +2,29 @@ import Cart from "../../../models/cart/cart-model.js";
 
 const deleteCartProduct = async (req, res) => {
     try {
-        const { userID, cartItemId } = req.query;
+        const { userID, productId } = req.query;
 
-        if (!userID || !cartItemId) {
-            return res.status(400).json({ message: "userID and cartItemId are required" });
+        if (!userID || !productId) {
+            return res.status(400).json({ message: "Missing required fields." });
         }
 
         const result = await Cart.updateOne(
             { user: userID },
-            { $pull: { items: { product: cartItemId } } }
+            { $pull: { items: { product: productId } } }
         );
 
-        if (result.matchedCount === 0 || result.modifiedCount === 0) {
-            return res.status(404).json({ message: "User cart not found" });
+        if (!result.matchedCount) {
+            return res.status(404).json({ message: "Cart not found for user" });
         }
+
+        if (!result.modifiedCount) {
+            return res.status(400).json({ message: "Product not found in cart" });
+        }
+
         return res.status(200).json({ message: "Cart item deleted successfully." });
     } catch (error) {
-        console.error(error);
-        return res.status(200).json({ message: "cart item delete unsucessful." });
+        // console.error(error);
+        return res.status(500).json({ message: "Server Error." });
     }
 }
 

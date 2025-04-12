@@ -23,6 +23,7 @@
                 flex-direction: row;
                 gap: 0.5rem;
                 border: solid 1.5px rgb(173, 163, 163);
+                position: relative;
 
                 & .verically-img-show {
                     display: flex;
@@ -265,6 +266,17 @@
                             & .rate {
                                 padding: 0.1rem;
                             }
+                        }
+
+                        & .review-owner-name {
+                            font-size: 0.9rem;
+                            color: gray;
+                            margin-right: 0.5rem;
+                        }
+
+                        & .review-time {
+                            font-size: 0.9rem;
+                            color: gray;
                         }
                     }
                 }

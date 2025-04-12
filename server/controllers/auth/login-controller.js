@@ -23,12 +23,13 @@ const login = async (req, res) => {
             // console.log(isPasswordMatch);
             if (isPasswordMatch) {
                 if(userExists.isVerified) {
-                    return res.status(200).json({
-                        message: "Login successful",
-                        data: {
-                            jwtToken: userExists.generateToken(),
-                        },
-                    });
+                    const jwtToken = userExists.generateToken();
+                    return res.cookie('jwtToken', jwtToken, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production', // send over HTTPS only in production
+                        sameSite: 'Strict', // or 'Lax' depending on your needs
+                        maxAge: 60 * 60 * 1000, // 1 hour
+                    }).status(200).json({message: "Login successful"});
                 } else {
                     return res.status(200).json({
                         message: "Login successful, but verification required.",

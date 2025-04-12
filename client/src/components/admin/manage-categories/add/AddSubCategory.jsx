@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../../store/context/auth-context";
 import { toast } from "react-toastify";
 
 const AddSubCategory = () => {
@@ -9,7 +8,6 @@ const AddSubCategory = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const categoryId = queryParams.get("categoryId");
-    const {token} = useAuth();
     const navigate = useNavigate();
 
     const handleCategoryChange = (e) => {
@@ -26,11 +24,7 @@ const AddSubCategory = () => {
         const addCategory = async () => {
             try {
                 const addCategoryURL = import.meta.env.VITE_ADD_CATEGORY;
-                const response = await axios.post(addCategoryURL, input, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const response = await axios.post(addCategoryURL, input, { withCredentials: true })
                 // console.log(response);
                 if(response.status === 201) {
                     toast.success(response?.data?.message);

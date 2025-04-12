@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../Form.css";
 import axios from "axios";
-import { useAuth } from "../../../../store/context/auth-context";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,7 +11,6 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
     })
     // console.log(input);
     const [loading, setLoading] = useState(true);
-    const {token} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,11 +45,7 @@ const UpdateSubCategory = ({ categoryId, subCategoryId }) => {
         try {
             const updateSubCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY}?categoryId=${categoryId}&subCategoryId=${subCategoryId}`;
             // console.log(updateSubCategoryURL);
-            const response = await axios.patch(updateSubCategoryURL, input, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await axios.patch(updateSubCategoryURL, input, { withCredentials: true });
             // console.log(response);
             if(response.status === 200) {
                 toast.success(response?.data?.message);

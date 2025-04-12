@@ -2,12 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { cartChannel } from "../../../store/context/cartUpdateChannel";
 import { useAuth } from "../../../store/context/auth-context";
 
 const authForm = (initialState, requestMethod, url, formType = "") => {
     const [values, setValues] = useState(initialState);
-    const {storeTokenInLocalStorage} = useAuth();
     const navigate = useNavigate();
+    const {fetchLoggedinUserData} = useAuth();
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -21,7 +22,8 @@ const authForm = (initialState, requestMethod, url, formType = "") => {
                 method: requestMethod.toLowerCase(),
                 url: url,
                 data: values,
-                headers: {"Content-Type": 'application/json'}
+                headers: {"Content-Type": 'application/json'},
+                withCredentials: true //This ensures cookies are sent/received
             });
             // console.log(response);
             if(response.status >= 200 && response.status <= 300) {
@@ -30,12 +32,12 @@ const authForm = (initialState, requestMethod, url, formType = "") => {
                 if(formType === "register") {
                     navigate('/account/login');
                 } else if(formType === "login") {
-                    if(response?.data?.data?.jwtToken) {
-                        // console.log(response?.data?.data?.jwtToken);
-                        storeTokenInLocalStorage(response?.data?.data?.jwtToken);
+                    if(!response.data.data) {
+                        await fetchLoggedinUserData();
+                        cartChannel.postMessage({ type: "LOGIN" });
                         navigate('/');
                     } else {
-                        const token = response?.data?.data?.token;
+                        const token = response.data.data.token;
                         navigate(`/account/verify/${token}`, {
                             state: {
                                 email: response?.data?.data?.email,

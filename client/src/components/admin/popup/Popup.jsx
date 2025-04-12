@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Popup.css";
 import { handleDeleteCategory, handleDeleteSubCategory } from "../manage-categories/delete/deleteCategory";
-import { useAuth } from "../../../store/context/auth-context";
 import { useDispatch } from "react-redux";
 import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,6 @@ const Popup = ({ data, onClose }) => {
     // console.log(data);
     const [chagePopUpInformation, setChangePopupInformation] = useState(false);
     const [input, setInput] = useState({ "password": "" });
-    const { token } = useAuth();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,15 +24,15 @@ const Popup = ({ data, onClose }) => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        if (data?.data?.type === "category") handleDeleteCategory(data?.data?._id, token, input, dispatch);
-        else if (data?.data?.type === "subCategory") handleDeleteSubCategory(data?.data?.categoryId, data?.data?._id, token, input, dispatch);
-        else if (data?.data?.type === "product") handleDeleteProduct(data?.data?.productId, token, input, dispatch, data?.data?.categories);
+        if (data?.data?.type === "category") handleDeleteCategory(data?.data?._id, input, dispatch);
+        else if (data?.data?.type === "subCategory") handleDeleteSubCategory(data?.data?.categoryId, data?.data?._id, input, dispatch);
+        else if (data?.data?.type === "product") handleDeleteProduct(data?.data?.productId, input, dispatch, data?.data?.categories);
         onClose();
     }
 
     const toggleStatus = (e) => {
         e.preventDefault();
-        handleSatatusChange(data?.data?.productId, token, data?.data?.isDeleted, dispatch, data?.data?.categories);
+        handleSatatusChange(data?.data?.productId, data?.data?.isDeleted, dispatch, data?.data?.categories);
         onClose();
     }
 

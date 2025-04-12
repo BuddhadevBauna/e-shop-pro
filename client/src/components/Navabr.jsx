@@ -6,12 +6,14 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import SearchContainer from "./products/search/SearchContainer";
 import { useAuth } from "../store/context/auth-context";
+import { useCart } from "../store/context/cart-context";
 
 
 const Navbar = () => {
     const [isUserSectionActive, setUserSectionActive] = useState(false);
     const [totalCartItem, setTotalCartItem] = useState();
-    const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
+    const { isLoggedIn } = useAuth();
+    const { cartData, isLoadingCartData } = useCart();
     // console.log(isLoggedIn);
 
     const handleMouseOver = () => {

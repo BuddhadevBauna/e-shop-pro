@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const Notify = ({ productId, isDeleted, stock }) => {
     const [isSubscribed, setIsSubscribed] = useState(false);
-    const { token, loginUserData } = useAuth();
+    const { loginUserData } = useAuth();
     const userId = loginUserData?.extraUserData?.id;
     let type = "Product";
     let typeId = productId;
@@ -17,15 +17,13 @@ const Notify = ({ productId, isDeleted, stock }) => {
     const checkSubscription = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:3030/notifications/subscribe/check?userId=${userId}&type=${type}&typeId=${typeId}&reason=${reason}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true
             });
             setIsSubscribed(response?.data?.isSubscribed);
         } catch (error) {
             // console.log(error);
         }
-    }, [token, userId, productId, type]);
+    }, [userId, productId, type]);
 
     useEffect(() => {
         checkSubscription();
@@ -35,9 +33,7 @@ const Notify = ({ productId, isDeleted, stock }) => {
         const data = { type, typeId, reason }
         try {
             const response = await axios.patch(`http://localhost:3030/notifications/subscribe/${userId}`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true 
             });
             if (response.status >= 200 && response.status <= 300) {
                 toast.success(response?.data?.message);
@@ -47,15 +43,13 @@ const Notify = ({ productId, isDeleted, stock }) => {
             // console.log(error);
             toast.error(error?.response?.data?.message);
         }
-    }, [token, productId, userId, type]);
+    }, [productId, userId, type]);
 
     const handleUnsubscribe = useCallback(async () => {
         const data = { type, typeId, reason }
         try {
             const response = await axios.patch(`http://localhost:3030/notifications/unsubscribe/${userId}`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true
             });
             if (response.status >= 200 && response.status <= 300) {
                 toast.success(response?.data?.message);
@@ -65,7 +59,7 @@ const Notify = ({ productId, isDeleted, stock }) => {
             // console.log(error);
             toast.error(error?.response?.data?.message);
         }
-    }, [token, productId, userId, type]);
+    }, [productId, userId, type]);
 
     return (
         <button className={`btn notify-btn`} onClick={() => !isSubscribed ? handleSubscribe() : handleUnsubscribe()}>

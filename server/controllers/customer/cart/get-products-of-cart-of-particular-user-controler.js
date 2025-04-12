@@ -9,7 +9,7 @@ const productsOfCartOfParticularUser = async (req, res) => {
         return res.status(200).json(cartItems);
     } catch (error) {
         console.log(error);
-        return res.status(500).json({message : "get cart items unsucessful"});
+        return res.status(500).json({message : "Server error."});
     }
 }
 

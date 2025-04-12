@@ -44,7 +44,7 @@ const AccountSidebar = () => {
                         </span>
                         <span>My Activities</span>
                     </h2>
-                    <Link to={'reviews'} className={`sidebar-link ${endRoute === "reviews" ? "active" : ""}`}>My Rating and Reviews</Link>
+                    <Link to={'rating-and-reviews'} className={`sidebar-link ${endRoute === "reviews" ? "active" : ""}`}>My Rating and Reviews</Link>
                     <Link to={'notifications'} className={`sidebar-link ${endRoute === "notifications" ? "active" : ""}`}>All Notification</Link>
                     <Link to={'wishlist'} className={`sidebar-link ${endRoute === "wishlist" ? "active" : ""}`}>My Wishlist</Link>
                 </div>

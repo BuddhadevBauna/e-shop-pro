@@ -10,13 +10,6 @@
     position: relative;
     padding: 0.3rem;
 
-    & .favourite {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        font-size: 1.5rem;
-    }
-
     & .product-img {
         width: 15rem;
         height: 10rem;

@@ -5,7 +5,7 @@ import { useAuth } from "../../../../../../store/context/auth-context";
 import { useAddress } from "../../../../../../store/context/address-context";
 
 const Popup = ({ deletingAddressId, onClose }) => {
-    const {token, loginUserData} = useAuth();
+    const { loginUserData } = useAuth();
     const {getAddress} = useAddress();
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const Popup = ({ deletingAddressId, onClose }) => {
     }, []);
 
     const confirmDelete = async () => {
-        await deleteAddress(token, loginUserData, deletingAddressId, getAddress);
+        await deleteAddress(loginUserData, deletingAddressId, getAddress);
         onClose();
     }
 

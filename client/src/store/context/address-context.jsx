@@ -1,21 +1,14 @@
 import { createContext, useContext, useState } from "react";
-import { AuthContext, useAuth } from "./auth-context";
 import axios from "axios";
 
 const AddressContext = createContext();
 
 export const AddressProvider = ({children}) => {
-    const {token, loginUserData} = useAuth();
     const [addresses, setAddresses] = useState([]);
 
-    const getAddress = async () => {
-        const userId = loginUserData?.extraUserData?.id;
+    const getAddress = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:3030/addresses/${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await axios.get(`http://localhost:3030/addresses/${userId}`, { withCredentials: true });
             // console.log(response?.data?.addresses);
             if (response.status >= 200 && response.status <= 300) {
                 setAddresses(response?.data?.addresses);

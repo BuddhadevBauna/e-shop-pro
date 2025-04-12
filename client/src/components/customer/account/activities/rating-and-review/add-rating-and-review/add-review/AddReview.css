@@ -1,0 +1,73 @@
+.review-container {
+    padding: 0.6rem;
+
+    & h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+        color: #333;
+    }
+
+    & form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & .form-group {
+            position: relative;
+            width: 100%;
+
+            & input[type="text"],
+            textarea {
+                padding: 1.1rem 0.6rem;
+                font-size: 0.9rem;
+                border: 1px solid #ccc;
+                color: black;
+                border-radius: 0.4rem;
+                outline: none;
+                width: 100%;
+                box-sizing: border-box;
+                transition: border-color 0.2s;
+            }
+
+            & textarea {
+                resize: vertical;
+                min-height: 6rem;
+            }
+
+            & label {
+                position: absolute;
+                top: 0.6rem;
+                left: 0.6rem;
+                font-size: 1rem;
+                color: #888;
+                background: white;
+                pointer-events: none;
+                transition: all 0.2s ease-in-out;
+            }
+
+            & textarea:focus+label,
+            textarea:not(:placeholder-shown)+label,
+            input[type="text"]:focus+label,
+            input[type="text"]:not(:placeholder-shown)+label {
+                top: 0.3rem;
+                font-size: 0.8rem;
+                color: #007bff;
+            }
+        }
+
+        & .btn {
+            padding: 0.8rem 1rem;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        & .btn:hover {
+            background-color: #0056b3;
+        }
+    }
+}

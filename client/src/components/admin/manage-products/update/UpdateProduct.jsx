@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../../../store/context/auth-context";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddAndUpdateAndViewForm from "../add-and-update-and-view/AddAndUpdateAndViewForm";
@@ -13,7 +12,6 @@ const UpdateProduct = () => {
     const pathParts = window.location.pathname.split("/");
     const endpoint = pathParts[pathParts.length - 1];
     const { productId } = useParams();
-    const { token } = useAuth();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [input, setInput] = useState({
@@ -56,11 +54,7 @@ const UpdateProduct = () => {
         const updateProduct = async () => {
             try {
                 const updateProductURL = import.meta.env.VITE_UPDATE_PRODUCT + '/' + productId;
-                const response = await axios.patch(updateProductURL, upadatedFeilds, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const response = await axios.patch(updateProductURL, upadatedFeilds, { withCredentials: true });
                 // console.log(response);
                 if (response.status === 200) {
                     toast.success(response?.data?.message);

@@ -55,7 +55,14 @@ export const getSingleProduct = async (req, res) => {
         
         const product = await Product.findById(productId)
             .populate("category")
-            .populate("reviews");
+            .populate({
+                path: "reviews", 
+                populate: {
+                    path: "reviewOwner", 
+                    select: "name updatedAt", 
+                    options: { sort: { updatedAt: -1 }}
+                }
+            });
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }

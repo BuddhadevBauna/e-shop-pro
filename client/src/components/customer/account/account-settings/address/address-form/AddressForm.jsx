@@ -10,7 +10,7 @@ const stateCityData = {
 };
 
 const AddressForm = ({ mode, address, setAddress, onClose }) => {
-    const { token, loginUserData } = useAuth();
+    const { loginUserData, isLoadingUserData } = useAuth();
     const {getAddress} = useAddress();
     const userId = loginUserData?.extraUserData?.id;
     const initialAddressRef = useRef(address);
@@ -33,15 +33,11 @@ const AddressForm = ({ mode, address, setAddress, onClose }) => {
         if (mode === "add") {
             const data = { ...address, user: userId };
             try {
-                const response = await axios.post('http://localhost:3030/addresses/add', data, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const response = await axios.post('http://localhost:3030/addresses/add', data, { withCredentials: true });
                 if (response.status >= 200 && response.status <= 300) {
                     setAddress(initialAddressRef.current);
                     toast.success(response?.data?.message);
-                    await getAddress();
+                    await getAddress(userId);
                     onClose();
                 }
             } catch (error) {
@@ -57,14 +53,10 @@ const AddressForm = ({ mode, address, setAddress, onClose }) => {
                 return;
             }
             try {
-                const response = await axios.patch(`http://localhost:3030/addresses/edit?userId=${userId}&addressId=${addressId}`, modifiedData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const response = await axios.patch(`http://localhost:3030/addresses/edit?userId=${userId}&addressId=${addressId}`, modifiedData, { withCredentials: true });
                 if (response.status >= 200 && response.status <= 300) {
                     toast.success(response?.data?.message);
-                    await getAddress();
+                    await getAddress(userId);
                     onClose();
                 }
             } catch (error) {
@@ -73,7 +65,7 @@ const AddressForm = ({ mode, address, setAddress, onClose }) => {
             }
         }
     };
-
+    
     return (
         <div className="container address-form-container">
             <h2>{mode === "add" ? 'Add New Address' : 'Edit Address'}</h2>

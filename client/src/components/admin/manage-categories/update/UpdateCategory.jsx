@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../Form.css";
 import axios from "axios";
-import { useAuth } from "../../../../store/context/auth-context";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,7 +8,6 @@ const UpdateCategory = ({ categoryId }) => {
     const [input, setInput] = useState({ name: "", categoryType: "" });
     // console.log(input);
     const [loading, setLoading] = useState(true);
-    const { token } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,11 +42,7 @@ const UpdateCategory = ({ categoryId }) => {
         try {
             const updateCategoryURL = `${import.meta.env.VITE_UPDATE_CATEGORY}?categoryId=${categoryId}`;
             // console.log(updateCategoryURL);
-            const response = await axios.patch(updateCategoryURL, input, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await axios.patch(updateCategoryURL, input, { withCredentials: true });
             // console.log(response);
             if (response.status === 200) {
                 toast.success(response?.data?.message);

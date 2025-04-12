@@ -33,15 +33,15 @@ import AddSubCategory from './components/admin/manage-categories/add/AddSubCateg
 //customer
 import Details from './components/customer/account/account-settings/details/Details';
 import Address from './components/customer/account/account-settings/address/Address';
-import AddReview from './components/customer/account/activities/review/add/AddReview';
-import Reviews from './components/customer/account/activities/review/Reviews';
+import AddRatingAndReview from './components/customer/account/activities/rating-and-review/add-rating-and-review/AddRatingAndReview';
+import RatingAndReviews from './components/customer/account/activities/rating-and-review/RatingAndReviews';
 import FavouriteItems from './components/customer/account/activities/favourite/FavouriteItems';
 import Notification from './components/customer/account/activities/notification/Notification';
 import Order from './components/customer/account/orders/Order';
 import Cart from "./components/customer/cart/Cart"
-
 import { AddressProvider } from './store/context/address-context';
-
+import { WishlistProvider } from './store/context/wishlist-context';
+import { CartProvider } from './store/context/cart-context';
 
 const router = createBrowserRouter([
   {
@@ -56,9 +56,9 @@ const router = createBrowserRouter([
           { path: "search", element: <ProductExplorer /> },
           { path: ":productId", element: <ProductDetails /> },
           {
-            path: ":productId/review", element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
+            path: ":productId/rating-and-review", element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
             children: [
-              { path: "add", element: <AddReview /> }
+              { path: "add", element: <AddRatingAndReview /> }
             ]
           },
         ]
@@ -75,14 +75,14 @@ const router = createBrowserRouter([
           {
             path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
             children: [
-              { 
+              {
                 path: '', element: <AccountDashboard />,
                 children: [
                   { path: '', element: <Details /> },
                   { path: 'addresses', element: <Address /> },
                   { path: "notifications", element: <Notification /> },
                   { path: 'wishlist', element: <FavouriteItems /> },
-                  { path: 'reviews', element: <Reviews /> }
+                  { path: 'rating-and-reviews', element: <RatingAndReviews /> }
                 ]
               },
             ]
@@ -159,9 +159,13 @@ function App() {
   }
 
   return (
-    <AddressProvider>
-      <RouterProvider router={router} />
-    </AddressProvider>
+    <CartProvider>
+      <AddressProvider>
+        <WishlistProvider>
+          <RouterProvider router={router} />
+        </WishlistProvider>
+      </AddressProvider>
+    </CartProvider>
   );
 }
 

@@ -9,12 +9,15 @@ import { useAddress } from "../../../../../../store/context/address-context";
 const AddressList = ({ editId, setEditId, setAddAddressFormVisible }) => {
     const [menuId, setMenuId] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
-    const {token, loginUserData} = useAuth();
+    const {loginUserData, isLoadingUserData} = useAuth();
+    const userId = loginUserData?.extraUserData?.id;
     const {addresses, getAddress} = useAddress();
     
     useEffect(() => {
-        getAddress();
-    }, [token, loginUserData]);
+        if (!isLoadingUserData && userId) {
+            getAddress(userId);
+        }
+    }, [loginUserData, isLoadingUserData]);
 
     const toggleMenu = (id) => {
         setMenuId(menuId === id ? null : id);
@@ -36,6 +39,7 @@ const AddressList = ({ editId, setEditId, setAddAddressFormVisible }) => {
         document.body.classList.remove("no-scroll");
     }
 
+    if(!addresses) return <p>Loading...</p>;
     return (
         <section className="container addresslist-container" style={addresses.length === 0 ? {border: "none"} : {}}>
             {addresses.map((address, index) => {

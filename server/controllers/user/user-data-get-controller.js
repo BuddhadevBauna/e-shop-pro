@@ -11,7 +11,7 @@ const user = (req, res) => {
             extraUserData: userData
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 

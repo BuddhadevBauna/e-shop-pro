@@ -55,10 +55,13 @@ const verifyEmail = async (req, res) => {
         user.verificationCode = null;
         user.verificationCodeExpireAt = null;
         await user.save();
-        return res.status(200).json({ 
-            message: 'Verification successful.',
-            jwtToken: user.generateToken(),
-        });
+        const jwtToken = user.generateToken();
+        return res.cookie('jwtToken', jwtToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000,
+        }).status(200).json({message: "Verification successful."});
     } catch (error) {
         res.status(500).json({ message: 'Verification failed.' });
     }

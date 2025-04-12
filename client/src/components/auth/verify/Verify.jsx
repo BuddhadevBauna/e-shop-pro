@@ -14,7 +14,7 @@ const Verify = () => {
     const [showResend, setShowResend] = useState(false);
     const [input, setInput] = useState("");
     // console.log(input);
-    const { storeTokenInLocalStorage } = useAuth();
+    const { fetchLoggedinUserData } = useAuth();
     const navigate = useNavigate();
 
     const sendCode = async (type) => {
@@ -43,20 +43,21 @@ const Verify = () => {
 
     const verify = async () => {
         if(input === "") {
-            toast.error("Please fill the otp");
+            toast.info("Please fill the otp");
             return;
         } else if (!/^\d+$/.test(input)) {
-            toast.error("Please enter a valid numeric OTP");
+            toast.info("Please enter a valid numeric OTP");
             return;
         }
         try {
             const otp = Number(input);
             const response = await axios.post('http://localhost:3030/auth/verify-email',
-                { "email": email, "verificationCode": otp }
+                { "email": email, "verificationCode": otp },
+                { withCredentials: true }
             );
             // console.log(response);
             if (response.status >= 200 && response.status <= 300) {
-                storeTokenInLocalStorage(response?.data?.jwtToken);
+                await fetchLoggedinUserData();
                 toast.success(response?.data?.message);
                 navigate('/');
             }

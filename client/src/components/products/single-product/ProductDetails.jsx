@@ -3,11 +3,13 @@ import "./ProductDetails.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../../api/products/productsAPI";
-import { useAuth } from "../../../store/context/auth-context";
 import AddToCart from "./add_to_cart/AddToCart";
 import { FaBolt } from "react-icons/fa";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import Notify from "./notify/Notify";
+import ReviewList from "./review-list/ReviewList";
+import WishList from "../wishlist/Wishlist";
+import { useCart } from "../../../store/context/cart-context";
 
 const ProductDetails = () => {
     const product = useSelector(state => state.singleProduct);
@@ -17,7 +19,7 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const [activeImage, setActiveImage] = useState("");
     const [showImage, setShowImage] = useState("");
-    const { cartData, isLoadingCartData } = useAuth();
+    const { cartData, isLoadingCartData } = useCart();
     const [isProductExistInCart, setProductExistInCart] = useState(false);
 
     const getProductDetails = useCallback(() => {
@@ -59,7 +61,7 @@ const ProductDetails = () => {
             return <h1>Loading...</h1>;
         }
 
-        let { images, category, title, description, mrp, discountPercentage, salePrice, rating,
+        let { _id, images, category, title, description, mrp, discountPercentage, salePrice, rating,
             brand, stock, availabilityStatus, returnPolicy, warrantyInformation,
             shippingInformation, reviews = [], isDeleted
         } = product;
@@ -94,10 +96,13 @@ const ProductDetails = () => {
                                         </div>
                                     </>
                                 }
+                                <WishList 
+                                    productId={_id}
+                                />
                             </div>
                             <div className="button-container">
                                 {(isDeleted || stock === 0) ? (
-                                    <Notify 
+                                    <Notify
                                         productId={productId}
                                         isDeleted={isDeleted}
                                         stock={stock}
@@ -158,24 +163,13 @@ const ProductDetails = () => {
                             <div className="information rating-container">
                                 <div className="add-rating">
                                     <h4>Rating & Review</h4>
-                                    <Link to={'review/add'}>
+                                    <Link to={'rating-and-review/add'}>
                                         <button>Rate Product</button>
                                     </Link>
                                 </div>
-                                <div className="all-rating">
-                                    {reviews.map((review) =>
-                                        <div key={review._id}>
-                                            <hr />
-                                            <div className="rating-review">
-                                                <h5 className="rating-title">
-                                                    <span className="rate">{review.rating} ★</span>
-                                                    <span className="rate-heading">{review.reviewHeading}</span>
-                                                </h5>
-                                                <p>{review.reviewDescription}</p>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
+                                <ReviewList
+                                    reviews={reviews}
+                                />
                             </div>
                         </div>
                     </div>

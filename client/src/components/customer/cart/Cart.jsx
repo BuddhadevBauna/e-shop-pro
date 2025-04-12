@@ -3,9 +3,11 @@ import "./Cart.css";
 import { useAuth } from "../../../store/context/auth-context";
 import { Link } from "react-router-dom";
 import CartDetails from "./cart_details/CartDetails"
+import { useCart } from "../../../store/context/cart-context";
 
 const Cart = () => {
-    const { isLoggedIn, cartData, isLoadingCartData } = useAuth();
+    const { isLoggedIn } = useAuth();
+    const { cartData, isLoadingCartData } = useCart();
     // console.log(isLoggedIn, isLoadingCartData);
 
     const content = useMemo(() => {

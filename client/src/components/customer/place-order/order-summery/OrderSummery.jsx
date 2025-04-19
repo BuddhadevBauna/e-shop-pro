@@ -17,79 +17,60 @@ const OrderSummery = ({ activeSection, setActiveSection }) => {
                 {activeSection[1] > 3 && <i><FiCheck /></i>}
             </h2>
             {activeSection.includes("orderSummery") && (
-                <div className="cart-container">
-                    <div className="cart">
-                        <>
-                            {cartData?.items.map((cartItem) => {
-                                const { product, quantity, totalDiscount, totalMRP, totalSalePrice } = cartItem;
-                                const { _id, title, description, brand, thumbnail, stock, reservedStock, maxOrderQuantity, shippingInformation,
-                                    isDeleted } = product;
-                                const discountPercentage = Math.round((totalDiscount / totalMRP) * 100);
+                <div className="order-container">
+                    <div className="order">
+                        {/* {order?.products.map((orderItem) => {
+                            const { productId, quantity, productSnapshot, totalDiscount, totalMRP, totalSalePrice } = orderItem;
+                            const { thumbnail, title, description, brand, shippingInformation } = productSnapshot;
+                            const discountPercentage = Math.round((totalDiscount / totalMRP) * 100);
 
-                                return (
-                                    <div className="cart-item" key={_id}>
-                                        <div className="image-container">
-                                            <Link to={`/products/${_id}`}>
-                                                <img src={thumbnail} alt={_id} />
-                                            </Link>
-                                        </div>
-                                        <div className="description-container">
-                                            <Link to={`/products/${_id}`}>
-                                                <p className="title">{title}</p>
-                                                <p className="description">
-                                                    {description.slice(0, 60)}...
-                                                </p>
-                                            </Link>
-                                            {brand && <p className="brand">Brand : {brand}</p>}
-                                            <p className={`price ${isDeleted ? 'not-include-pice' : ''}`}>
-                                                <span className="mrp">₹ {totalMRP}</span>
-                                                <span className="sale-price">₹ {totalSalePrice}</span>
-                                                <span className="discount">
-                                                    {discountPercentage}% off
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div className="shipping-container">
-                                            <p className="shipping-information">
-                                                <span>{shippingInformation}</span>
-                                                <span className="or"> | </span>
-                                                <span>Free</span>
-                                            </p>
-                                        </div>
-                                        <div className="increment-decrement-container">
-                                            <button className={`${(isDeleted || stock === 0 || quantity === 1) ? 'disable' : ''}`}>
-                                                <i onClick={() => handleDecrement(cartData.user, _id, quantity, stock, isDeleted)}>
-                                                    <FaMinus className="icon" />
-                                                </i>
-                                            </button>
-                                            <p>{quantity}</p>
-                                            <button className={`${isDeleted || stock === 0 || quantity >= (stock - reservedStock) || quantity >= maxOrderQuantity ? 'disable' : ''}`}>
-                                                <i onClick={() => handleIncrement(cartData.user, _id, quantity, maxOrderQuantity, stock, reservedStock, isDeleted)}>
-                                                    <FaPlus className="icon" />
-                                                </i>
-                                            </button>
-                                        </div>
-                                        <div className={`remove-container`}>
-                                            <button onClick={() => deleteCartItem(cartData.user, _id)}>
-                                                REMOVE
-                                            </button>
-                                        </div>
-                                        {isDeleted ? (
-                                            <p className="error">This product is no longer available.</p>
-                                        ) : stock === 0 ? (
-                                            <p className="error">Product is out of stock.</p>
-                                        ) : quantity > (stock - reservedStock) ? (
-                                            <p className="error">Only {stock - reservedStock} left in stock.</p>
-                                        ) : quantity > maxOrderQuantity ? (
-                                            <p className="error">Maximum {maxOrderQuantity} units allowed per order.</p>
-                                        ) : null}
+                            return (
+                                <div className="order-item" key={productId}>
+                                    <div className="image-container">
+                                        <img src={thumbnail} alt={productId} />
                                     </div>
-                                );
-                            })}
-                            <div className="order-btn-container">
-                                <button className="order-btn" onClick={() => handleOrderClick(cartData)}>Place Order</button>
-                            </div>
-                        </>
+                                    <div className="description-container">
+                                        <p className="title">{title}</p>
+                                        <p className="description">
+                                            {description.slice(0, 60)}...
+                                        </p>
+                                        {brand && <p className="brand">Brand : {brand}</p>}
+                                        <p className={`price`}>
+                                            <span className="mrp">₹ {totalMRP}</span>
+                                            <span className="sale-price">₹ {totalSalePrice}</span>
+                                            <span className="discount">
+                                                {discountPercentage}% off
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div className="shipping-container">
+                                        <p className="shipping-information">
+                                            <span>{shippingInformation}</span>
+                                            <span className="or"> | </span>
+                                            <span>Free</span>
+                                        </p>
+                                    </div>
+                                    <div className="increment-decrement-container">
+                                        <button className={`${(isDeleted || stock === 0 || quantity === 1) ? 'disable' : ''}`}>
+                                            <i onClick={() => handleDecrement(orderData.user, productId, quantity, stock, isDeleted)}>
+                                                <FaMinus className="icon" />
+                                            </i>
+                                        </button>
+                                        <p>{quantity}</p>
+                                        <button className={`${isDeleted || stock === 0 || quantity >= (stock - reservedStock) || quantity >= maxOrderQuantity ? 'disable' : ''}`}>
+                                            <i onClick={() => handleIncrement(orderData.user, productId, quantity, maxOrderQuantity, stock, reservedStock, isDeleted)}>
+                                                <FaPlus className="icon" />
+                                            </i>
+                                        </button>
+                                    </div>
+                                    <div className={`remove-container`}>
+                                        <button onClick={() => deleteorderItem(orderData.user, productId)}>
+                                            REMOVE
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })} */}
                     </div>
                 </div>
             )}

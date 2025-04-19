@@ -42,6 +42,8 @@ import Cart from "./components/customer/cart/Cart"
 import { AddressProvider } from './store/context/address-context';
 import { WishlistProvider } from './store/context/wishlist-context';
 import { CartProvider } from './store/context/cart-context';
+import PlaceOrder from './components/customer/place-order/PlaceOrder';
+import { OrderProvider } from './store/context/order-context';
 
 const router = createBrowserRouter([
   {
@@ -99,7 +101,7 @@ const router = createBrowserRouter([
       {
         path: '', element: <RoleBasedRoute allowedRoles={["customer", "admin"]} />,
         children: [
-          // { path: "checkout", element: <Checkout /> }
+          { path: "place-order", element: <PlaceOrder /> }
         ]
       }
     ],
@@ -161,9 +163,11 @@ function App() {
   return (
     <CartProvider>
       <AddressProvider>
-        <WishlistProvider>
-          <RouterProvider router={router} />
-        </WishlistProvider>
+        <OrderProvider>
+          <WishlistProvider>
+            <RouterProvider router={router} />
+          </WishlistProvider>
+        </OrderProvider>
       </AddressProvider>
     </CartProvider>
   );

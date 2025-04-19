@@ -12,6 +12,7 @@ const Address = () => {
         <section className="account-container address-container">
             <h2>Manage Address</h2>
             <AddAddress
+                calledFrom = "address"
                 isAddAddressFormVisible={isAddAddressFormVisible}
                 setAddAddressFormVisible={setAddAddressFormVisible}
                 setEditId={setEditId}

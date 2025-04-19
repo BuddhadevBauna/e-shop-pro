@@ -128,7 +128,7 @@ cartSchema.pre("updateOne", async function (next) {
     }
 });
 
-// import "./cart-watchers.js";
+import "./cart-watchers.js";
 
 const Cart = new mongoose.model("Cart", cartSchema);
 export default Cart;

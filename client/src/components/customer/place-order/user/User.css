@@ -1,0 +1,35 @@
+.user-container {
+    & .phone-number {
+        margin-top: 0.5rem;
+        padding-left: 1rem;
+    }
+
+    & .logout {
+        padding-left: 1rem;
+        color: blue;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: darkblue;
+        }
+    }
+
+    & .continue-checkout-btn {
+        display: inline;
+        border: none;
+        outline: none;
+        margin: 0 0 1rem 1rem;
+        background-color: #fb641b;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+        width: fit-content;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #e25a16;
+            color: #fff;
+        }
+    }
+}

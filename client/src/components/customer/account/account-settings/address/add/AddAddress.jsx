@@ -3,7 +3,7 @@ import "./AddAddress.css";
 import AddressForm from "../address-form/AddressForm";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const AddAddress = ({ isAddAddressFormVisible, setAddAddressFormVisible, setEditId }) => {
+const AddAddress = ({ calledFrom, isAddAddressFormVisible, setAddAddressFormVisible, setEditId }) => {
     const [address, setAddress] = useState({
         fullName: "",
         phone: "",
@@ -17,7 +17,9 @@ const AddAddress = ({ isAddAddressFormVisible, setAddAddressFormVisible, setEdit
 
     const handleAddAddressClick = () => {
         setAddAddressFormVisible(true);
-        setEditId(null);
+        if(calledFrom === "address") {
+            setEditId(null);
+        }
     }
     const onClose = () => {
         setAddAddressFormVisible(false);
@@ -36,6 +38,7 @@ const AddAddress = ({ isAddAddressFormVisible, setAddAddressFormVisible, setEdit
                     address={address}
                     setAddress={setAddress}
                     onClose={onClose}
+                    calledFrom={calledFrom}
                 />
             )}
         </section>

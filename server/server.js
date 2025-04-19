@@ -18,6 +18,7 @@ import ratingAndReviewRoute from './routes/customer/rating-and-review/rating-and
 import addressRoute from './routes/customer/address/address-router.js';
 import notificationRoute from './routes/customer/notification/notification-router.js';
 import wishlistRoute from './routes/customer/wishlist/wishlist-router.js';
+import orderRoute from './routes/customer/order/order-router.js';
 
 //create express server
 const app = express();
@@ -75,7 +76,7 @@ app.use('/rating-and-review', ratingAndReviewRoute);
 app.use('/addresses', addressRoute);
 app.use('/notifications', notificationRoute);
 app.use('/wishlists', wishlistRoute);
-
+app.use('/orders', orderRoute);
 
 //middleware
 app.use(errorMiddleware);

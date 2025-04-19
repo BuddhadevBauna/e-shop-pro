@@ -3,8 +3,20 @@ import axios from "axios";
 
 const AddressContext = createContext();
 
-export const AddressProvider = ({children}) => {
+export const AddressProvider = ({ children }) => {
     const [addresses, setAddresses] = useState([]);
+
+    const getRecentAddress = async (userId) => {
+        try {
+            const response = await axios.get(`http://localhost:3030/addresses/recent/${userId}`, { withCredentials: true });
+            // console.log(response?.data?.addresses);
+            if (response.status >= 200 && response.status <= 300) {
+                setAddresses(response?.data?.addresses);
+            }
+        } catch (error) {
+            // console.log(error);
+        }
+    }
 
     const getAddress = async (userId) => {
         try {
@@ -14,12 +26,12 @@ export const AddressProvider = ({children}) => {
                 setAddresses(response?.data?.addresses);
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
     return (
-        <AddressContext.Provider value={{getAddress, addresses}}>
+        <AddressContext.Provider value={{ getAddress, getRecentAddress, addresses }}>
             {children}
         </AddressContext.Provider>
     )

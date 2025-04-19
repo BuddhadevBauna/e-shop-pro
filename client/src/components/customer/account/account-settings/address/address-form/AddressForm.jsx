@@ -9,9 +9,9 @@ const stateCityData = {
     "West Bengal": ["Kolkata", "Howrah", "Kharagpur", "Midnapore"],
 };
 
-const AddressForm = ({ mode, address, setAddress, onClose }) => {
-    const { loginUserData, isLoadingUserData } = useAuth();
-    const {getAddress} = useAddress();
+const AddressForm = ({ mode, address, setAddress, onClose, calledFrom }) => {
+    const { loginUserData } = useAuth();
+    const { getAddress, getRecentAddress } = useAddress();
     const userId = loginUserData?.extraUserData?.id;
     const initialAddressRef = useRef(address);
 
@@ -37,7 +37,11 @@ const AddressForm = ({ mode, address, setAddress, onClose }) => {
                 if (response.status >= 200 && response.status <= 300) {
                     setAddress(initialAddressRef.current);
                     toast.success(response?.data?.message);
-                    await getAddress(userId);
+                    if(calledFrom === "address") {
+                        await getAddress(userId);
+                    } else if(calledFrom === "deliveryAddress") {
+                        await getRecentAddress(userId);
+                    }
                     onClose();
                 }
             } catch (error) {

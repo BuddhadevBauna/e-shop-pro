@@ -24,7 +24,7 @@ const deleteAddress = async (req, res) => {
             await Address.findOneAndUpdate(
                 { user: userObjectId },
                 { $set: { isDefault: true } },
-                { sort: { updatedAt: -1 }, session }
+                { sort: { createdAt: -1 }, session }
             );
         }
 

@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
     salePrice: { type: Number },
     rating: { type: Number, default: 0 },
     stock: { type: Number, required: true },
+    reservedStock: { type: Number, default: 0 },
     availabilityStatus: { type: String, required: true },
     maxOrderQuantity: { type: Number, default: 10 },
     brand: { type: String },

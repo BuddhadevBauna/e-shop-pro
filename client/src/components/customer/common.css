@@ -1,0 +1,50 @@
+.price-details-container {
+    width: 25%;
+
+    & .price-details {
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .2);
+        border-radius: 0.5rem;
+        padding: 1rem 0;
+        color: rgb(92, 85, 85);
+        position: sticky;
+        top: 7.2rem;
+
+        & h4 {
+            padding: 0 1.5rem;
+            padding-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        & hr {
+            border: none;
+            border-top: dashed 0.1rem rgb(150, 146, 146);
+            margin: 0.8rem 0;
+        }
+
+        & div {
+            padding: 0 1.5rem;
+            font-weight: 600;
+
+            & p {
+                display: flex;
+                justify-content: space-between;
+                padding-bottom: 0.5rem;
+            }
+
+            & .total {
+                padding-bottom: 0;
+                color: black;
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            & .discount,
+            & .delivery-charge,
+            & .saving {
+                color: green;
+            }
+        }
+    }
+}
